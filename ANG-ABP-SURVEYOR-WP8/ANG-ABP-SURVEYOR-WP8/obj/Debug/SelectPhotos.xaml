@@ -1,0 +1,81 @@
+﻿<Page
+    x:Class="ANG_ABP_SURVEYOR_WP8.SelectPhotos"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ANG_ABP_SURVEYOR_WP8"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid x:Name="LayoutRoot">
+
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title Panel -->
+        <StackPanel Grid.Row="0" Margin="19,0,0,0">
+            <TextBlock Text="Photos - The Lodge, NR33 1OP" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+        </StackPanel>
+
+        <!--TODO: Content should be placed within the following grid-->
+        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="10,9.167,10,0">
+
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="10*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="110*"/>
+            </Grid.RowDefinitions>
+            <Button x:Name="btnCamera" Content="Camera" HorizontalAlignment="Stretch" Margin="10,-4,9.833,1.166" VerticalAlignment="Stretch"/>
+            <Button x:Name="btnBrowse" Content="Browse" Grid.Column="1" HorizontalAlignment="Stretch" Margin="10.167,-4,10.667,1.167" VerticalAlignment="Stretch"/>
+
+            <ListView x:Name="lvPhotos" Background="DarkGray" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,0" FontFamily="Global User Interface">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="14*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20*"/>
+                                <RowDefinition Height="10*"/>
+
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="1">
+                                <Image Source="{Binding MyImage}"></Image>
+                                <TextBlock Text="Comment:" FontSize="20" FontFamily="Global User Interface" />
+                                <TextBox Text="{Binding Comment}" FontSize="20" FontFamily="Global User Interface" HorizontalAlignment="Stretch" Margin="0,0,0,0" MinWidth="300"/>
+                                <Button Content="Delete" Background="Red" Width="300"/>
+                                <TextBlock Text="" FontSize="20" FontFamily="Global User Interface" />
+                            </StackPanel>
+
+                        </Grid>
+
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+
+            </ListView> 
+        </Grid>
+
+    </Grid>
+</Page>
+

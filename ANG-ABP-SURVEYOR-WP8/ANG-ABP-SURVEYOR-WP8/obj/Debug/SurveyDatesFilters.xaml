@@ -1,0 +1,75 @@
+﻿<Page
+    x:Class="ANG_ABP_SURVEYOR_WP8.SurveyDatesFilters"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ANG_ABP_SURVEYOR_WP8"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.BottomAppBar>
+        <CommandBar>
+
+            <AppBarButton x:ConnectionId='1' Label="Search" Icon="Find"                       />
+            <AppBarButton x:ConnectionId='2' Label="Reset" Icon="Clear"                    />
+            
+        </CommandBar>
+    </Page.BottomAppBar>
+    
+    <Grid x:Name="LayoutRoot">
+
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title Panel -->
+        <StackPanel Grid.Row="0" Margin="19,0,0,0">
+            <TextBlock Text="Survey Dates Search Filters" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+        </StackPanel>
+
+        <!--TODO: Content should be placed within the following grid-->
+
+
+        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="0,0.167,0,0" >
+            <ScrollViewer>
+                <StackPanel>
+                    <ComboBox x:Name="cmbProjectNo" Margin="10,4" RenderTransformOrigin="0.504,0.271" Height="60">
+                        <ComboBoxItem Content="Select Project No" IsSelected="True"/>
+                        <ComboBoxItem Content="12345678"/>
+                        <ComboBoxItem Content="87654321"/>
+                        <ComboBoxItem Content="96325874"/>
+                        <ComboBoxItem Content="35795164"/>
+                    </ComboBox>
+                    <TextBox x:Name="txtSubProjectNo" Margin="10,4" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Stretch" PlaceholderText="Sub-Project No" Height="50"/>
+                    <TextBox x:Name="txtDeliveryStreet" Margin="10,4" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Stretch" PlaceholderText="Delivery Street" Height="50"/>
+                    <TextBox x:Name="txtPostcode" Margin="10,4" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Stretch" PlaceholderText="Postcode" Height="50"/>
+                    <ComboBox x:Name="cmbInstallStatus" Margin="10,4" Grid.Row="3" Grid.RowSpan="3" Height="60">
+                        <ComboBoxItem Content="Select Install Status" IsSelected="True"/>
+                    </ComboBox>
+                    <ComboBox x:Name="cmbProgressStatus" Margin="10,4" Grid.Row="4" Grid.RowSpan="2" Height="60">
+                        <ComboBoxItem Content="Select Progress Status" IsSelected="True"/>
+                    </ComboBox>
+                    <Button x:Name="btnSetSurveyPlanDate" Content="Set survey plan date" HorizontalAlignment="Stretch" Margin="10,4" Grid.Row="6" VerticalAlignment="Stretch" Height="60" Padding="0,0"/>
+                    <ComboBox x:Name="cmbSurveyedStatus" Margin="10,4" Grid.Row="7" Height="60">
+                        <ComboBoxItem Content="Not Surveyed" IsSelected="True"/>
+                    </ComboBox>
+                    <ComboBox x:Name="cmbConfirmed" Margin="10,4" Grid.Row="8" BorderThickness="2.5" RenderTransformOrigin="0.514,0.473" Height="60">
+                        <ComboBoxItem Content="Confirmed - Any" IsSelected="True"/>
+                    </ComboBox>
+                    <CheckBox x:Name="chkShowAll" Content="Show All Statuses" HorizontalAlignment="Stretch" Margin="10,4" Grid.Row="9" VerticalAlignment="Stretch" Height="60"/>
+                    <CheckBox x:Name="chkShowAllProgressStatuses" Content="Show All Progress Statuses" HorizontalAlignment="Stretch" Margin="10,4" Grid.Row="10" VerticalAlignment="Stretch" Height="60"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+
+    </Grid>
+</Page>
+

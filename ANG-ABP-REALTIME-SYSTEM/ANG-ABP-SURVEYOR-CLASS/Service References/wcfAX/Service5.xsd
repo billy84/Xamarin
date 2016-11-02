@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ANG_ABP_AX_CLASS" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ANG_ABP_AX_CLASS" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://abpwebtest.anglian-windows.com/ax-surveyor-service-ext-105/Service.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="ArrayOfcAXData.UploadDataChange">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="cAXData.UploadDataChange" type="tns:cAXData.UploadDataChange" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfcAXData.UploadDataChange" nillable="true" type="tns:ArrayOfcAXData.UploadDataChange" />
+  <xs:complexType name="cAXData.UploadDataChange">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="FieldName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FieldValue" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ProjectNo" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="cAXData.UploadDataChange" nillable="true" type="tns:cAXData.UploadDataChange" />
+</xs:schema>

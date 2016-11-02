@@ -1,0 +1,98 @@
+﻿<Page
+    x:Name="pageRoot"
+    x:Class="ANG_ABP_INSTALLER_APP.Views.DownloadAllMyProjects"
+    DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ANG_ABP_INSTALLER_APP.Views"
+    xmlns:common="using:ANG_ABP_INSTALLER_APP.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" Loaded="Page_Loaded">
+
+    <Page.Resources>
+        <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
+        <x:String x:Key="AppName">Download All My Projects</x:String>
+    </Page.Resources>
+
+    <!--
+        This grid acts as a root panel for the page that defines two rows:
+        * Row 0 contains the back button and page title
+        * Row 1 contains the rest of the page layout
+    -->
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="140"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Back button and page title -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="backButton" Margin="39,59,39,0" Command="{Binding NavigationHelper.GoBackCommand, ElementName=pageRoot}"
+                        Style="{StaticResource NavigationBackButtonNormalStyle}"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="Back"
+                        AutomationProperties.AutomationId="BackButton"
+                        AutomationProperties.ItemType="Navigation Button"/>
+            <TextBlock x:Name="pageTitle" Text="{StaticResource AppName}" Style="{StaticResource HeaderTextBlockStyle}" Grid.Column="1" 
+                        IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,30,40"/>
+        </Grid>
+        <Grid Margin="10" Grid.Row="1">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="10*"/>
+
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="20*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="3*"/>
+
+            </Grid.RowDefinitions>
+            <ListView x:Name="lvProjects" Margin="10" Grid.ColumnSpan="4" Grid.RowSpan="2" SelectionMode="Multiple">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Height="40" Width="{Binding ListViewWidth}"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Background="#FF3A3838" >
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="8*"/>
+                                <ColumnDefinition Width="20*"/>
+                                <ColumnDefinition Width="8*"/>
+                                <ColumnDefinition Width="8*"/>
+                                <ColumnDefinition Width="2*"/>
+
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" HorizontalAlignment="Stretch" Text="{Binding ProjectNo}" FontSize="20" FontFamily="Global User Interface" />
+                            <TextBlock Grid.Column="1" HorizontalAlignment="Stretch" Text="{Binding ProjectName}" FontSize="20" />
+                            <TextBlock Grid.Column="2" HorizontalAlignment="Stretch" TextAlignment="Center" Text="{Binding ProjectStatus}" FontSize="20" FontFamily="Global User Interface"  />
+                            <TextBlock Grid.Column="3" HorizontalAlignment="Stretch"  Text="{Binding Status}" TextAlignment="Left" FontSize="20" FontFamily="Global User Interface" />
+
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+
+            </ListView>
+            <Button x:Name="btnRefreshProjectsList" Content="Refresh Your Projects List" HorizontalAlignment="Stretch" Margin="6,7,7,7" Grid.Row="3" VerticalAlignment="Stretch" Click="btnRefreshProjectsList_Click" BorderBrush="#FFCDCBCB" Grid.Column="3"/>
+            <TextBlock x:Name="tbStatus" Margin="10,0" Grid.Row="2" TextWrapping="Wrap" Text="Ready" Grid.ColumnSpan="4" TextAlignment="Center" VerticalAlignment="Center" FontSize="22"/>
+            <Button x:Name="btnDownloadProjects" Content="Download selected projects" HorizontalAlignment="Stretch" Margin="7" Grid.Row="3" VerticalAlignment="Stretch" Click="btnDownloadProjects_Click" BorderBrush="#FFCDCBCB" Grid.Column="2"/>
+            <Button x:Name="btnSelectAll" Content="Select All" HorizontalAlignment="Stretch" Margin="7" Grid.Row="3" VerticalAlignment="Stretch" Click="btnSelectAll_Click" BorderBrush="#FFCDCBCB"/>
+            <Button x:Name="btnDeSelectAll" Content="De-Select All" HorizontalAlignment="Stretch" Margin="6,7,7,7" Grid.Row="3" VerticalAlignment="Stretch" Click="btnDeSelectAll_Click" BorderBrush="#FFCDCBCB" Grid.Column="1"/>
+
+        </Grid>
+    </Grid>
+</Page>

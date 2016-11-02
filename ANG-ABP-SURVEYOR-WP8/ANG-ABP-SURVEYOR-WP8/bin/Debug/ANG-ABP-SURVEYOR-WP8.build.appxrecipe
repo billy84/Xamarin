@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Machine>ANG106139</Machine>
+    <WindowsUser>peacob00</WindowsUser>
+    <TargetPlatformIdentifier>WindowsPhoneApp</TargetPlatformIdentifier>
+    <TargetOsVersion>6.3</TargetOsVersion>
+    <TargetOsDescription>Windows Phone 8.1</TargetOsDescription>
+    <SolutionConfiguration>Debug|AnyCPU</SolutionConfiguration>
+    <PackageArchitecture>neutral</PackageArchitecture>
+    <PackageIdentityName>6d2b2c9b-85eb-4f00-9234-6dd5d24c0b5d</PackageIdentityName>
+    <IntermediateOutputPath>C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\obj\Debug\</IntermediateOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <AppXManifest Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\bin\Debug\AppxManifest.xml">
+      <PackagePath>AppxManifest.xml</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppXManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\bin\Debug\ANG-ABP-SURVEYOR-WP8.exe">
+      <PackagePath>ANG-ABP-SURVEYOR-WP8.exe</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\Assets\Download.png">
+      <PackagePath>Assets\Download.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\Assets\Logo.scale-240.png">
+      <PackagePath>Assets\Logo.scale-240.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\Assets\HealthSafety.png">
+      <PackagePath>Assets\HealthSafety.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\Assets\Search.png">
+      <PackagePath>Assets\Search.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\Assets\SmallLogo.scale-240.png">
+      <PackagePath>Assets\SmallLogo.scale-240.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\Assets\SplashScreen.scale-240.png">
+      <PackagePath>Assets\SplashScreen.scale-240.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\Assets\Square71x71Logo.scale-240.png">
+      <PackagePath>Assets\Square71x71Logo.scale-240.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\Assets\StoreLogo.scale-240.png">
+      <PackagePath>Assets\StoreLogo.scale-240.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\Assets\WideLogo.scale-240.png">
+      <PackagePath>Assets\WideLogo.scale-240.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\Assets\House.jpg">
+      <PackagePath>Assets\House.jpg</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\Assets\house2.jpg">
+      <PackagePath>Assets\house2.jpg</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\bin\Debug\ANG-ABP-SURVEYOR-WP8.xr.xml">
+      <PackagePath>ANG-ABP-SURVEYOR-WP8.xr.xml</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\bin\Debug\App.xbf">
+      <PackagePath>App.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\bin\Debug\DownloadDetail.xbf">
+      <PackagePath>DownloadDetail.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\bin\Debug\Downloads.xbf">
+      <PackagePath>Downloads.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\bin\Debug\LoginFirstOption.xbf">
+      <PackagePath>LoginFirstOption.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\bin\Debug\MainPage.xbf">
+      <PackagePath>MainPage.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\bin\Debug\Notes.xbf">
+      <PackagePath>Notes.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\bin\Debug\SelectPhotos.xbf">
+      <PackagePath>SelectPhotos.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\bin\Debug\SurveyDates.xbf">
+      <PackagePath>SurveyDates.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\bin\Debug\SurveyDatesFilters.xbf">
+      <PackagePath>SurveyDatesFilters.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\bin\Debug\SurveyFailed.xbf">
+      <PackagePath>SurveyFailed.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\bin\Debug\SurveyResult.xbf">
+      <PackagePath>SurveyResult.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\bin\Debug\SurveySuccessful.xbf">
+      <PackagePath>SurveySuccessful.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\bin\Debug\Sync.xbf">
+      <PackagePath>Sync.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\bin\Debug\SyncAll.xbf">
+      <PackagePath>SyncAll.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\bin\Debug\WorkForToday.xbf">
+      <PackagePath>WorkForToday.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Development\ABP\ANG-ABP-SURVEYOR-WP8\ANG-ABP-SURVEYOR-WP8\bin\Debug\resources.pri">
+      <PackagePath>resources.pri</PackagePath>
+    </AppxPackagedFile>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ANG_RET_FM_ERRORLOG_WCF_EXTERNAL" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ANG_RET_FM_ERRORLOG_WCF_EXTERNAL" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ErrorInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="iPriority" type="xs:int" />
+      <xs:element minOccurs="0" name="sClassName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="sEx_Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="sEx_Source" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="sEx_StackTrace" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="sInformation" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="sMachineName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="sMethodName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="sProductName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="sProductVersion" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="sUserName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ErrorInfo" nillable="true" type="tns:ErrorInfo" />
+</xs:schema>

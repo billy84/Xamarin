@@ -1,0 +1,45 @@
+﻿<Page
+    x:Class="ANG_ABP_SURVEYOR_WP8.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ANG_ABP_SURVEYOR_WP8"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock x:Name="tbNotes" Margin="10,10.604,10,9.958" Grid.Row="1" TextWrapping="Wrap" Text="Please enter your Anglian username and password and then click the Login button." Grid.ColumnSpan="5" FontFamily="Calibri" FontSize="24" Foreground="#FFF9F7F7" Grid.RowSpan="2"/>
+        <TextBlock x:Name="tbUsername" Grid.ColumnSpan="3" Margin="28,4.5,40,4" Grid.Row="3" TextWrapping="Wrap" Text="Username:" FontSize="24" Foreground="#FFFFFDFD"/>
+        <TextBox x:Name="txtUserName" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" Margin="23,10,32,10" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Stretch" Width="Auto" FontFamily="Calibri" VerticalContentAlignment="Bottom" BorderBrush="#BF060606" InputScope="AlphanumericHalfWidth"/>
+
+        <TextBlock x:Name="tbPassword" Grid.ColumnSpan="4" Margin="23,5.643,77,9.691" Grid.Row="5" TextWrapping="Wrap" Text="Password:" FontSize="24" Foreground="#FFFBF7F7"/>
+        <PasswordBox x:Name="pbPassword" Margin="23,9.833,32,9.5" Grid.Row="6" VerticalAlignment="Stretch" Grid.ColumnSpan="4" FontFamily="Calibri" VerticalContentAlignment="Bottom" BorderBrush="#BF0C0B0B"/>
+        <Button x:Name="btnLogon" Content="Login" HorizontalAlignment="Stretch" Margin="20,-3.405,18,-0.595" VerticalAlignment="Top" Height="79" Background="#FF15660C" Grid.Row="7" Grid.ColumnSpan="5" FontFamily="Calibri" FontSize="23"/>
+        <TextBlock x:Name="tbVersion" Margin="10,31,10,21" Grid.Row="9" TextWrapping="Wrap" Text="Version 1.0.0 - (LIVE)" VerticalAlignment="Center" Grid.ColumnSpan="5" FontFamily="Calibri" Foreground="#FFFDF9F9" TextAlignment="Center" Height="23" FontSize="16"/>
+        <TextBlock Margin="10,0,10,10.407" TextWrapping="Wrap" Text="Anglian ABP Surveyor App" Grid.ColumnSpan="5" FontSize="30" TextAlignment="Center" VerticalAlignment="Center"/>
+
+    </Grid>
+
+</Page>

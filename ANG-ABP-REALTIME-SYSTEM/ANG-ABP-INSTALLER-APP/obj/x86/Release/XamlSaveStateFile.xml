@@ -1,0 +1,7 @@
+<XamlCompilerSaveState>
+  <ReferenceAssemblyList>
+    <ReferenceAssembly PathName="c:\development\abp\ang-abp-realtime-system\ang-abp-surveyor-class\bin\x86\release\ang-abp-surveyor-app-class.dll" HashGuid="5e49df47-3891-2b40-260e-183ea9b765dd" />
+    <ReferenceAssembly PathName="c:\development\abp\ang-abp-realtime-system\ang-abp-installer-app\datepicker.dll" HashGuid="eace2dae-e298-3c6d-55e0-43a97332941a" />
+    <ReferenceAssembly PathName="c:\development\abp\ang-abp-realtime-system\packages\winrtxamltoolkit.windows.1.7.4.0\lib\netcore451\winrtxamltoolkit.dll" HashGuid="5b62b9ec-5356-9dd7-2be4-42ebbedd3e03" />
+  </ReferenceAssemblyList>
+</XamlCompilerSaveState>

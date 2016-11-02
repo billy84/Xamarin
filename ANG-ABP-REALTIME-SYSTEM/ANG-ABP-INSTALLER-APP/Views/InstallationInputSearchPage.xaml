@@ -1,0 +1,235 @@
+﻿<Page
+    x:Name="pageRoot"
+    x:Class="ANG_ABP_INSTALLER_APP.Views.InstallationInputSearchPage"
+    DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ANG_ABP_INSTALLER_APP.Views"
+    xmlns:common="using:ANG_ABP_INSTALLER_APP.Common"
+    xmlns:DatePicker="using:DatePicker"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" Loaded="InstallationInputSearchPage_Loaded">
+
+    <Page.Resources>
+        <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
+        <x:String x:Key="AppName">Installation Input Search Page</x:String>
+    </Page.Resources>
+
+    <!--
+        This grid acts as a root panel for the page that defines two rows:
+        * Row 0 contains the back button and page title
+        * Row 1 contains the rest of the page layout
+    -->
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="140"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Back button and page title -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="backButton" Margin="39,59,39,0" Command="{Binding NavigationHelper.GoBackCommand, ElementName=pageRoot}"
+                        Style="{StaticResource NavigationBackButtonNormalStyle}"
+                        VerticalAlignment="Top"
+                        AutomationProperties.Name="Back"
+                        AutomationProperties.AutomationId="BackButton"
+                        AutomationProperties.ItemType="Navigation Button"/>
+            <TextBlock x:Name="pageTitle" Text="{StaticResource AppName}" Style="{StaticResource HeaderTextBlockStyle}" Grid.Column="1" 
+                        IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Bottom" Margin="0,0,30,40"/>
+        </Grid>
+
+        <Grid Margin="10,0,10,10" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="14*"/>
+                <ColumnDefinition Width="11*"/>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="11*"/>
+                <ColumnDefinition Width="11*"/>
+                <ColumnDefinition Width="14*"/>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="3*"/>
+
+
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="15*"/>
+                <RowDefinition Height="25*"/>
+                <RowDefinition Height="220*"/>
+                <RowDefinition Height="25*"/>
+
+            </Grid.RowDefinitions>
+            <ComboBox x:Name="cmbProjectNo" Margin="2,5,4,6" Grid.Row="1" FontSize="18" SelectionChanged="cmbProjectNo_SelectionChanged" TabIndex="0"/>
+            <TextBlock Margin="10,0,10,6" TextWrapping="Wrap" Text="St Address" TextAlignment="Center" FontSize="22" Grid.Column="1"/>
+            <TextBox x:Name="txtDeliveryStreet" Grid.Column="1" Margin="0,6,2,6" Grid.Row="1" TextWrapping="Wrap" Text="" FontSize="18" TextChanged="txtDeliveryStreet_TextChanged" TabIndex="1"/>
+            <ComboBox x:Name="cmbInstallStatus" Margin="0,6,2,6" Grid.Row="1" FontSize="18" SelectionChanged="cmbInstallStatus_SelectionChanged" Grid.Column="3" TabIndex="3"/>
+            <CheckBox x:Name="chkUseInstallPlanDate" Content="Use Install Plan Date" Grid.Column="5" Margin="7,-2,10,9" VerticalAlignment="Stretch" FontSize="18" IsChecked="False" Checked="chkUseInstallPlanDate_Checked" Unchecked="chkUseInstallPlanDate_UnChecked" TabIndex="4"/>
+            <Button x:Name="btnSetInstallDate" Content="&gt; Mon 26/05/2014" Grid.Column="5" HorizontalAlignment="Stretch" FontSize="22"  Margin="7,0,7,3" VerticalAlignment="Stretch" RenderTransformOrigin="0.55,0.529" Click="btnSetInstallDate_Click" TabIndex="5" IsEnabled="False" Grid.Row="1"/>
+
+            <ListView x:Name="lvResults" Margin="0,10,10,0" Grid.Row="2" Grid.ColumnSpan="9" SelectionMode="Single" Tapped="lvResults_Tapped" TabIndex="9">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Width="{Binding ScreenWidth}" Height="40" VerticalAlignment="Stretch" Background="{Binding BackgroundColour}" >
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="14*"/>
+                                <ColumnDefinition Width="11*"/>
+                                <ColumnDefinition Width="8*"/>
+                                <ColumnDefinition Width="11*"/>
+                                <ColumnDefinition Width="11*"/>
+                                <ColumnDefinition Width="14*"/>
+                                <ColumnDefinition Width="6*"/>
+                                <ColumnDefinition Width="3*"/>
+
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="{Binding SubProjectNo}" FontSize="18" ToolTipService.Placement="Right" >
+                                 <ToolTipService.ToolTip>
+                                    <StackPanel>
+                                        
+                                        <TextBlock MinWidth="150" 
+                                            Text="{Binding ToolTipText}"
+                                            FontSize="18" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                    </ToolTipService.ToolTip>
+                            </TextBlock>
+                            <TextBlock Grid.Column="1" Text="{Binding DeliveryStreet}" FontSize="18" Width="{Binding StreetWidth}" />
+                            <TextBlock Grid.Column="2" Text="{Binding DlvZipCode}" FontSize="18" TextAlignment="Center" Width="{Binding PostcodeWidth}" />
+                            <TextBlock Grid.Column="3" Text="{Binding InstallStatusName}" FontSize="18" Width="{Binding InstallWidth}" />
+                            <TextBlock Grid.Column="4" Text="{Binding ProgressStatusName}" FontSize="18" Width="{Binding ProgressWidth}" />
+                            <TextBlock Grid.Column="5" Text="{Binding SurveyDisplayDateTime}" TextAlignment="Center" FontSize="18" />
+                            <TextBlock Grid.Column="6" Text="{Binding UnitsLeft}" FontSize="18" TextAlignment="Center" />
+                            <TextBlock Grid.Column="7" Text="{Binding Flags}" FontSize="18"  />
+
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+            <TextBlock Margin="10,0,10,6" TextWrapping="Wrap" Text="Postcode" TextAlignment="Center" FontSize="22" Grid.Column="2"/>
+            <TextBox x:Name="txtPostcode" Grid.Column="2" Margin="0,6,2,6" Grid.Row="1" TextWrapping="Wrap" Text="" FontSize="18" TextChanged="txtPostcode_TextChanged" TabIndex="2"/>
+            <Button x:Name="btnOptimiseRoute" Content="Optimise visit order" Grid.Column="4" HorizontalAlignment="Stretch" Margin="7,5,7,0" Grid.Row="3" VerticalAlignment="Top" Visibility="Collapsed"/>
+            <ComboBox x:Name="cmbProjectNoFilter" Margin="2,0,4,0" FontSize="18" SelectionChanged="cmbProjectNoFilter_SelectionChanged" TabIndex="0" Background="#CCE6DEDE"/>
+            <TextBox x:Name="txtSubProjectNoFilter" Margin="0,6,2,6" Grid.Row="1" TextWrapping="Wrap" Text="" FontSize="14" TextChanged="txtSubProjectNoFilter_TextChanged" TabIndex="1"/>
+
+            <Grid Margin="2,5,10,5" Grid.Row="3" Grid.ColumnSpan="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="7*"/>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="10*"/>
+
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20*"/>
+                </Grid.RowDefinitions>
+
+                <CheckBox x:Name="chkSyncChangesOnly" Content="Sync Changes Only" Grid.Column="7" Margin="7,0,10,6" VerticalAlignment="Stretch" FontSize="16" FlowDirection="RightToLeft" TabIndex="14" Unchecked="chkSyncChangesOnly_Unchecked" Checked="chkSyncChangesOnly_Checked"/>
+                <Button x:Name="btnViewOnMap" Content="View on map" HorizontalAlignment="Stretch" Margin="2,3,5,0" VerticalAlignment="Top" TabIndex="12" Click="btnViewOnMap_Click" Height="38" Grid.Column="2" />
+
+                <Button x:Name="btnCompleteInstallation" Content="Update Install" Grid.Column="3" HorizontalAlignment="Stretch" Margin="4,3,11,0" VerticalAlignment="Top" Click="btnCompleteInstallation_Click" TabIndex="13">
+                </Button>
+
+                <CheckBox x:Name="chkShowAllProgessStatus" Content="All Progress Statuses" Grid.Column="6" Margin="7,0,10,6" VerticalAlignment="Stretch" FontSize="16" FlowDirection="RightToLeft" TabIndex="14" Unchecked="chkShowAllProgessStatus_Unchecked" Checked="chkShowAllProgessStatus_Checked" IsChecked="True"/>
+                <CheckBox x:Name="chkShowAllStatuses" Content="Show All Statuses" Grid.Column="5" Margin="7,2,11,4" VerticalAlignment="Stretch" FontSize="16" FlowDirection="RightToLeft" TabIndex="14" Unchecked="chkShowAllStatuses_Unchecked" Checked="chkShowAllStatuses_Checked" IsChecked="True"/>
+                <CheckBox x:Name="chkBooked" Content="Booked" Grid.Column="4" Margin="10,0,7,6" VerticalAlignment="Stretch" FontSize="16" FlowDirection="RightToLeft" TabIndex="14" Unchecked="chkBooked_Unchecked" Checked="chkBooked_Checked" IsChecked="True" VerticalContentAlignment="Stretch"/>
+                <Button x:Name="btnViewNotes" Content="Notes" HorizontalAlignment="Stretch" Margin="3,3,5,0" VerticalAlignment="Top" TabIndex="12" Click="btnViewNotes_Click" Height="38" />
+                <Button x:Name="btnViewPictures" Content="Pictures" HorizontalAlignment="Stretch" Margin="2,3,6,0" VerticalAlignment="Top" TabIndex="12" Click="btnViewPictures_Click" Height="38" Grid.Column="1" RenderTransformOrigin="0.479,0.605" />
+                <Button x:Name="btnSetOrderCompleteDate" Content="Set Order Complete" Grid.Column="3" HorizontalAlignment="Stretch" Margin="4,3,11,0" VerticalAlignment="Top" Click="btnSetOrderCompleteDate_Click" TabIndex="13">
+
+                    <Button.Flyout>
+                        <Flyout x:Name="foOrderCompleteDate" Placement="Bottom" >
+
+                            <Flyout.FlyoutPresenterStyle>
+                                <Style TargetType="FlyoutPresenter">
+                                    <Setter Property="ScrollViewer.ZoomMode" Value="Enabled"/>
+                                    <Setter Property="Background" Value="DarkGray"/>
+                                    <Setter Property="BorderBrush" Value="DarkGray"/>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                    <Setter Property="MinHeight" Value="500"/>
+                                    <Setter Property="MinWidth" Value="350"/>
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                </Style>
+                            </Flyout.FlyoutPresenterStyle>
+
+                            <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                				BorderThickness="2,2,2,2" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" 
+                				Width="330" Height="490">
+                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <TextBlock Text="Select Date" FontSize="24.667" HorizontalAlignment="Center" />
+                                    <DatePicker:DatePicker x:Name="dtPickerOrderComplete" Value="{Binding CurrentDateTime, Mode=TwoWay}"
+                						HorizontalAlignment="Center" VerticalAlignment="Center" Height="400"  />
+                                    <Grid HorizontalAlignment="Stretch" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button x:Name="btnApplyOrderCompleteDate" Grid.Column="0"  Content="Set Order Completion Date" Click="btnApplyOrderCompleteDate_Click" HorizontalAlignment="Stretch" Margin="-3,0" VerticalAlignment="Stretch" FontSize="18" Grid.ColumnSpan="2" Foreground="WhiteSmoke" />
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                        </Flyout>
+
+                    </Button.Flyout>
+
+                </Button>
+
+            </Grid>
+            <TextBlock x:Name="tbUnitsLeft" Margin="0,14,0,13" TextWrapping="Wrap" Text="Units Left" TextAlignment="Center" FontSize="22" Grid.Column="6" Grid.Row="1"/>
+            <ComboBox x:Name="cmbInstallStatus_Filter" Margin="5,-4,5,4" FontSize="18" SelectionChanged="cmbInstallStatus_Filter_SelectionChanged" TabIndex="0" Background="#CCE6DEDE" Grid.Column="3"/>
+            <ComboBox x:Name="cmbProgressStatus" Margin="0,6,2,6" Grid.Row="1" FontSize="18" SelectionChanged="cmbProgressStatus_SelectionChanged" Grid.Column="4" TabIndex="3"/>
+            <TextBlock Margin="7,0,10,6" TextWrapping="Wrap" Text="Progress Status" TextAlignment="Center" FontSize="22" Grid.Column="4"/>
+            <TextBlock x:Name="tbOrderCompleteDate" Margin="0,4,0,2" TextWrapping="Wrap" Text="Cmp Date" TextAlignment="Center" FontSize="22" Grid.Column="6"/>
+            <ComboBox x:Name="cmbOrderCompleteDateFilter" Margin="6,5,4,7" Grid.Row="1" FontSize="18" SelectionChanged="cmbOrderCompleteDateFilter_SelectionChanged" Grid.Column="6" TabIndex="3"/>
+
+        </Grid>
+
+        <Popup x:Name="LightDismissAnimatedPopup" 
+               HorizontalOffset="850" Grid.Row="1"
+              
+               VerticalOffset="100" IsLightDismissEnabled="True">
+            <Popup.ChildTransitions>
+                <TransitionCollection>
+                    <PopupThemeTransition />
+                </TransitionCollection>
+            </Popup.ChildTransitions>
+            <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}" 
+                    BorderThickness="2,2,2,2" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" 
+                    Width="330" Height="450">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Select Date" FontSize="24.667" HorizontalAlignment="Center" />
+                    <DatePicker:DatePicker Name="dtPicker" Value="{Binding CurrentDateTime, Mode=TwoWay}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center" Height="350"  >
+                    </DatePicker:DatePicker>
+                    <Grid HorizontalAlignment="Stretch" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Button x:Name="btnApplySelectedDate" Grid.Column="0" Content="Use Date" Click="btnApplySelectedDate_Click" HorizontalAlignment="Stretch" Margin="-3,0,7,0" VerticalAlignment="Stretch" FontSize="18" />
+                        <ComboBox x:Name="cmbDateCompare" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontSize="18"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Popup>
+
+
+    </Grid>
+</Page>
