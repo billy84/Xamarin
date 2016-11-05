@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ABP.Surveyor.Views.DateSearchFilterView">
+  <Grid Padding="10">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="90*"/>
+      <RowDefinition Height="10*"/>
+    </Grid.RowDefinitions>
+    <ScrollView Grid.Row="0" 
+                Orientation="Vertical" 
+                VerticalOptions="FillAndExpand">
+      <StackLayout Orientation="Vertical"
+                   VerticalOptions="FillAndExpand">
+        <Picker Title="Select Project No" 
+                VerticalOptions="Start">
+          <Picker.Items>
+            <x:String>1</x:String>
+            <x:String>2</x:String>
+          </Picker.Items>
+        </Picker>
+        <SearchBar Placeholder="Sub-Project No" 
+                   VerticalOptions="Start"/>
+        <SearchBar Placeholder="Delivery Street" 
+                   VerticalOptions="Start"/>
+        <SearchBar Placeholder="Postcode" 
+                   VerticalOptions="Start"/>
+        <Picker Title="Select Install Status" 
+                VerticalOptions="Start">
+          <Picker.Items>
+            <x:String>Any</x:String>
+            <x:String>2</x:String>
+          </Picker.Items>
+        </Picker>
+        <Picker Title="Select Progress Status" 
+                VerticalOptions="Start">
+          <Picker.Items>
+            <x:String>Any</x:String>
+            <x:String>2</x:String>
+          </Picker.Items>
+        </Picker>
+        <DatePicker Format="D" 
+                    VerticalOptions="CenterAndExpand"/>
+        <Picker Title="Not Surveyed" 
+                VerticalOptions="Start">
+          <Picker.Items>
+            <x:String>Any</x:String>
+            <x:String>Not Surveyed</x:String>
+            <x:String>Surveyed on site</x:String>
+          </Picker.Items>
+        </Picker>
+        <Picker Title="Any" 
+                VerticalOptions="Start">
+          <Picker.Items>
+            <x:String>Any</x:String>
+            <x:String>Yes</x:String>
+            <x:String>No</x:String>
+          </Picker.Items>
+        </Picker>
+        <StackLayout Orientation="Horizontal" 
+                     VerticalOptions="CenterAndExpand">
+          <Label Text="Show all status" 
+                 HorizontalOptions="StartAndExpand"
+                 VerticalOptions="CenterAndExpand"/>
+          <Switch HorizontalOptions="End" 
+                  VerticalOptions="CenterAndExpand" 
+                  IsEnabled="True"/>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal" 
+                     VerticalOptions="CenterAndExpand">
+          <Label Text="Show all progress status" 
+                 HorizontalOptions="StartAndExpand"
+                 VerticalOptions="CenterAndExpand"/>
+          <Switch HorizontalOptions="End" 
+                  VerticalOptions="CenterAndExpand" 
+                  IsEnabled="True"/>
+        </StackLayout>
+      </StackLayout>
+    </ScrollView>
+    <Grid Grid.Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="35*"/>
+        <ColumnDefinition Width="15*"/>
+        <ColumnDefinition Width="15*"/>
+        <ColumnDefinition Width="35*"/>
+      </Grid.ColumnDefinitions>
+      <BoxView Grid.Column="0"/>
+      <Image Grid.Column="1"
+             Source="find.png"
+             BackgroundColor="Transparent"/>
+      <Image Grid.Column="2"
+             Source="erase.png"
+             BackgroundColor="Transparent"/>
+      <BoxView Grid.Column="3"/>
+    </Grid>
+  </Grid>
+</ContentPage>
