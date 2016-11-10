@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ABP.Views.DateSearchResultPage">
+  <ListView x:Name="ResultList" 
+            Grid.Row="0" 
+            VerticalOptions="StartAndExpand" 
+            BackgroundColor="Gray">
+    <ListView.ItemTemplate>
+      <DataTemplate>
+        <ViewCell>
+          <StackLayout Orientation="Vertical">
+            <Label Text="{Binding Address}"/>
+            <Label Text="{Binding PlanDate}"/>
+            <Label Text="{Binding ProgressStatus}"/>
+            <Label Text="{Binding ConfirmedFlag}"/>
+          </StackLayout>
+        </ViewCell>
+      </DataTemplate>
+    </ListView.ItemTemplate>
+  </ListView>
+</ContentPage>

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ABP.Views.ProjectSearchPage">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="10*"/>
+      <RowDefinition Height="10*"/>
+      <RowDefinition Height="80*"/>
+    </Grid.RowDefinitions>
+    <Grid Grid.Row="0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="80*"/>
+        <ColumnDefinition Width="20*"/>
+      </Grid.ColumnDefinitions>
+      <Picker Grid.Column="0"
+              VerticalOptions="CenterAndExpand"></Picker>
+      <BoxView Grid.Column="1"/>
+    </Grid>
+    <Grid Grid.Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="80*"/>
+        <ColumnDefinition Width="20*"/>
+      </Grid.ColumnDefinitions>
+      <Picker Grid.Column="0"
+              VerticalOptions="CenterAndExpand"></Picker>
+      <Image x:Name="SearchProjectBtn" 
+             Grid.Column="1"
+             BackgroundColor="Transparent"
+             VerticalOptions="CenterAndExpand"/>
+    </Grid>
+    <ListView x:Name="ProjectList"
+              Grid.Row="2"
+              BackgroundColor="Gray">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+            <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand">
+              <Label Text="{Binding Address}"/>
+              <Label Text="{Binding PlanDate}"/>
+              <Label Text="{Binding ProgressStatus}"/>
+              <Label Text="{Binding ConfirmedFlag}"/>
+            </StackLayout>
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+  </Grid>
+</ContentPage>

@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ABP.Views.DateSearchFilterPage">
+  <TableView Intent="Settings">
+    <TableSection>
+      <ViewCell>
+        <Picker Title="Select Project No"
+                VerticalOptions="Start">
+          <Picker.Items>
+            <x:String>1</x:String>
+            <x:String>2</x:String>
+          </Picker.Items>
+        </Picker>
+      </ViewCell>
+      <ViewCell>
+        <SearchBar Placeholder="Sub-Project No"
+                    VerticalOptions="Start"/>
+      </ViewCell>
+      <ViewCell>
+        <SearchBar Placeholder="Delivery Street"
+                    VerticalOptions="Start"/>
+      </ViewCell>
+      <ViewCell>
+        <SearchBar Placeholder="Postcode"
+                    VerticalOptions="Start"/>
+      </ViewCell>
+      <ViewCell>
+        <Picker Title="Select Install Status"
+                VerticalOptions="Start">
+          <Picker.Items>
+            <x:String>Any</x:String>
+            <x:String>2</x:String>
+          </Picker.Items>
+        </Picker>
+      </ViewCell>
+      <ViewCell>
+        <Picker Title="Select Progress Status"
+                VerticalOptions="Start">
+          <Picker.Items>
+            <x:String>Any</x:String>
+            <x:String>2</x:String>
+          </Picker.Items>
+        </Picker>
+      </ViewCell>
+      <ViewCell>
+        <DatePicker Format="D"
+                    VerticalOptions="CenterAndExpand"/>
+      </ViewCell>
+      <ViewCell>
+        <Picker Title="Not Surveyed"
+      VerticalOptions="Start">
+          <Picker.Items>
+            <x:String>Any</x:String>
+            <x:String>Not Surveyed</x:String>
+            <x:String>Surveyed on site</x:String>
+          </Picker.Items>
+        </Picker>
+      </ViewCell>
+      <ViewCell>
+        <Picker Title="Any"
+      VerticalOptions="Start">
+          <Picker.Items>
+            <x:String>Any</x:String>
+            <x:String>Yes</x:String>
+            <x:String>No</x:String>
+          </Picker.Items>
+        </Picker>
+      </ViewCell>
+      <ViewCell>
+        <Picker Title="Any"
+      VerticalOptions="Start">
+          <Picker.Items>
+            <x:String>Any</x:String>
+            <x:String>Yes</x:String>
+            <x:String>No</x:String>
+          </Picker.Items>
+        </Picker>
+      </ViewCell>
+      <ViewCell>
+        <Picker Title="Any"
+      VerticalOptions="Start">
+          <Picker.Items>
+            <x:String>Any</x:String>
+            <x:String>Yes</x:String>
+            <x:String>No</x:String>
+          </Picker.Items>
+        </Picker>
+      </ViewCell>
+      <ViewCell>
+        <Picker Title="AnyA"
+      VerticalOptions="Start">
+          <Picker.Items>
+            <x:String>Any</x:String>
+            <x:String>Yes</x:String>
+            <x:String>No</x:String>
+          </Picker.Items>
+        </Picker>
+      </ViewCell>
+    </TableSection>
+  </TableView>
+</ContentPage>
