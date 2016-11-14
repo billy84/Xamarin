@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="39251b0e-caff-462b-b630-b56117920180" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>true</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.ObjectModel.ObservableCollection`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>false</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>false</ReferenceAllAssemblies>
+    <ReferencedAssemblies>
+      <ReferencedAssembly AssemblyName="System.Collections" />
+      <ReferencedAssembly AssemblyName="System.ServiceModel" />
+    </ReferencedAssemblies>
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="https://abpwebtest.anglian-windows.com/ax-surv-service-ext-116/service.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Service.xsd" MetadataType="Schema" ID="c4b37d33-012e-4dd1-884b-1cb042d40ec5" SourceId="1" SourceUrl="https://abpwebtest.anglian-windows.com/ax-surv-service-ext-116/Service.svc?xsd=xsd0" />
+    <MetadataFile FileName="Service1.xsd" MetadataType="Schema" ID="831208f9-4693-45e6-b5a3-da4adcb71802" SourceId="1" SourceUrl="https://abpwebtest.anglian-windows.com/ax-surv-service-ext-116/Service.svc?xsd=xsd3" />
+    <MetadataFile FileName="Service.wsdl" MetadataType="Wsdl" ID="a889456b-f550-4221-ac37-dbf24454dd1f" SourceId="1" SourceUrl="https://abpwebtest.anglian-windows.com/ax-surv-service-ext-116/Service.svc?wsdl" />
+    <MetadataFile FileName="Service2.xsd" MetadataType="Schema" ID="903f5db4-c58f-4cb8-b17a-bb460b39c242" SourceId="1" SourceUrl="https://abpwebtest.anglian-windows.com/ax-surv-service-ext-116/Service.svc?xsd=xsd1" />
+    <MetadataFile FileName="Service3.xsd" MetadataType="Schema" ID="6102d477-38d7-46b1-8234-8a9dc91c2d07" SourceId="1" SourceUrl="https://abpwebtest.anglian-windows.com/ax-surv-service-ext-116/Service.svc?xsd=xsd4" />
+    <MetadataFile FileName="Service4.xsd" MetadataType="Schema" ID="f0836c63-255e-4b18-89e4-38760dee8ae0" SourceId="1" SourceUrl="https://abpwebtest.anglian-windows.com/ax-surv-service-ext-116/Service.svc?xsd=xsd2" />
+    <MetadataFile FileName="Service.disco" MetadataType="Disco" ID="716f729c-5d53-44e3-89fb-18120bb3c8df" SourceId="1" SourceUrl="https://abpwebtest.anglian-windows.com/ax-surv-service-ext-116/Service.svc?disco" />
+    <MetadataFile FileName="Service5.xsd" MetadataType="Schema" ID="686c5697-9f51-4248-9099-cd2292281561" SourceId="1" SourceUrl="https://abpwebtest.anglian-windows.com/ax-surv-service-ext-116/Service.svc?xsd=xsd5" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

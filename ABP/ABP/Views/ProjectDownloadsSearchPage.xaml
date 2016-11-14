@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ABP.Views.ProjectDownloadsSearchPage">
-
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="10*"/>
@@ -25,7 +24,8 @@
       </Grid.ColumnDefinitions>
       <Picker Grid.Column="0"
               VerticalOptions="CenterAndExpand"></Picker>
-      <Image Grid.Column="1"
+      <Image x:Name="SearchProjectBtn"
+             Grid.Column="1"
              Source="find.png"
              BackgroundColor="Transparent"
              VerticalOptions="CenterAndExpand"/>

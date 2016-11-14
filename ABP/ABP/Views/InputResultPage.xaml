@@ -18,7 +18,7 @@
            Text="Please select one  of the options below"
            HorizontalTextAlignment="Center"
            VerticalTextAlignment="Center"/>
-    <Button Grid.Row="2" 
+    <Button Grid.Row="2"
             Text="Survey Successful"
             Clicked="Success_Clicked"/>
     <Button Grid.Row="3" Text="Survey Failed"/>

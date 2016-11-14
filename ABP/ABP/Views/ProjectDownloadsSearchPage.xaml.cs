@@ -14,6 +14,7 @@ namespace ABP.Views
         {
             InitializeComponent();
             this.Title = "Project Downloads Search";
+            SearchProjectBtn.Source = ImageSource.FromFile(String.Format("{0}{1}.png", Device.OnPlatform("Icons/", "", "Assets/Icons/"), "find"));
         }
     }
 }

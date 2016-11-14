@@ -24,7 +24,7 @@
       </Grid.ColumnDefinitions>
       <Picker Grid.Column="0"
               VerticalOptions="CenterAndExpand"></Picker>
-      <Image x:Name="SearchProjectBtn" 
+      <Image x:Name="SearchProjectBtn"
              Grid.Column="1"
              BackgroundColor="Transparent"
              VerticalOptions="CenterAndExpand"/>

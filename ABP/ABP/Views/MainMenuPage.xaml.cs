@@ -15,7 +15,7 @@ namespace ABP.Views
             InitializeComponent();
             this.Title = "Main Menu Options";
             //this.ToolbarItems.Add(new ToolbarItem() { Icon = "down.png", Command = new Command(() => DisplayAlert("asf", "asdf", "aa")) });
-            this.ToolbarItems.Add(new ToolbarItem() { Text="Download", Icon = String.Format("{0}{1}.png", Device.OnPlatform("Icons/", "", "Assets/Icons/"), "down") });
+            this.ToolbarItems.Add(new ToolbarItem() { Text = "Download", Icon = String.Format("{0}{1}.png", Device.OnPlatform("Icons/", "", "Assets/Icons/"), "down") });
             this.ToolbarItems.Add(new ToolbarItem() { Text = "Sync", Icon = String.Format("{0}{1}.png", Device.OnPlatform("Icons/", "", "Assets/Icons/"), "refresh") });
             this.ToolbarItems.Add(new ToolbarItem() { Text = "Settings", Icon = String.Format("{0}{1}.png", Device.OnPlatform("Icons/", "", "Assets/Icons/"), "configuration") });
         }

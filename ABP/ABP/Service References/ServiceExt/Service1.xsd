@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ANG_ABP_INTERFACE_F45c_R01" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ANG_ABP_INTERFACE_F45c_R01" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://abpwebtest.anglian-windows.com/ax-surv-service-ext-116/Service.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="ArrayOfclsRealtime.NoteKeyValues">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="clsRealtime.NoteKeyValues" type="tns:clsRealtime.NoteKeyValues" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfclsRealtime.NoteKeyValues" nillable="true" type="tns:ArrayOfclsRealtime.NoteKeyValues" />
+  <xs:complexType name="clsRealtime.NoteKeyValues">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DeviceIDKey" type="xs:int" />
+      <xs:element minOccurs="0" name="NotesRecID" type="xs:long" />
+      <xs:element minOccurs="0" name="ProjectNo" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="clsRealtime.NoteKeyValues" nillable="true" type="tns:clsRealtime.NoteKeyValues" />
+</xs:schema>

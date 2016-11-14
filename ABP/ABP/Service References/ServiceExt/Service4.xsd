@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ANG_ABP_AX_WCF" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ANG_ABP_AX_WCF" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://abpwebtest.anglian-windows.com/ax-surv-service-ext-116/Service.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="https://abpwebtest.anglian-windows.com/ax-surv-service-ext-116/Service.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/ANG_ABP_INTERFACE_F45c_R01" />
+  <xs:import schemaLocation="https://abpwebtest.anglian-windows.com/ax-surv-service-ext-116/Service.svc?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:complexType name="ArrayOfUnitDetails">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="UnitDetails" type="tns:UnitDetails" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfUnitDetails" nillable="true" type="tns:ArrayOfUnitDetails" />
+  <xs:complexType name="UnitDetails">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="dInstalledDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="iInstalledStatus" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="iUNITNUMBER" type="xs:int" />
+      <xs:element minOccurs="0" name="sITEMID" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="sSTYLE" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="sUNITLOCATION" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UnitDetails" nillable="true" type="tns:UnitDetails" />
+  <xs:complexType name="UploadUnitsResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="bSuccessfull" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UploadUnitsResult" nillable="true" type="tns:UploadUnitsResult" />
+  <xs:complexType name="CheckUnitChangesResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Units" nillable="true" type="tns:ArrayOfUnitDetails" />
+      <xs:element minOccurs="0" name="bSuccessfull" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CheckUnitChangesResult" nillable="true" type="tns:CheckUnitChangesResult" />
+  <xs:complexType name="ProjectSearchResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="bSuccessfull" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ProjectSearchResult" nillable="true" type="tns:ProjectSearchResult" />
+  <xs:complexType name="FetchInstallersResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Installers" nillable="true" type="tns:ArrayOfInstallerDetails" />
+      <xs:element minOccurs="0" name="bLastUpdateDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="bSuccessfull" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FetchInstallersResult" nillable="true" type="tns:FetchInstallersResult" />
+  <xs:complexType name="ArrayOfInstallerDetails">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="InstallerDetails" type="tns:InstallerDetails" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfInstallerDetails" nillable="true" type="tns:ArrayOfInstallerDetails" />
+  <xs:complexType name="InstallerDetails">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="sACCOUNTNUM" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="sNAME" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="InstallerDetails" nillable="true" type="tns:InstallerDetails" />
+  <xs:complexType name="ArrayOfSettingDetails">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SettingDetails" type="tns:SettingDetails" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSettingDetails" nillable="true" type="tns:ArrayOfSettingDetails" />
+  <xs:complexType name="SettingDetails">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="LastUpdate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="SettingName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SettingValue" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SettingDetails" nillable="true" type="tns:SettingDetails" />
+  <xs:complexType name="SettingsCheckResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Settings" nillable="true" type="tns:ArrayOfSettingDetails" />
+      <xs:element minOccurs="0" name="bSuccessfull" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SettingsCheckResult" nillable="true" type="tns:SettingsCheckResult" />
+  <xs:complexType name="SystemsAvailableResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="SystemsAvailable" type="xs:boolean" />
+      <xs:element minOccurs="0" name="UserAccountOK" type="xs:boolean" />
+      <xs:element minOccurs="0" name="bSuccessfull" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SystemsAvailableResult" nillable="true" type="tns:SystemsAvailableResult" />
+  <xs:complexType name="ArrayOfSubProjectFileDetail">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SubProjectFileDetail" type="tns:SubProjectFileDetail" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSubProjectFileDetail" nillable="true" type="tns:ArrayOfSubProjectFileDetail" />
+  <xs:complexType name="SubProjectFileDetail">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="sProjectNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="sSubProjectNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="sfFiles" nillable="true" type="tns:ArrayOfSubProjectFile" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SubProjectFileDetail" nillable="true" type="tns:SubProjectFileDetail" />
+  <xs:complexType name="ArrayOfSubProjectFile">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SubProjectFile" type="tns:SubProjectFile" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSubProjectFile" nillable="true" type="tns:ArrayOfSubProjectFile" />
+  <xs:complexType name="SubProjectFile">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Comments" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FileName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ModifiedDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="bFileDeleted" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SubProjectFile" nillable="true" type="tns:SubProjectFile" />
+  <xs:complexType name="FileChangesResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="bSuccessfull" type="xs:boolean" />
+      <xs:element minOccurs="0" name="sfChanges" nillable="true" type="tns:ArrayOfSubProjectFileDetail" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FileChangesResult" nillable="true" type="tns:FileChangesResult" />
+  <xs:complexType name="ArrayOfDownloadDataChange">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DownloadDataChange" type="tns:DownloadDataChange" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDownloadDataChange" nillable="true" type="tns:ArrayOfDownloadDataChange" />
+  <xs:complexType name="DownloadDataChange">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ActivitiesTable_ModDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Delivery_ModDate" type="xs:dateTime" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/ANG_ABP_INTERFACE_F45c_R01" minOccurs="0" name="Notes" nillable="true" type="q1:ArrayOfclsRealtime.NoteKeyValues" />
+      <xs:element minOccurs="0" name="ProjTable_ModDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Units" nillable="true" type="tns:ArrayOfUnitDetails" />
+      <xs:element minOccurs="0" name="sProjectNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="sSubProjectNo" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DownloadDataChange" nillable="true" type="tns:DownloadDataChange" />
+  <xs:complexType name="DownloadDataChangesResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="bSuccessfull" type="xs:boolean" />
+      <xs:element minOccurs="0" name="pdChanged" nillable="true" type="tns:ArrayOfSubProjectData" />
+      <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="sDeleted" nillable="true" type="q2:ArrayOfstring" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DownloadDataChangesResult" nillable="true" type="tns:DownloadDataChangesResult" />
+  <xs:complexType name="ArrayOfSubProjectData">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SubProjectData" type="tns:SubProjectData" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSubProjectData" nillable="true" type="tns:ArrayOfSubProjectData" />
+  <xs:complexType name="SubProjectData">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ABPAWORDERCOMPLETEDDATE" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ABPAWORIGINALSUBPROJECTID" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ABPAXACCESSEQUIPMENT" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ABPAXASBESTOSPRESUMED" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ABPAXFLOORLEVEL" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ABPAXHealthSaferyIncompleteUploadedBy" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ABPAXHealthSafetyIncomplete" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ABPAXHealthSafetyIncompleteDateUploaded" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ABPAXINSTALLATIONTEAM" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ABPAXINSTALLATIONTYPE" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ABPAXINSTALLLETTERREQUIRED" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ABPAXINSTALLLETTERSENTDATE01" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ABPAXINSTALLLETTERSENTDATE02" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ABPAXINSTALLLETTERSENTDATE03" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ABPAXINSTALLNEXTDAYSMS" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ABPAXINSTALLSMSSENT" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ABPAXINTERNDAMAGE" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ABPAXPERMANENTGASVENT" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ABPAXPUBLICPROTECT" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ABPAXSERVICESTOMOVE" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ABPAXSTRUCTURALFAULTS" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ABPAXWINDOWBOARD" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ABPAXWRKACCRESTRICTIONS" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="DeliveryCity" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DeliveryStreet" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Delivery_ConfirmedAppointmentIndicator" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Delivery_EndDateTime" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Delivery_ModifiedDateTime" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Delivery_StartDateTime" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DlvState" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DlvZipCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EndDateTime" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="MODIFIEDDATETIME" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="MXM1002SequenceNr" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="MXM1002TrfDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="MXMAlternativeContactMobileNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MXMAlternativeContactName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MXMAlternativeContactTelNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MXMConfirmedAppointmentIndicator" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="MXMContactBySMS" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="MXMDisabledAdaptionsRequired" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="MXMDoorChoiceFormReceived" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="MXMNextDaySMS" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="MXMPropertyType" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="MXMResidentMobileNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MXMResidentName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MXMSMSSent" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="MXMSpecialResidentNote" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MXMSurveyLetterSentDate01" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="MXMSurveyLetterSentDate02" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="MXMSurveyLetterSentDate03" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="MXMSurveyletterRequired" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="MXMSurveyorName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MXMSurveyorPCTag" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MXMSurveyorProfile" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MXMTelephoneNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Mxm1002InstallStatus" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Mxm1002ProgressStatus" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="MxmProjDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Notes" nillable="true" type="tns:ArrayOfNoteDetails" />
+      <xs:element minOccurs="0" name="ParentID" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ProjId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Purpose" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SMMActivities_MODIFIEDDATETIME" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="StartDateTime" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Status" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="URL" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Units" nillable="true" type="tns:ArrayOfUnitDetails" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SubProjectData" nillable="true" type="tns:SubProjectData" />
+  <xs:complexType name="ArrayOfNoteDetails">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="NoteDetails" type="tns:NoteDetails" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfNoteDetails" nillable="true" type="tns:ArrayOfNoteDetails" />
+  <xs:complexType name="NoteDetails">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AXRecID" type="xs:long" />
+      <xs:element minOccurs="0" name="DeviceIDKey" type="xs:int" />
+      <xs:element minOccurs="0" name="InputDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="NoteText" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NoteType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ProjectNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Purpose" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserProfile" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="NoteDetails" nillable="true" type="tns:NoteDetails" />
+  <xs:complexType name="ArrayOfUploadFileChange">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="UploadFileChange" type="tns:UploadFileChange" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfUploadFileChange" nillable="true" type="tns:ArrayOfUploadFileChange" />
+  <xs:complexType name="UploadFileChange">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="byData" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="sComment" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="sFileName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UploadFileChange" nillable="true" type="tns:UploadFileChange" />
+  <xs:complexType name="UploadChangesResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ActivitiesTable_ModDate" type="xs:dateTime" />
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/ANG_ABP_INTERFACE_F45c_R01" minOccurs="0" name="NoteValues" nillable="true" type="q3:ArrayOfclsRealtime.NoteKeyValues" />
+      <xs:element minOccurs="0" name="ProjTable_ModDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="bSuccessfull" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UploadChangesResult" nillable="true" type="tns:UploadChangesResult" />
+  <xs:complexType name="SubProjectFileDownloadResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="FileLastModDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="bFileFound" type="xs:boolean" />
+      <xs:element minOccurs="0" name="bSuccessfull" type="xs:boolean" />
+      <xs:element minOccurs="0" name="byFileData" nillable="true" type="xs:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SubProjectFileDownloadResult" nillable="true" type="tns:SubProjectFileDownloadResult" />
+  <xs:complexType name="SubProjectFilesResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="bSuccessfull" type="xs:boolean" />
+      <xs:element minOccurs="0" name="pdSubProjectFiles" nillable="true" type="tns:ArrayOfSubProjectFile" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SubProjectFilesResult" nillable="true" type="tns:SubProjectFilesResult" />
+  <xs:complexType name="SubProjectDataResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="bSuccessfull" type="xs:boolean" />
+      <xs:element minOccurs="0" name="pdSubProjectData" type="tns:SubProjectData" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SubProjectDataResult" nillable="true" type="tns:SubProjectDataResult" />
+  <xs:complexType name="SubProjectsListResult">
+    <xs:sequence>
+      <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="SubProjects" nillable="true" type="q4:ArrayOfstring" />
+      <xs:element minOccurs="0" name="bSuccessfull" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SubProjectsListResult" nillable="true" type="tns:SubProjectsListResult" />
+  <xs:complexType name="ArrayOfBaseEnumField">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="BaseEnumField" type="tns:BaseEnumField" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfBaseEnumField" nillable="true" type="tns:ArrayOfBaseEnumField" />
+  <xs:complexType name="BaseEnumField">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BaseEnums" nillable="true" type="tns:ArrayOfBaseEnumValue" />
+      <xs:element minOccurs="0" name="FieldName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LastUpdate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="TableName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BaseEnumField" nillable="true" type="tns:BaseEnumField" />
+  <xs:complexType name="ArrayOfBaseEnumValue">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="BaseEnumValue" type="tns:BaseEnumValue" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfBaseEnumValue" nillable="true" type="tns:ArrayOfBaseEnumValue" />
+  <xs:complexType name="BaseEnumValue">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BaseName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="BaseValue" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BaseEnumValue" nillable="true" type="tns:BaseEnumValue" />
+  <xs:complexType name="BaseEnumResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BaseEnumResults" nillable="true" type="tns:ArrayOfBaseEnumField" />
+      <xs:element minOccurs="0" name="bSuccessfull" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BaseEnumResult" nillable="true" type="tns:BaseEnumResult" />
+  <xs:complexType name="ProjectValidationResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ValidationResult" type="tns:SearchResult" />
+      <xs:element minOccurs="0" name="bProjectFound" type="xs:boolean" />
+      <xs:element minOccurs="0" name="bSuccessfull" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ProjectValidationResult" nillable="true" type="tns:ProjectValidationResult" />
+  <xs:complexType name="SearchResult">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ProjectName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ProjectNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Status" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SearchResult" nillable="true" type="tns:SearchResult" />
+  <xs:complexType name="FetchSurveyFailedReasonsResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="bLastUpdateDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="bSuccessfull" type="xs:boolean" />
+      <xs:element minOccurs="0" name="sfrReasons" nillable="true" type="tns:ArrayOfSurveyFailedReason" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FetchSurveyFailedReasonsResult" nillable="true" type="tns:FetchSurveyFailedReasonsResult" />
+  <xs:complexType name="ArrayOfSurveyFailedReason">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SurveyFailedReason" type="tns:SurveyFailedReason" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSurveyFailedReason" nillable="true" type="tns:ArrayOfSurveyFailedReason" />
+  <xs:complexType name="SurveyFailedReason">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="bMandatoryNote" type="xs:boolean" />
+      <xs:element minOccurs="0" name="iDisplayOrder" type="xs:int" />
+      <xs:element minOccurs="0" name="iProgressStatus" type="xs:int" />
+      <xs:element minOccurs="0" name="sReason" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SurveyFailedReason" nillable="true" type="tns:SurveyFailedReason" />
+</xs:schema>

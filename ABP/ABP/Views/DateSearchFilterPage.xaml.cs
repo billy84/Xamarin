@@ -18,14 +18,14 @@ namespace ABP.Views
             {
                 Text = "Search",
                 Icon = String.Format("{0}{1}.png", Device.OnPlatform("Icons/", "", "Assets/Icons/"), "find"),
-                Command = new Command(() => SearchBtn_Tapped())
+                Command = new Command(() => SearchFilterBtn_Tapped())
             });
             this.ToolbarItems.Add(new ToolbarItem() { Text = "Reset", Icon = String.Format("{0}{1}.png", Device.OnPlatform("Icons/", "", "Assets/Icons/"), "erase") });
             //var tapSearchBtn = new TapGestureRecognizer();
             //tapSearchBtn.Tapped += SearchBtn_Tapped;
             //SearchBtn.GestureRecognizers.Add(tapSearchBtn);
         }
-        private void SearchBtn_Tapped()
+        private void SearchFilterBtn_Tapped()
         {
             Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new DateSearchResultPage()));
             //await this.Navigation.PushAsync(new DateSearchResultView(items));

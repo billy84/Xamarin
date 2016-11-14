@@ -18,10 +18,8 @@ namespace ABP.Views
 
 
     }
-
     public partial class ProjectSearchPage : ContentPage
     {
-
         ObservableCollection<SearchResult> results = new ObservableCollection<SearchResult>();
         public ProjectSearchPage()
         {

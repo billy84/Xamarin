@@ -23,13 +23,15 @@
            FontAttributes="Bold"
            HorizontalTextAlignment="Start"
            VerticalTextAlignment="Center" />
-    <Entry Grid.Row="2"/>
+    <Entry x:Name="UserName"
+           Grid.Row="2"/>
     <Label Grid.Row="3"
            Text="Password:"
            FontAttributes="Bold"
            HorizontalTextAlignment="Start"
            VerticalTextAlignment="Center" />
-    <Entry Grid.Row="4"/>
+    <Entry x:Name="Password"
+           Grid.Row="4"/>
     <Grid Grid.Row="5"
           Padding="0">
       <Grid.RowDefinitions>

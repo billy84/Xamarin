@@ -2,9 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ABP.Views.DateSearchResultPage">
-  <ListView x:Name="ResultList" 
-            Grid.Row="0" 
-            VerticalOptions="StartAndExpand" 
+  <ListView x:Name="ResultList"
+            Grid.Row="0"
+            VerticalOptions="StartAndExpand"
             BackgroundColor="Gray">
     <ListView.ItemTemplate>
       <DataTemplate>
