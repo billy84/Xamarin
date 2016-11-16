@@ -13,25 +13,25 @@
       <RowDefinition Height="10*" />
     </Grid.RowDefinitions>
     <Label Grid.Row="0"
-           Text="Please enter your Anglian username and password and then click the Login button."
-           FontAttributes="Bold"
-           FontSize="18"
-           HorizontalTextAlignment="Start"
-           VerticalTextAlignment="Center" />
+            Text="Please enter your Anglian username and password and then click the Login button."
+            FontAttributes="Bold"
+            FontSize="18"
+            HorizontalTextAlignment="Start"
+            VerticalTextAlignment="Center" />
     <Label Grid.Row="1"
-           Text="Username:"
-           FontAttributes="Bold"
-           HorizontalTextAlignment="Start"
-           VerticalTextAlignment="Center" />
+            Text="Username:"
+            FontAttributes="Bold"
+            HorizontalTextAlignment="Start"
+            VerticalTextAlignment="Center" />
     <Entry x:Name="UserName"
-           Grid.Row="2"/>
+            Grid.Row="2"/>
     <Label Grid.Row="3"
-           Text="Password:"
-           FontAttributes="Bold"
-           HorizontalTextAlignment="Start"
-           VerticalTextAlignment="Center" />
+            Text="Password:"
+            FontAttributes="Bold"
+            HorizontalTextAlignment="Start"
+            VerticalTextAlignment="Center" />
     <Entry x:Name="Password"
-           Grid.Row="4"/>
+            Grid.Row="4"/>
     <Grid Grid.Row="5"
           Padding="0">
       <Grid.RowDefinitions>
@@ -43,8 +43,8 @@
               Clicked="GoToMainMenuView"/>
     </Grid>
     <Label Grid.Row="6"
-           Text="Version 1.0.0-(LIVE)"
-           VerticalOptions="Center"
-           HorizontalOptions="Center" />
+            Text="Version 1.0.0-(LIVE)"
+            VerticalOptions="Center"
+            HorizontalOptions="Center" />
   </Grid>
 </ContentPage>

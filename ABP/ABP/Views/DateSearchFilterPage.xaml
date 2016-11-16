@@ -5,12 +5,9 @@
   <TableView Intent="Settings">
     <TableSection>
       <ViewCell>
-        <Picker Title="Select Project No"
+        <Picker x:Name="cmbProjectNo"
+                Title="Select Project No"
                 VerticalOptions="Start">
-          <Picker.Items>
-            <x:String>1</x:String>
-            <x:String>2</x:String>
-          </Picker.Items>
         </Picker>
       </ViewCell>
       <ViewCell>
@@ -26,45 +23,32 @@
                     VerticalOptions="Start"/>
       </ViewCell>
       <ViewCell>
-        <Picker Title="Select Install Status"
+        <Picker x:Name="cmbInstallStatus"
+                Title="Install Status"
                 VerticalOptions="Start">
-          <Picker.Items>
-            <x:String>Any</x:String>
-            <x:String>2</x:String>
-          </Picker.Items>
         </Picker>
       </ViewCell>
       <ViewCell>
-        <Picker Title="Select Progress Status"
+        <Picker x:Name="cmbProgressStatus"
+                Title="Progress Status"
                 VerticalOptions="Start">
-          <Picker.Items>
-            <x:String>Any</x:String>
-            <x:String>2</x:String>
-          </Picker.Items>
         </Picker>
       </ViewCell>
       <ViewCell>
-        <DatePicker Format="D"
+        <DatePicker x:Name="cmbTimePicker" 
+                    Format="D"
                     VerticalOptions="CenterAndExpand"/>
       </ViewCell>
       <ViewCell>
-        <Picker Title="Not Surveyed"
-      VerticalOptions="Start">
-          <Picker.Items>
-            <x:String>Any</x:String>
-            <x:String>Not Surveyed</x:String>
-            <x:String>Surveyed on site</x:String>
-          </Picker.Items>
+        <Picker x:Name="cmbSurveyedStatus" 
+                Title="Not Surveyed"
+                VerticalOptions="Start">
         </Picker>
       </ViewCell>
       <ViewCell>
-        <Picker Title="Any"
-      VerticalOptions="Start">
-          <Picker.Items>
-            <x:String>Any</x:String>
-            <x:String>Yes</x:String>
-            <x:String>No</x:String>
-          </Picker.Items>
+        <Picker x:Name="cmbConfirmed"
+                Title="Any"
+                VerticalOptions="Start">
         </Picker>
       </ViewCell>
       <ViewCell>

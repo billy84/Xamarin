@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using ABP.WcfProxys;
+using Acr.UserDialogs;
 
 namespace ABP.Views
 {
@@ -31,29 +32,14 @@ namespace ABP.Views
                 Password.Focus();
                 return;
             }
-            //WcfLogin.m_wcfLogin
-            LoginExt.ServiceClient wcf_Login = new LoginExt.ServiceClient();
-            wcf_Login.Endpoint.Binding.ReceiveTimeout = new TimeSpan(0, 60, 0);
-            wcf_Login.Endpoint.Binding.SendTimeout = new TimeSpan(0, 60, 0);
-            wcf_Login.Endpoint.Address = new System.ServiceModel.EndpointAddress("https://abpwebtest.anglian-windows.com/ax-logon-ext-test/service.svc");
-
-            //object userState = new object();
             LoginExt.LogonResult userState = new LoginExt.LogonResult();
-
-            //wcf_Login.OpenAsync();
-            wcf_Login.LogonCompleted += Wcf_Login_LogonCompleted;
-            wcf_Login.LogonAsync(UserName.Text, Password.Text, "c4P41E64sx", userState);
-           
-            //wcf_Login.CloseAsync();
-            //wcf_Login.LogonCompleted()
-            
-            //Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new MainMenuPage()));
-            //await this.Navigation.PushAsync(new MainMenuView());
+            WcfLogin.m_instance.m_wcfLogin.LogonCompleted += Wcf_Login_LogonCompleted;
+            WcfLogin.m_instance.m_wcfLogin.LogonAsync(UserName.Text, Password.Text, "c4P41E64sx", userState);
+            UserDialogs.Instance.ShowLoading("Signning...", MaskType.Black);
         }
 
         private void Wcf_Login_LogonCompleted(object sender, LoginExt.LogonCompletedEventArgs e)
         {
-            //throw new NotImplementedException();
             string rResult = null;
             if (e.Error != null)
             {
@@ -68,6 +54,7 @@ namespace ABP.Views
                 if (e.Result.InvalidDetails)
                 {
                     DisplayAlert("Warning", "Invalid Username and Password.", "OK");
+                    UserDialogs.Instance.HideLoading();
                     UserName.Text = "";
                     Password.Text = "";
                     UserName.Focus();
@@ -75,6 +62,7 @@ namespace ABP.Views
                 else
                 {
                     rResult = e.Result.Token;
+                    UserDialogs.Instance.HideLoading();
                     Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new MainMenuPage()));
                 }
             }
