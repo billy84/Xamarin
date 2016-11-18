@@ -197,7 +197,22 @@ namespace ABP.ServiceExt {
     [System.Runtime.Serialization.DataContractAttribute(Name="ProjectSearchResult", Namespace="http://schemas.datacontract.org/2004/07/ANG_ABP_AX_WCF")]
     public partial class ProjectSearchResult : object, System.ComponentModel.INotifyPropertyChanged {
         
+        private System.Collections.ObjectModel.ObservableCollection<ABP.ServiceExt.SearchResult> SearchResultsField;
+        
         private bool bSuccessfullField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Collections.ObjectModel.ObservableCollection<ABP.ServiceExt.SearchResult> SearchResults {
+            get {
+                return this.SearchResultsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SearchResultsField, value) != true)) {
+                    this.SearchResultsField = value;
+                    this.RaisePropertyChanged("SearchResults");
+                }
+            }
+        }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
         public bool bSuccessfull {
@@ -215,6 +230,66 @@ namespace ABP.ServiceExt {
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SearchResult", Namespace="http://schemas.datacontract.org/2004/07/ANG_ABP_AX_WCF")]
+    public partial struct SearchResult : System.ComponentModel.INotifyPropertyChanged {
+        
+        private string ProjectNameField;
+        
+        private string ProjectNoField;
+        
+        private string StatusField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ProjectName {
+            get {
+                return this.ProjectNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ProjectNameField, value) != true)) {
+                    this.ProjectNameField = value;
+                    this.RaisePropertyChanged("ProjectName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ProjectNo {
+            get {
+                return this.ProjectNoField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ProjectNoField, value) != true)) {
+                    this.ProjectNoField = value;
+                    this.RaisePropertyChanged("ProjectNo");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Status {
+            get {
+                return this.StatusField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.StatusField, value) != true)) {
+                    this.StatusField = value;
+                    this.RaisePropertyChanged("Status");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        void RaisePropertyChanged(string propertyName) {
             System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
             if ((propertyChanged != null)) {
                 propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
@@ -2750,66 +2825,6 @@ namespace ABP.ServiceExt {
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="SearchResult", Namespace="http://schemas.datacontract.org/2004/07/ANG_ABP_AX_WCF")]
-    public partial struct SearchResult : System.ComponentModel.INotifyPropertyChanged {
-        
-        private string ProjectNameField;
-        
-        private string ProjectNoField;
-        
-        private string StatusField;
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string ProjectName {
-            get {
-                return this.ProjectNameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.ProjectNameField, value) != true)) {
-                    this.ProjectNameField = value;
-                    this.RaisePropertyChanged("ProjectName");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string ProjectNo {
-            get {
-                return this.ProjectNoField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.ProjectNoField, value) != true)) {
-                    this.ProjectNoField = value;
-                    this.RaisePropertyChanged("ProjectNo");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Status {
-            get {
-                return this.StatusField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.StatusField, value) != true)) {
-                    this.StatusField = value;
-                    this.RaisePropertyChanged("Status");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        void RaisePropertyChanged(string propertyName) {
             System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
             if ((propertyChanged != null)) {
                 propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));

@@ -40,10 +40,30 @@
   <xs:element name="CheckUnitChangesResult" nillable="true" type="tns:CheckUnitChangesResult" />
   <xs:complexType name="ProjectSearchResult">
     <xs:sequence>
+      <xs:element minOccurs="0" name="SearchResults" nillable="true" type="tns:ArrayOfSearchResult" />
       <xs:element minOccurs="0" name="bSuccessfull" type="xs:boolean" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ProjectSearchResult" nillable="true" type="tns:ProjectSearchResult" />
+  <xs:complexType name="ArrayOfSearchResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SearchResult" type="tns:SearchResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSearchResult" nillable="true" type="tns:ArrayOfSearchResult" />
+  <xs:complexType name="SearchResult">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ProjectName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ProjectNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Status" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SearchResult" nillable="true" type="tns:SearchResult" />
   <xs:complexType name="FetchInstallersResult">
     <xs:sequence>
       <xs:element minOccurs="0" name="Installers" nillable="true" type="tns:ArrayOfInstallerDetails" />
@@ -403,19 +423,6 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ProjectValidationResult" nillable="true" type="tns:ProjectValidationResult" />
-  <xs:complexType name="SearchResult">
-    <xs:annotation>
-      <xs:appinfo>
-        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
-      </xs:appinfo>
-    </xs:annotation>
-    <xs:sequence>
-      <xs:element minOccurs="0" name="ProjectName" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="ProjectNo" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Status" nillable="true" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="SearchResult" nillable="true" type="tns:SearchResult" />
   <xs:complexType name="FetchSurveyFailedReasonsResult">
     <xs:sequence>
       <xs:element minOccurs="0" name="bLastUpdateDate" type="xs:dateTime" />

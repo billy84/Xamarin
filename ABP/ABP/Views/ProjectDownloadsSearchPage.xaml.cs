@@ -171,7 +171,37 @@ namespace ABP.Views
                 if (e.Result.bSuccessfull == true)
                 {
                     ObservableCollection<ServiceExt.SearchResult> oResults = new ObservableCollection<ServiceExt.SearchResult>();
-                    //oResults = 
+                    oResults = e.Result.SearchResults;
+                    ServiceExt.SearchResult srResult;
+                    List<cBaseEnumsTable> cEums = cMain.p_cDataAccess.GetEnumsForField("Status");
+                    cBaseEnumsTable cEum = null;
+                    try
+                    {
+                        m_ocProjSearch.Clear();
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                    foreach (ServiceExt.SearchResult sResult in oResults)
+                    {
+                        cEum = cEums.Find(mc => mc.EnumValue.Equals(Convert.ToInt32(sResult.Status)));
+                        srResult = new ServiceExt.SearchResult();
+                        srResult.ProjectName = sResult.ProjectName;
+                        srResult.ProjectNo = sResult.ProjectNo;
+                        if (cEum != null)
+                        {
+                            srResult.Status = cEum.EnumName;
+                        }
+                        else
+                        {
+                            srResult.Status = "N\\A";
+                        }
+                        m_ocProjSearch.Add(srResult);
+
+                    }
+                    lvProjects.ItemsSource = m_ocProjSearch;
+                    
                 }
             }
             //throw new NotImplementedException();
