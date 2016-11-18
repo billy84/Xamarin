@@ -8,6 +8,7 @@ using Xamarin.Forms;
 using ABP.WcfProxys;
 using ABP.Models;
 using ABP.TableModels;
+using ABP.Interfaces;
 
 namespace ABP.Views
 {
@@ -84,7 +85,60 @@ namespace ABP.Views
         }
         private void SearchFilterBtn_Tapped()
         {
-            Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new DateSearchResultPage()));
+            string sProjectNo = String.Empty;
+            string sSubProjectNo = String.Empty;
+            if (cmbProjectNo.SelectedIndex == -1)
+            {
+                sProjectNo = cSettings.p_sAnyStatus;
+            }
+            string sValue = (String)cmbProjectNo.Items[cmbProjectNo.SelectedIndex];
+            if (sValue != cSettings.p_sAnyStatus)
+            {
+                sProjectNo = sValue;
+            }
+            sSubProjectNo = txtSubProjectNoFilter.Text;
+            Int32 iInstallStatus = -1;
+            iInstallStatus = cmbInstallStatus.SelectedIndex;
+            Int32 iProgressStatus = -1;
+            iProgressStatus = cmbProgressStatus.SelectedIndex;
+
+            DateTime? dSurveyDate = null;
+            dSurveyDate = cmbTimePicker.Date;
+
+            string sSurveyed = cmbSurveyedStatus.Items[cmbSurveyedStatus.SelectedIndex];
+            Int32 iConfirmed = -1;
+            iConfirmed = cmbConfirmed.SelectedIndex;
+
+            int iInstall_Awaiting = Convert.ToInt32(DependencyService.Get<IMain>().GetAppResourceValue("InstallStatus_AwaitingSurvey"));
+            int iInstall_Cancel = Convert.ToInt32(DependencyService.Get<IMain>().GetAppResourceValue("InstallStatus_SurveyCancelled"));
+
+            string vDeliveryStreet = string.Empty;
+            if (txtDeliveryStreet.Text != null)
+                vDeliveryStreet = txtDeliveryStreet.Text;
+            string vPostCode = string.Empty;
+            if (txtPostCode.Text != null)
+                vPostCode = txtPostCode.Text;
+
+            List<cSurveyDatesResult> cResults = cMain.p_cDataAccess.SearchSurveyDates(
+                sProjectNo,
+                vDeliveryStreet,
+                vPostCode,
+                iInstallStatus,
+                iProgressStatus,
+                dSurveyDate,
+                "",
+                sSurveyed,
+                iConfirmed,
+                false,
+                chkShowAllStatus.IsToggled,
+                chkShowAllProgressStatus.IsToggled,
+                sSubProjectNo,
+                iInstall_Awaiting,
+                iInstall_Cancel
+                );
+
+
+            Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new DateSearchResultPage(cResults)));
             //await this.Navigation.PushAsync(new DateSearchResultView(items));
         }
     }

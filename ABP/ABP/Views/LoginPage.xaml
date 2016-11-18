@@ -24,14 +24,18 @@
             HorizontalTextAlignment="Start"
             VerticalTextAlignment="Center" />
     <Entry x:Name="UserName"
-            Grid.Row="2"/>
+           Grid.Row="2"
+           TextColor="White"
+           />
     <Label Grid.Row="3"
-            Text="Password:"
-            FontAttributes="Bold"
-            HorizontalTextAlignment="Start"
-            VerticalTextAlignment="Center" />
+           Text="Password:"
+           FontAttributes="Bold"
+           HorizontalTextAlignment="Start"
+           VerticalTextAlignment="Center" />
     <Entry x:Name="Password"
-            Grid.Row="4"/>
+           Grid.Row="4"
+           TextColor="White"
+           IsPassword = "true"/>
     <Grid Grid.Row="5"
           Padding="0">
       <Grid.RowDefinitions>

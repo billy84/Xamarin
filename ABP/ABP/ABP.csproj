@@ -44,8 +44,12 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\cDashboardWork.cs" />
     <Compile Include="Models\cProjectNo.cs" />
     <Compile Include="Models\cStatus.cs" />
+    <Compile Include="Models\cSurveyDatesResult.cs" />
+    <Compile Include="Models\DownloadProjectResult.cs" />
+    <Compile Include="Models\SurveyDatesSearchResultViewItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\LoginExt\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -96,6 +100,7 @@
     <Compile Include="Views\SurveySuccessPage.xaml.cs">
       <DependentUpon>SurveySuccessPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WcfProxys\cAXCalls.cs" />
     <Compile Include="WcfProxys\cDataAccess.cs" />
     <Compile Include="WcfProxys\cMain.cs" />
     <Compile Include="WcfProxys\cSettings.cs" />

@@ -63,6 +63,8 @@ namespace ABP.Views
                 {
                     rResult = e.Result.Token;
                     UserDialogs.Instance.HideLoading();
+                    WcfLogin.m_instance.Token = e.Result.Token;
+                    WcfLogin.m_instance.LoggedUserName = UserName.Text.Trim();
                     Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new MainMenuPage()));
                 }
             }

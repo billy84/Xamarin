@@ -3,12 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ABP.Views.ProcessSurveysPage">
   <ContentPage Title="Today">
-    <ListView BackgroundColor="Gray"
+    <ListView x:Name="TodayList"
+              BackgroundColor="Gray"
               HorizontalOptions="Center"
               VerticalOptions="CenterAndExpand"/>
   </ContentPage>
   <ContentPage Title="Tomorrow">
-    <ListView BackgroundColor="Gray"
+    <ListView x:Name="TomList"
+              BackgroundColor="Gray"
               HorizontalOptions="Center"
               VerticalOptions="CenterAndExpand" />
   </ContentPage>

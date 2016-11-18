@@ -8,7 +8,8 @@ namespace ABP.Interfaces
 {
     public interface ISettings
     {
-        string GetUserName();
-        string GetUserDisplayName(); 
+        Task<string> GetUserName();
+        Task<string> GetUserDisplayName();
+        bool AreWeOnline();
     }
 }

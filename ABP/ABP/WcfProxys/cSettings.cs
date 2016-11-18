@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using ABP.TableModels;
+using ABP.Interfaces;
 
 namespace ABP.WcfProxys
 {
@@ -24,7 +25,7 @@ namespace ABP.WcfProxys
         /// <summary>
         /// Authority ID for web calls.
         /// </summary>
-        public const string p_sSetting_AuthID = "eCQLH6SDmWFS";
+        public const string p_sSetting_AuthID = "fCQLe6SD1WmS";
 
         /// <summary>
         /// Date comparison - equal to.
@@ -347,7 +348,7 @@ namespace ABP.WcfProxys
 
         }
 
-        public static bool IsthisTheSurveyorApp()
+        public static bool IsThisTheSurveyorApp()
         {
             try
             {
@@ -357,6 +358,45 @@ namespace ABP.WcfProxys
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+            }
+
+        }
+
+        public static bool AreWeOnline
+        {
+            get
+            {
+                return DependencyService.Get<ISettings>().AreWeOnline();
+            }
+        }
+        public static string AddWildCardsToSearchString(string v_sSearchText)
+        {
+
+            try
+            {
+
+                //Add wild card to start if not already
+                string sStart = string.Empty;
+                if (v_sSearchText.StartsWith("*") == false)
+                {
+                    sStart = "*";
+                }
+
+                //Add wild card to end if not already
+                string sEnd = string.Empty;
+                if (v_sSearchText.EndsWith("*") == false)
+                {
+                    sEnd = "*";
+                }
+
+                //Put return string together.
+                return sStart + v_sSearchText + sEnd;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + " - (" + v_sSearchText + ")");
+
             }
 
         }

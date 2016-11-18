@@ -12,6 +12,7 @@ namespace ABP.WcfProxys
         //private WcfLogin
         public LoginExt.ServiceClient m_wcfLogin = null;
         public string Token = string.Empty;
+        public string LoggedUserName = string.Empty;
         static WcfLogin()
         {
             m_instance = new WcfLogin();
