@@ -38,6 +38,22 @@ namespace ABP.Views
             cmbProjectType.SelectedIndexChanged += CmbProjectType_SelectedIndexChanged;
             tapSearchBtn.Tapped += TapSearchBtn_Tapped;
             SearchProjectBtn.GestureRecognizers.Add(tapSearchBtn);
+            lvProjects.ItemSelected += LvProjects_ItemSelected;
+        }
+        private void LvProjects_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem == null)
+            {
+
+            }
+            else
+            {
+                //e.SelectedItem
+                ServiceExt.SearchResult oResult = (ServiceExt.SearchResult)e.SelectedItem;
+                Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new ProjectDownloadStatusPage(oResult)));
+            }
+
+            //throw new NotImplementedException();
         }
 
         private void CmbProjectType_SelectedIndexChanged(object sender, EventArgs e)
@@ -113,6 +129,7 @@ namespace ABP.Views
                     if (cmbProjectType.SelectedIndex == 1)
                     {
                         // while search
+                        UserDialogs.Instance.ShowLoading("Downloading Projects by name...", MaskType.Black);
                         string sSearchText = cSettings.AddWildCardsToSearchString(txtProjectNo.Text);
                         cAX.m_wcfClient.SearchForContractCompleted += M_wcfClient_SearchForContractCompleted;
                         cAX.m_wcfClient.SearchForContractAsync(cAX.m_cCompanyName, sSearchText, cSettings.p_sSetting_AuthID, WcfLogin.m_instance.Token);
@@ -158,6 +175,7 @@ namespace ABP.Views
 
         private void M_wcfClient_SearchForContractCompleted(object sender, ServiceExt.SearchForContractCompletedEventArgs e)
         {
+            UserDialogs.Instance.HideLoading();
             if (e.Error != null)
             {
 
@@ -170,6 +188,7 @@ namespace ABP.Views
             {
                 if (e.Result.bSuccessfull == true)
                 {
+                    UserDialogs.Instance.ShowLoading("Loading Projects...", MaskType.Black);
                     ObservableCollection<ServiceExt.SearchResult> oResults = new ObservableCollection<ServiceExt.SearchResult>();
                     oResults = e.Result.SearchResults;
                     ServiceExt.SearchResult srResult;
@@ -201,7 +220,8 @@ namespace ABP.Views
 
                     }
                     lvProjects.ItemsSource = m_ocProjSearch;
-                    
+                    UserDialogs.Instance.HideLoading();
+
                 }
             }
             //throw new NotImplementedException();
@@ -253,17 +273,60 @@ namespace ABP.Views
                 if (bcFields != null)
                 {
                     cMain.p_cDataAccess.ProcessUpdatedBaseEnums(bcFields);
-                    cMain.m_bCheckingBaseEnums = false;
                 }
+                cMain.m_bCheckingBaseEnums = false;
+
+                // start check for setting
+                if (cMain.m_bCheckingSetings == true)
+                {
+
+                }
+                else
+                {
+                    bool bCheck = cMain.ShouldICheckForSettings();
+                    if (bCheck == true)
+                    {
+                        cAX = new cAXCalls();
+                        List<ServiceExt.SettingDetails> v_sdSettings = cMain.p_cDataAccess.GetSettingsUpdates();
+                        ObservableCollection<ServiceExt.SettingDetails> ocSettings = new ObservableCollection<ServiceExt.SettingDetails>(v_sdSettings);
+                        cAX.m_wcfClient.CheckForUpdatedSettingsCompleted += M_wcfClient_CheckForUpdatedSettingsCompleted;
+                        cAX.m_wcfClient.CheckForUpdatedSettingsAsync(cAX.m_cCompanyName, ocSettings, cSettings.p_sSetting_AuthID, WcfLogin.m_instance.Token);
+                    }
+                }
+
                 cAX = new cAXCalls();
+                UserDialogs.Instance.ShowLoading("Downloading Project by number...", MaskType.Black);
                 cAX.m_wcfClient.ValidateProjectCompleted += M_wcfClient_ValidateProjectCompleted;
                 cAX.m_wcfClient.ValidateProjectAsync(cAX.m_cCompanyName, txtProjectNo.Text, cSettings.p_sSetting_AuthID, WcfLogin.m_instance.Token);
             }
             //throw new NotImplementedException();
         }
 
+        private void M_wcfClient_CheckForUpdatedSettingsCompleted(object sender, ServiceExt.CheckForUpdatedSettingsCompletedEventArgs e)
+        {
+            List<ServiceExt.SettingDetails> sdSettings = null;
+            if (e.Error != null)
+            {
+
+            }
+            else if (e.Cancelled == true)
+            {
+
+            }
+            else
+            {
+                if (e.Result.bSuccessfull == true)
+                {
+                    sdSettings = new List<ServiceExt.SettingDetails>(e.Result.Settings);
+
+                }
+            }
+            //throw new NotImplementedException();
+        }
+
         private void M_wcfClient_ValidateProjectCompleted(object sender, ServiceExt.ValidateProjectCompletedEventArgs e)
         {
+            UserDialogs.Instance.HideLoading();
             if (e.Error != null)
             {
                 DisplayAlert("Error", e.Error.Message, "OK");

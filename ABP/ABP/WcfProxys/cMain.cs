@@ -14,6 +14,23 @@ namespace ABP.WcfProxys
         public static cDataAccess p_cDataAccess = null;
         public static cSettings p_cSettings = new cSettings();
         public static bool m_bCheckingBaseEnums = false;
+        public static bool m_bCheckingSetings = false;
+        public static bool m_bCheckingSurveyFailedReasons = false;
+        public struct ShouldICheckForSurveyReasonResult
+        {
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public bool bCheck;
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public DateTime dLastUpdate;
+
+        }
+        public const string p_sCompareDateFormat = "yyyyMMddHHmmss";
         public static void InitialiseDB()
         {
             try
@@ -254,5 +271,99 @@ namespace ABP.WcfProxys
             }
 
         }
+        public static bool ShouldICheckForSettings()
+        {
+
+            bool bShouldICheck = false;
+            try
+            {
+
+                int iDaysBetweenChecks = Convert.ToInt32(DependencyService.Get<IMain>().GetAppResourceValue("CheckSettingsDaysBetweenChecks").ToString());
+
+                cAppSettingsTable cSettings = cMain.p_cDataAccess.ReturnSettings();
+                if (cSettings != null)
+                {
+
+                    if (cSettings.LastSettingsCheckDateTime.HasValue == true)
+                    {
+                        TimeSpan tsDiff = DateTime.Now.Subtract(cSettings.LastSettingsCheckDateTime.Value);
+                        if (tsDiff.TotalDays >= iDaysBetweenChecks)
+                        {
+                            bShouldICheck = true;
+
+                        }
+
+                    }
+                    else
+                    {
+                        bShouldICheck = true;
+                    }
+
+                }
+                else
+                {
+                    bShouldICheck = true;
+                }
+
+                return bShouldICheck;
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+                return false;
+
+            }
+
+        }
+        public static ShouldICheckForSurveyReasonResult ShouldICheckForFailedSurveyReasons()
+        {
+
+            ShouldICheckForSurveyReasonResult cResult = new ShouldICheckForSurveyReasonResult();
+            cResult.bCheck = false;
+            cResult.dLastUpdate = DateTime.MinValue;
+
+            try
+            {
+
+                int iDaysBetweenChecks = Convert.ToInt32(DependencyService.Get<IMain>().GetAppResourceValue("CheckFailedReasonsDaysBetweenChecks").ToString());
+
+                cAppSettingsTable cSettings = cMain.p_cDataAccess.ReturnSettings();
+                if (cSettings != null)
+                {
+
+                    if (cSettings.LastSurveyFailedCheckDateTime.HasValue == true)
+                    {
+                        TimeSpan tsDiff = DateTime.Now.Subtract(cSettings.LastSurveyFailedCheckDateTime.Value);
+                        if (tsDiff.TotalDays >= iDaysBetweenChecks)
+                        {
+                            cResult.bCheck = true;
+                            cResult.dLastUpdate = cSettings.LastSurveyFailedUpdateDateTime.Value;
+                        }
+
+                    }
+                    else
+                    {
+                        cResult.bCheck = true;
+                    }
+
+                }
+                else
+                {
+                    cResult.bCheck = true;
+                }
+
+                return cResult;
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+                return cResult;
+
+            }
+
+        }
+
     }
 }

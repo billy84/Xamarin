@@ -10,7 +10,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>ABP.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>ABPiOS</AssemblyName>
+    <AssemblyName>ABP.iOS</AssemblyName>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>

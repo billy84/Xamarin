@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -989,6 +990,574 @@ namespace ABP.WcfProxys
             }
 
         }
+        public List<ServiceExt.SettingDetails> GetSettingsUpdates()
+        {
+
+            List<ServiceExt.SettingDetails> sdSettings = new List<ServiceExt.SettingDetails>();
+            ServiceExt.SettingDetails sdSetting;
+
+            try
+            {
+
+                var oResults = (from oCols in this.m_conSQL.Table<cAXSettingsTable>()
+                                select oCols);
+
+
+                foreach (cAXSettingsTable stTable in oResults)
+                {
+
+                    sdSetting = new ServiceExt.SettingDetails();
+                    sdSetting.SettingName = stTable.SettingName;
+                    sdSetting.LastUpdate = stTable.LastUpdate;
+
+                    sdSettings.Add(sdSetting);
+
+                }
+
+                return sdSettings;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+
+        }
+        public void ProcessUpdatedSettings(List<ServiceExt.SettingDetails> v_dsSettings)
+        {
+
+            try
+            {
+
+                //Loop through returned settings and update.
+                foreach (ServiceExt.SettingDetails sdSetting in v_dsSettings)
+                {
+
+
+                    bool bSettingUpdated = UpdateSettingsTable(sdSetting);
+                    if (bSettingUpdated == false)
+                    {
+                        return;
+                    }
+
+                }
+
+
+                cAppSettingsTable cSetting = this.ReturnSettings();
+                cSetting.LastSettingsCheckDateTime = DateTime.Now;
+                SaveSettings(cSetting);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+
+        }
+        private bool UpdateSettingsTable(ServiceExt.SettingDetails v_sdSetting)
+        {
+
+            try
+            {
+
+
+                cAXSettingsTable cUpdate = null;
+                int iCount = 0;
+
+
+                var oResults = (from oCols in this.m_conSQL.Table<cAXSettingsTable>()
+                                where (oCols.SettingName.Equals(v_sdSetting.SettingName))
+                                select oCols);
+
+                if (oResults.Count() > 0)
+                {
+                    cUpdate = oResults.Single<cAXSettingsTable>();
+                }
+
+
+                if (cUpdate == null)
+                {
+                    cUpdate = new cAXSettingsTable();
+                    cUpdate.SettingName = v_sdSetting.SettingName;
+                    cUpdate.SettingValue = v_sdSetting.SettingValue;
+                    cUpdate.LastUpdate = v_sdSetting.LastUpdate;
+
+                    iCount = this.m_conSQL.Insert(cUpdate);
+                }
+                else
+                {
+
+                    cUpdate.SettingValue = v_sdSetting.SettingValue;
+                    cUpdate.LastUpdate = v_sdSetting.LastUpdate;
+
+                    iCount = this.m_conSQL.Update(cUpdate);
+                }
+
+                if (iCount > 0)
+                {
+                    return true;
+                }
+
+                return false;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+
+        }
+        public bool UpdateFailedSurveyReasonsTable(ObservableCollection<ServiceExt.SurveyFailedReason> v_sfrReasons)
+        {
+
+            try
+            {
+
+                if (v_sfrReasons != null)
+                {
+
+                    //Clear down table first.
+                    ClearSurveyFailedReasonsTable();
+
+                    cFailedSurveyReasonsTable cAddReason;
+
+                    List<cFailedSurveyReasonsTable> lAddReasons = new List<cFailedSurveyReasonsTable>();
+
+                    foreach (ServiceExt.SurveyFailedReason cReason in v_sfrReasons)
+                    {
+                        cAddReason = new cFailedSurveyReasonsTable();
+                        cAddReason.Description = cReason.sReason;
+                        cAddReason.DisplayOrder = cReason.iDisplayOrder;
+                        cAddReason.MandatoryNote = cReason.bMandatoryNote;
+                        cAddReason.ProgressStatus = cReason.iProgressStatus;
+
+                        lAddReasons.Add(cAddReason);
+
+                    }
+
+                    this.m_conSQL.InsertAll(lAddReasons);
+
+                    //Clean up
+                    v_sfrReasons = null;
+                    lAddReasons = null;
+
+                    return true;
+
+                }
+
+                return false;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+
+        }
+        public bool ClearSurveyFailedReasonsTable()
+        {
+
+            StringBuilder sbSQL = new StringBuilder();
+            try
+            {
+
+                sbSQL.Append("DELETE FROM cFailedSurveyReasonsTable");
+
+                this.m_conSQL.Execute(sbSQL.ToString());
+
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+
+        }
+        public cDataAccess.SaveSubProjectDataResult SaveSubProjectData(string v_sProjectNo, string v_sProjectName, ServiceExt.SubProjectData v_spData)
+        {
+
+            bool bDoInsert = false;
+            bool bNotesSaved = false;
+            cDataAccess.SaveSubProjectDataResult rResult = new SaveSubProjectDataResult();
+            rResult.bSavedOK = false;
+            rResult.bProjectAdded = false;
+
+            try
+            {
+
+                cProjectTable cProject = null;
+
+                //See if sub project already exists in our DB.
+                var oResults = (from oCols in this.m_conSQL.Table<cProjectTable>()
+                                where (oCols.SubProjectNo.Equals(v_spData.ProjId))
+                                select oCols);
+
+                //If match extract data.
+                if (oResults.Count() > 0)
+                {
+                    cProject = oResults.Single<cProjectTable>();
+                }
+
+                //If null, we need to create a new one.
+                if (cProject == null)
+                {
+                    //This sub project is new so we need to insert the data.
+                    bDoInsert = true;
+
+                    rResult.bProjectAdded = true;
+
+                    //Set key fields
+                    cProject = new cProjectTable();
+                    cProject.ProjectNo = v_sProjectNo;
+                    cProject.ProjectName = cSettings.ReturnString(v_sProjectName);
+                    cProject.SubProjectNo = v_spData.ProjId;
+                    cProject.SubProjectName = cSettings.ReturnString(v_spData.Name);
+                    cProject.DateLastSynced = DateTime.Now;
+
+                }
+
+
+                //Update remaining fields.
+                cProject.AlternativeContactMobileNo = cSettings.ReturnString(v_spData.MXMAlternativeContactMobileNo);
+                cProject.AlternativeContactName = cSettings.ReturnString(v_spData.MXMAlternativeContactName);
+                cProject.AlternativeContactTelNo = cSettings.ReturnString(v_spData.MXMAlternativeContactTelNo);
+                cProject.ABPAXAsbestosPresumed = v_spData.ABPAXASBESTOSPRESUMED;
+                cProject.ABPAXInstallationType = v_spData.ABPAXINSTALLATIONTYPE;
+
+                cProject.MxmConfirmedAppointmentIndicator = v_spData.MXMConfirmedAppointmentIndicator;
+                cProject.MxmContactBySMS = v_spData.MXMContactBySMS;
+                cProject.ABPAXPermanentGasVent = v_spData.ABPAXPERMANENTGASVENT;
+                cProject.DeliveryCity = cSettings.ReturnString(v_spData.DeliveryCity);
+                cProject.DeliveryStreet = cSettings.ReturnString(v_spData.DeliveryStreet);
+                cProject.DisabledAdaptionsRequired = v_spData.MXMDisabledAdaptionsRequired;
+                cProject.DlvState = cSettings.ReturnString(v_spData.DlvState);
+                cProject.DlvZipCode = cSettings.ReturnString(v_spData.DlvZipCode);
+                cProject.MxmDoorChoiceFormReceived = v_spData.MXMDoorChoiceFormReceived;
+                cProject.EndDateTime = ConvertDateTimeToNullable(v_spData.EndDateTime.Value);
+                cProject.ABPAXFloorLevel = v_spData.ABPAXFLOORLEVEL;
+                cProject.InstallStatusName = this.GetEnumValueName("ProjTable", "Mxm1002InstallStatus", Convert.ToInt32(v_spData.Mxm1002InstallStatus));
+                cProject.ABPAXStructuralFaults = v_spData.ABPAXSTRUCTURALFAULTS;
+                cProject.ModifiedDateTime = v_spData.MODIFIEDDATETIME;
+                cProject.Mxm1002InstallStatus = v_spData.Mxm1002InstallStatus;
+                cProject.Mxm1002ProgressStatus = v_spData.Mxm1002ProgressStatus;
+                cProject.MXM1002SequenceNr = v_spData.MXM1002SequenceNr;
+                cProject.MXM1002TrfDate = this.ConvertDateTimeToNullable(v_spData.MXM1002TrfDate.Value);
+                cProject.MxmProjDescription = cSettings.ReturnString(v_spData.MxmProjDescription);
+                cProject.MxmNextDaySMS = v_spData.MXMNextDaySMS;
+                cProject.ProgressStatusName = this.GetEnumValueName("ProjTable", "Mxm1002ProgressStatus", Convert.ToInt32(v_spData.Mxm1002ProgressStatus));
+                cProject.PropertyType = v_spData.MXMPropertyType;
+                cProject.ResidentMobileNo = cSettings.ReturnString(v_spData.MXMResidentMobileNo);
+                cProject.ResidentName = cSettings.ReturnString(v_spData.MXMResidentName);
+                cProject.ResidentTelNo = cSettings.ReturnString(v_spData.MXMTelephoneNo);
+                cProject.ABPAXWindowBoard = v_spData.ABPAXWINDOWBOARD;
+                cProject.ABPAXAccessEquipment = v_spData.ABPAXACCESSEQUIPMENT;
+                cProject.ABPAXServicesToMove = v_spData.ABPAXSERVICESTOMOVE;
+
+                cProject.ABPAXInternalDamage = v_spData.ABPAXINTERNDAMAGE;
+                cProject.ABPAXWorkAccessRestrictions = v_spData.ABPAXWRKACCRESTRICTIONS;
+                cProject.ABPAXPublicProtection = v_spData.ABPAXPUBLICPROTECT;
+
+                //v1.0.1 - Update status details.
+                cProject.Status = v_spData.Status;
+                cProject.StatusName = this.GetEnumValueName("ProjTable", "Status", Convert.ToInt32(v_spData.Status));
+
+                cProject.MxmSMSSent = v_spData.MXMSMSSent;
+                cProject.SpecialResidentNote = cSettings.ReturnString(v_spData.MXMSpecialResidentNote);
+                cProject.StartDateTime = this.ConvertDateTimeToNullable(v_spData.StartDateTime.Value);
+                cProject.MxmSurveyletterRequired = v_spData.MXMSurveyletterRequired;
+                cProject.SurveyLetterSentDate01 = v_spData.MXMSurveyLetterSentDate01;
+                cProject.SurveyLetterSentDate02 = v_spData.MXMSurveyLetterSentDate02;
+                cProject.SurveyLetterSentDate03 = v_spData.MXMSurveyLetterSentDate03;
+                cProject.SurveyorName = cSettings.ReturnString(v_spData.MXMSurveyorName);
+                cProject.SurveyorPCTag = cSettings.ReturnString(v_spData.MXMSurveyorPCTag);
+                cProject.SurveyorProfile = cSettings.ReturnString(v_spData.MXMSurveyorProfile);
+                cProject.SMMActivities_MODIFIEDDATETIME = v_spData.SMMActivities_MODIFIEDDATETIME;
+
+                //v1.0.10 - installation specific fields.
+                cProject.ABPAXINSTALLATIONTEAM = cSettings.ReturnString(v_spData.ABPAXINSTALLATIONTEAM);
+                cProject.ABPAXInstallLetterSentDate01 = v_spData.ABPAXINSTALLLETTERSENTDATE01;
+                cProject.ABPAXInstallLetterSentDate02 = v_spData.ABPAXINSTALLLETTERSENTDATE02;
+                cProject.ABPAXInstallLetterSentDate03 = v_spData.ABPAXINSTALLLETTERSENTDATE03;
+                cProject.ABPAXInstallletterRequired = v_spData.ABPAXINSTALLLETTERREQUIRED;
+                cProject.ABPAXInstallSMSSent = v_spData.ABPAXINSTALLSMSSENT;
+                cProject.ABPAXInstallNextDaySMS = v_spData.ABPAXINSTALLNEXTDAYSMS;
+
+                //v1.0.12 - Delivery details.
+                cProject.Delivery_ConfirmedAppointmentIndicator = v_spData.Delivery_ConfirmedAppointmentIndicator;
+                cProject.Delivery_EndDateTime = v_spData.Delivery_EndDateTime;
+                cProject.Delivery_ModifiedDateTime = v_spData.Delivery_ModifiedDateTime;
+                cProject.Delivery_StartDateTime = v_spData.Delivery_StartDateTime;
+
+                //v1.0.19 - 
+                cProject.ABPAWOrderCompletedDate = v_spData.ABPAWORDERCOMPLETEDDATE;
+                cProject.ABPAWOriginalSubProjectID = v_spData.ABPAWORIGINALSUBPROJECTID;
+
+
+                ///v1.0.21 - Health and Safety complete
+                cProject.ABPAWHealthSafetyInComplete = v_spData.ABPAXHealthSafetyIncomplete;
+                cProject.ABPAWHealthSafetyInCompleteDateUploaded = v_spData.ABPAXHealthSafetyIncompleteDateUploaded;
+                cProject.ABPAWHealthSafetyInCompleteUserUploaded = v_spData.ABPAXHealthSaferyIncompleteUploadedBy;
+
+
+                //Update database
+                if (bDoInsert == true)
+                {
+                    this.m_conSQL.Insert(cProject);
+
+                }
+                else
+                {
+                    this.m_conSQL.Update(cProject);
+
+                }
+
+                //v1.0.1 - Save notes.
+                bNotesSaved = SaveSubProjectNotes(v_spData.Notes);
+
+                if (cSettings.IsThisTheSurveyorApp() == false)
+                {
+
+                    //v1.0.10 - Save sub project units.
+                    SaveSubProjectUnits(v_spData.ProjId, v_spData.Name, v_spData.Units);
+
+                }
+
+
+                rResult.bSavedOK = true;
+
+                return rResult;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+
+        }
+        public bool SaveSubProjectUnits(string v_sSubProjectNo, string v_sSubProjectName, ObservableCollection<ServiceExt.UnitDetails> v_udUnits)
+        {
+
+            cUnitsTable udUnit;
+
+            try
+            {
+
+                if (v_udUnits != null)
+                {
+
+                    bool bInsert = false;
+                    foreach (ServiceExt.UnitDetails udDetail in v_udUnits)
+                    {
+
+                        bInsert = false;
+                        udUnit = FetchSubProjectUnit(v_sSubProjectNo, udDetail.iUNITNUMBER);
+                        if (udUnit == null)
+                        {
+                            udUnit = new cUnitsTable();
+                            bInsert = true;
+                        }
+
+                        udUnit.SubProjectNo = v_sSubProjectNo;
+                        udUnit.SubProjectName = v_sSubProjectName;
+                        udUnit.UnitNo = udDetail.iUNITNUMBER;
+                        udUnit.ItemID = udDetail.sITEMID;
+                        udUnit.Style = udDetail.sSTYLE;
+                        udUnit.InstalledStatus = udDetail.iInstalledStatus;
+                        udUnit.UnitLocation = udDetail.sUNITLOCATION;
+
+
+                        if (bInsert == true)
+                        {
+                            this.m_conSQL.Insert(udUnit);
+                        }
+                        else
+                        {
+                            this.m_conSQL.Update(udUnit);
+                        }
+
+                    }
+
+                }
+
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+
+        }
+        public cUnitsTable FetchSubProjectUnit(string v_sSubProjectNo, int v_iUnitNo)
+        {
+
+            cUnitsTable cUnit = null;
+            try
+            {
+
+                //See if sub project already exists in our DB.
+                var oResults = (from oCols in m_conSQL.Table<cUnitsTable>()
+                                where (oCols.SubProjectNo.Equals(v_sSubProjectNo) && (oCols.UnitNo.Equals(v_iUnitNo)))
+                                select oCols);
+
+                //If match extract data.
+                if (oResults.Count() > 0)
+                {
+                    cUnit = oResults.Single<cUnitsTable>();
+                }
+
+                return cUnit;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + " v_sSubProjectNo(" + v_sSubProjectNo + "),v_iUnitNo(" + v_iUnitNo.ToString() + ")");
+
+            }
+
+        }
+        private DateTime? ConvertDateTimeToNullable(DateTime v_dDateTime)
+        {
+
+            try
+            {
+                if (v_dDateTime.Year == 1900)
+                {
+                    return null;
+                }
+
+                return v_dDateTime;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + " DateTime(" + v_dDateTime.ToString() + ")");
+
+            }
+
+        }
+        public bool SaveSubProjectNotes(ObservableCollection<ServiceExt.NoteDetails> v_ndNotes)
+        {
+
+            cProjectNotesTable pnNote;
+            try
+            {
+
+                if (v_ndNotes != null)
+                {
+
+                    foreach (ServiceExt.NoteDetails ndDetail in v_ndNotes)
+                    {
+
+                        pnNote = new cProjectNotesTable();
+                        pnNote.AXRecID = ndDetail.AXRecID;
+                        pnNote.InputDateTime = ndDetail.InputDate;
+                        pnNote.NoteText = ndDetail.NoteText;
+                        pnNote.SubProjectNo = ndDetail.ProjectNo;
+                        pnNote.UserName = ndDetail.UserName;
+                        pnNote.UserProfile = ndDetail.UserProfile;
+                        pnNote.NoteType = ndDetail.NoteType;
+
+                        this.SaveSubProjectNote(pnNote);
+
+                    }
+
+                }
+
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+
+        }
+        public bool SaveSubProjectNote(cProjectNotesTable cNote)
+        {
+            try
+            {
+
+                this.m_conSQL.Insert(cNote);
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+
+
+        }
+        public bool SaveSubProjectFile(string v_sSubProjectNo, string v_sFileName, string v_sComments, DateTime v_dModDate, bool v_bIsNew_InsertOnly)
+        {
+
+            bool bDoInsert = false;
+            try
+            {
+
+                cProjectFilesTable cProjectFile = null;
+
+                //See if sub project already exists in our DB.
+                var oResults = (from oCols in this.m_conSQL.Table<cProjectFilesTable>()
+                                where (oCols.SubProjectNo.Equals(v_sSubProjectNo))
+                                && (oCols.FileName.ToLower().Equals(v_sFileName.ToLower()))
+                                select oCols);
+
+                //If match extract data.
+                if (oResults.Count() > 0)
+                {
+                    cProjectFile = oResults.Single<cProjectFilesTable>();
+                }
+
+                //If null, we need to create a new one.
+                if (cProjectFile == null)
+                {
+                    //This sub project is new so we need to insert the data.
+                    bDoInsert = true;
+
+                    //Set key fields
+                    cProjectFile = new cProjectFilesTable();
+                    cProjectFile.SubProjectNo = v_sSubProjectNo;
+                    cProjectFile.FileName = v_sFileName;
+                    cProjectFile.NewFile = v_bIsNew_InsertOnly;
+
+                }
+
+                //Common values regardless of update or insert.
+                cProjectFile.NoteText = v_sComments;
+                cProjectFile.ModDateTime = v_dModDate;
+
+                if (bDoInsert == true)
+                {
+                    this.m_conSQL.Insert(cProjectFile);
+                }
+                else
+                {
+                    this.m_conSQL.Update(cProjectFile);
+                }
+
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                //throw new Exception(ex.Message + " - PARAM(SubProjectNo=" + v_sSubProjectNo + ",FileName=" + v_sFileName + ",Comment=" + v_sComments + ",ModDateTime=" + v_dModDate.ToString() + ",IsNew_InsertOnly=" + v_bIsNew_InsertOnly.ToString() + ")");
+                return false;
+
+            }
+        }
+
     }
 
 }

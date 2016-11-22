@@ -41,7 +41,8 @@
     </Grid>
     <ListView x:Name="lvProjects" 
               Grid.Row="2"
-              BackgroundColor="Gray">
+              BackgroundColor="Gray"
+              CachingStrategy="RetainElement">
       <ListView.ItemTemplate>
         <DataTemplate>
           <ViewCell>

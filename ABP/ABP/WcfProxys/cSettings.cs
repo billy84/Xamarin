@@ -400,5 +400,26 @@ namespace ABP.WcfProxys
             }
 
         }
+        public static string ReturnString(String v_sString)
+        {
+
+            try
+            {
+                if (string.IsNullOrEmpty(v_sString) == true)
+                {
+                    return String.Empty;
+                }
+
+                return v_sString.Trim();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + " - String(" + v_sString + ")");
+
+            }
+
+        }
+
     }
 }
