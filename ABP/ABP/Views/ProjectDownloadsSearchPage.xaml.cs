@@ -34,12 +34,40 @@ namespace ABP.Views
             cmbProjectType.SelectedIndex = 0;
             txtProjectNo.Keyboard = Keyboard.Numeric;
             SearchProjectBtn.Source = ImageSource.FromFile(String.Format("{0}{1}.png", Device.OnPlatform("Icons/", "", "Assets/Icons/"), "find"));
+            SearchProjectBtn.HeightRequest = 30;
+            SearchProjectBtn.WidthRequest = 30;
             var tapSearchBtn = new TapGestureRecognizer();
             cmbProjectType.SelectedIndexChanged += CmbProjectType_SelectedIndexChanged;
             tapSearchBtn.Tapped += TapSearchBtn_Tapped;
             SearchProjectBtn.GestureRecognizers.Add(tapSearchBtn);
-            lvProjects.ItemSelected += LvProjects_ItemSelected;
+            lvProjects.ItemTapped += LvProjects_ItemTapped;
+            //lvProjects.ItemSelected += LvProjects_ItemSelected;
         }
+
+        private void LvProjects_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            if (e.Item == null)
+            {
+
+            }
+            else
+            {
+                //e.SelectedItem
+                ServiceExt.SearchResult oResult = (ServiceExt.SearchResult)e.Item;
+                bool bAlreadyDownloaded = IsProjectAlreadyOnDevice(oResult.ProjectNo);
+                if (bAlreadyDownloaded == true)
+                {
+                    return;
+                }
+                else
+                {
+                    //lvProjects.ItemSelected += null;
+                    Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new ProjectDownloadStatusPage(oResult)));
+                }
+            }
+            //throw new NotImplementedException();
+        }
+
         private void LvProjects_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem == null)
@@ -50,7 +78,16 @@ namespace ABP.Views
             {
                 //e.SelectedItem
                 ServiceExt.SearchResult oResult = (ServiceExt.SearchResult)e.SelectedItem;
-                Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new ProjectDownloadStatusPage(oResult)));
+                bool bAlreadyDownloaded = IsProjectAlreadyOnDevice(oResult.ProjectNo);
+                if (bAlreadyDownloaded == true)
+                {
+                    return;
+                }
+                else
+                {
+                    //lvProjects.ItemSelected += null;
+                    Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new ProjectDownloadStatusPage(oResult)));
+                }
             }
 
             //throw new NotImplementedException();

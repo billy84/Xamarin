@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ABP.Views.ProjectDownloadStatusPage">
+  <Grid Padding="10">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="5*"/>
+      <RowDefinition Height="5*"/>
+      <RowDefinition Height="10*"/>
+      <RowDefinition Height="80*"/>
+    </Grid.RowDefinitions>
+    <Label Grid.Row="0"
+           x:Name="txtProjectNo"/>
+    <Label Grid.Row="1"
+           x:Name="txtProjectName"/>
+    <Button x:Name="btnDownload"
+            Grid.Row="2"
+            Text="Start Download"
+            Clicked="Clicked_Download"/>
+    <ListView Grid.Row="3"
+              x:Name="lvProgressStatus"
+              BackgroundColor="Gray">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+            <Label Text="{Binding Status}"
+                   TextColor="{Binding Color}"/>
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+  </Grid>
+</ContentPage>
