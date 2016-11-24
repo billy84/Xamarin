@@ -347,6 +347,28 @@ namespace ABP.WcfProxys
             public cProjectTable cProjectData;
 
         }
+        public static string ReturnPurposeType()
+        {
+
+            try
+            {
+
+                if (cSettings.IsThisTheSurveyorApp() == true)
+                {
+                    return "Survey";
+
+                }
+
+                return "Install";
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+
+        }
 
         public static bool IsThisTheSurveyorApp()
         {

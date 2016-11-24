@@ -16,6 +16,8 @@ namespace ABP.WcfProxys
         public static bool m_bCheckingBaseEnums = false;
         public static bool m_bCheckingSetings = false;
         public static bool m_bCheckingSurveyFailedReasons = false;
+        public static bool p_bIsSyncingInProgress = false;
+        
         public struct ShouldICheckForSurveyReasonResult
         {
 
@@ -364,6 +366,23 @@ namespace ABP.WcfProxys
             }
 
         }
+        public static void KickOffSyncing()
+        {
 
+            try
+            {
+                if (cMain.p_bIsSyncingInProgress == false)
+                    Device.StartTimer(new TimeSpan(0, 0, 1), m_dpDispatcherSync_Tick);
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+            }
+        }
+        private static bool m_dpDispatcherSync_Tick()
+        {
+            return false;
+        }
     }
 }

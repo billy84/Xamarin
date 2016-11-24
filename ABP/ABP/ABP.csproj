@@ -46,7 +46,9 @@
     </Compile>
     <Compile Include="Models\cDashboardWork.cs" />
     <Compile Include="Models\cProjectNo.cs" />
+    <Compile Include="Models\cProjectSearch.cs" />
     <Compile Include="Models\cStatus.cs" />
+    <Compile Include="Models\cSubProjectSync.cs" />
     <Compile Include="Models\cSurveyDatesResult.cs" />
     <Compile Include="Models\DownloadProjectResult.cs" />
     <Compile Include="Models\SurveyDatesSearchResultViewItem.cs" />
@@ -70,6 +72,7 @@
     <Compile Include="TableModels\cProjectNotesTable.cs" />
     <Compile Include="TableModels\cProjectTable.cs" />
     <Compile Include="TableModels\cUnitsTable.cs" />
+    <Compile Include="TableModels\cUnitsUpdateTable.cs" />
     <Compile Include="TableModels\cUpdatesTable.cs" />
     <Compile Include="Views\DateSearchFilterPage.xaml.cs">
       <DependentUpon>DateSearchFilterPage.xaml</DependentUpon>
@@ -108,6 +111,10 @@
     <Compile Include="WcfProxys\cDataAccess.cs" />
     <Compile Include="WcfProxys\cMain.cs" />
     <Compile Include="WcfProxys\cSettings.cs" />
+    <Compile Include="WcfProxys\cSyncEventErrorParams.cs" />
+    <Compile Include="WcfProxys\cSyncEventParam.cs" />
+    <Compile Include="WcfProxys\cSyncEventParamProjectStatus.cs" />
+    <Compile Include="WcfProxys\cSyncing.cs" />
     <Compile Include="WcfProxys\WcfLogin.cs" />
   </ItemGroup>
   <ItemGroup>

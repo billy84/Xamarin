@@ -1557,7 +1557,194 @@ namespace ABP.WcfProxys
 
             }
         }
+        public List<cSubProjectSync> FetchSubProjectsWithUploads()
+        {
 
+            StringBuilder sbSQL = new StringBuilder();
+
+            try
+            {
+
+                bool bSurveyorApp = cSettings.IsThisTheSurveyorApp();
+
+                sbSQL.Append("SELECT PT.SubProjectNo");
+                sbSQL.Append(",UT.UpdateQty");
+                sbSQL.Append(",PFT.FileUpdateQty");
+                sbSQL.Append(",PNT.NotesUpdateQty");
+
+                if (bSurveyorApp == false) { sbSQL.Append(",UUT.UnitUpdateQty"); };
+
+
+                sbSQL.Append(" FROM cProjectTable AS PT");
+
+                sbSQL.Append(" LEFT JOIN (SELECT COUNT(*) AS UpdateQty,SubProjectNo FROM cUpdatesTable GROUP BY SubProjectNo) AS UT");
+                sbSQL.Append(" ON UT.SubProjectNo = PT.SubProjectNo");
+
+                if (bSurveyorApp == false)
+                {
+                    sbSQL.Append(" LEFT JOIN (SELECT COUNT(*) AS UnitUpdateQty,SubProjectNo FROM cUnitsUpdateTable GROUP BY SubProjectNo) AS UUT");
+                    sbSQL.Append(" ON UUT.SubProjectNo = PT.SubProjectNo");
+                }
+
+                sbSQL.Append(" LEFT JOIN (SELECT COUNT(*) AS FileUpdateQty,SubProjectNo FROM cProjectFilesTable WHERE NewFile='1' GROUP BY SubProjectNo) AS PFT");
+                sbSQL.Append(" ON PFT.SubProjectNo = PT.SubProjectNo");
+
+                sbSQL.Append(" LEFT JOIN (SELECT COUNT(*) AS NotesUpdateQty,SubProjectNo FROM cProjectNotesTable WHERE AXRecID = -1 GROUP BY SubProjectNo) AS PNT");
+                sbSQL.Append(" ON PNT.SubProjectNo = PT.SubProjectNo");
+
+                sbSQL.Append(" WHERE UT.UpdateQty > 0");
+                sbSQL.Append(" OR PFT.FileUpdateQty > 0");
+                sbSQL.Append(" OR PNT.NotesUpdateQty > 0");
+
+                if (bSurveyorApp == false) { sbSQL.Append(" OR UUT.UnitUpdateQty > 0"); };
+
+                sbSQL.Append(" ORDER BY PT.SubProjectNo");
+
+
+                return this.m_conSQL.Query<cSubProjectSync>(sbSQL.ToString());
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+
+        }
+        public List<cUpdatesTable> ReturnPendingUpdatesForSubProject(string v_sSubProjectNo)
+        {
+
+            List<cUpdatesTable> cUpdates = null;
+            try
+            {
+
+                var oResults = (from oCols in this.m_conSQL.Table<cUpdatesTable>()
+                                where (oCols.SubProjectNo.Equals(v_sSubProjectNo))
+                                select oCols);
+
+                cUpdates = oResults.ToList<cUpdatesTable>();
+
+                return cUpdates;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + " SubProjectNo(" + v_sSubProjectNo + ")");
+
+            }
+
+        }
+        public bool RemoveChangesFromUploadTable(List<cUpdatesTable> v_cUpdates)
+        {
+
+            try
+            {
+
+                foreach (cUpdatesTable cUpdate in v_cUpdates)
+                {
+                    this.m_conSQL.Delete(cUpdate);
+
+                }
+
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+
+        }
+        public List<cSubProjectSync> FetchSubProjectsWithNewNotes()
+        {
+
+            StringBuilder sbSQL = new StringBuilder();
+
+            try
+            {
+
+                sbSQL.Append("SELECT SubProjectNo,COUNT(*) AS UpdateQty ");
+
+                sbSQL.Append(" FROM cProjectNotesTable");
+
+                sbSQL.Append(" WHERE AXRecID = -1");
+
+                sbSQL.Append(" GROUP BY SubProjectNo");
+
+                return this.m_conSQL.Query<cSubProjectSync>(sbSQL.ToString());
+
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+
+        }
+        public List<cProjectNotesTable> FetchNewNotes(string v_sSubProjectNo)
+        {
+
+            try
+            {
+
+                var oResults = from oCols in this.m_conSQL.Table<cProjectNotesTable>()
+                               where (oCols.SubProjectNo.ToLower().Equals(v_sSubProjectNo.ToLower())
+                               && (oCols.AXRecID.Equals(-1) == true))
+                               orderby oCols.InputDateTime
+                               select oCols;
+
+                List<cProjectNotesTable> oReturn = oResults.ToList<cProjectNotesTable>();
+                oResults = null;
+
+                return oReturn;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + " - SubProjectNo(" + v_sSubProjectNo + ")");
+
+            }
+
+
+        }
+        public bool UpdateNotesWithRecID(ObservableCollection<ServiceExt.clsRealtimeNoteKeyValues> v_nkvValues)
+        {
+
+            StringBuilder sbSQL = new StringBuilder();
+            int iSQLRtn = -1;
+            try
+            {
+
+                if (v_nkvValues != null)
+                {
+
+                    foreach (ServiceExt.clsRealtimeNoteKeyValues nkvValue in v_nkvValues)
+                    {
+
+                        sbSQL.Clear();
+
+                        sbSQL.Append("UPDATE cProjectNotesTable");
+                        sbSQL.Append(" SET AXRecID=" + nkvValue.NotesRecID);
+                        sbSQL.Append(" WHERE IDKey=" + nkvValue.DeviceIDKey);
+
+                        iSQLRtn = this.m_conSQL.Execute(sbSQL.ToString());
+
+
+                    }
+
+                }
+
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+
+        }
     }
-
 }
