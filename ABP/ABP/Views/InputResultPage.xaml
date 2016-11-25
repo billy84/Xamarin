@@ -11,7 +11,7 @@
       <RowDefinition Height="30*"/>
     </Grid.RowDefinitions>
     <Label Grid.Row="0"
-           Text="The Lodge, Hasingwell Estate, Norwich Norwell, NR33 10P"
+           x:Name="txtProjectInfo"
            HorizontalTextAlignment="Center"
            VerticalTextAlignment="Center"/>
     <Label Grid.Row="1"

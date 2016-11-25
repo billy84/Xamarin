@@ -40,11 +40,16 @@ namespace ABP.Views
             this.ToolbarItems.Add(new ToolbarItem()
             {
                 Text = "Setting",
-                Icon = String.Format("{0}{1}.png", Device.OnPlatform("Icons/", "", "Assets/Icons/"), "configuration")
+                Icon = String.Format("{0}{1}.png", Device.OnPlatform("Icons/", "", "Assets/Icons/"), "configuration"),
+                Command = new Command(() => SettingBtn_Tapped())
             });
             TabbedPage_loaded();
 
 
+        }
+        private void SettingBtn_Tapped()
+        {
+            Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new UserSettingPage()));
         }
         private void DownBtn_Tapped()
         {

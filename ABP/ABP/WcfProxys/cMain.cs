@@ -384,5 +384,89 @@ namespace ABP.WcfProxys
         {
             return false;
         }
+
+        public static string ReturnDisplayDate(DateTime v_dtDate)
+        {
+
+            try
+            {
+                return ReturnDisplayDate(v_dtDate, string.Empty);
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+                return string.Empty;
+
+            }
+
+        }
+        public static string ReturnDisplayDate(DateTime v_dtDate, string v_sDateCompare)
+        {
+
+            try
+            {
+
+                string sSymbol = String.Empty;
+                if (v_sDateCompare == cSettings.p_sDateCompare_GreaterThan)
+                {
+                    sSymbol = "> ";
+                }
+
+                if (v_sDateCompare == cSettings.p_sDateCompare_LessThan)
+                {
+                    sSymbol = "< ";
+                }
+
+                string sDayName = sSymbol + v_dtDate.DayOfWeek.ToString().Substring(0, 3);
+                return sDayName + " " + v_dtDate.ToString("dd/MM/yyyy");
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+                return string.Empty;
+
+            }
+
+        }
+        public static string ReturnDisplayTime(DateTime v_dDate)
+        {
+
+            try
+            {
+
+                string sTime = String.Empty;
+
+                string sNowTime = v_dDate.ToString("HH:mm");
+                string sAMTime = DependencyService.Get<IMain>().GetAppResourceValue("AM_TIME");
+                string sPMTime = DependencyService.Get<IMain>().GetAppResourceValue("PM_TIME");
+
+                if (sNowTime == sAMTime)
+                {
+                    sTime = cSettings.p_sTime_AM;
+
+                }
+                else if (sNowTime == sPMTime)
+                {
+                    sTime = cSettings.p_sTime_PM;
+
+                }
+                else
+                {
+                    sTime = sNowTime;
+
+                }
+
+                return sTime;
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+                return string.Empty;
+
+            }
+        }
     }
 }

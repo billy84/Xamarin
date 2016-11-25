@@ -50,6 +50,7 @@
     <Compile Include="Models\cStatus.cs" />
     <Compile Include="Models\cSubProjectSync.cs" />
     <Compile Include="Models\cSurveyDatesResult.cs" />
+    <Compile Include="Models\cSurveyInputResult.cs" />
     <Compile Include="Models\DownloadProjectResult.cs" />
     <Compile Include="Models\SurveyDatesSearchResultViewItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -106,6 +107,9 @@
     </Compile>
     <Compile Include="Views\SurveySuccessPage.xaml.cs">
       <DependentUpon>SurveySuccessPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserSettingPage.xaml.cs">
+      <DependentUpon>UserSettingPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="WcfProxys\cAXCalls.cs" />
     <Compile Include="WcfProxys\cDataAccess.cs" />
@@ -353,6 +357,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\ProjectDownloadStatusPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\UserSettingPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

@@ -13,8 +13,9 @@
         <ColumnDefinition Width="80*"/>
         <ColumnDefinition Width="20*"/>
       </Grid.ColumnDefinitions>
-      <Picker Grid.Column="0"
-              VerticalOptions="CenterAndExpand"></Picker>
+      <Entry x:Name="txtDeliveryStreet"
+                     Placeholder="Street Name"
+                     VerticalOptions="Start"/>
       <BoxView Grid.Column="1"/>
     </Grid>
     <Grid Grid.Row="1">
@@ -22,24 +23,31 @@
         <ColumnDefinition Width="80*"/>
         <ColumnDefinition Width="20*"/>
       </Grid.ColumnDefinitions>
-      <Picker Grid.Column="0"
-              VerticalOptions="CenterAndExpand"></Picker>
+      <Entry x:Name="txtPostcode"
+                     Placeholder="Post Code"
+                     VerticalOptions="Start"/>
       <Image x:Name="SearchProjectBtn"
              Grid.Column="1"
              BackgroundColor="Transparent"
              VerticalOptions="CenterAndExpand"/>
     </Grid>
-    <ListView x:Name="ProjectList"
+    <ListView x:Name="lvResults"
               Grid.Row="2"
               BackgroundColor="Gray">
       <ListView.ItemTemplate>
         <DataTemplate>
           <ViewCell>
-            <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand">
-              <Label Text="{Binding Address}"/>
-              <Label Text="{Binding PlanDate}"/>
-              <Label Text="{Binding ProgressStatus}"/>
-              <Label Text="{Binding ConfirmedFlag}"/>
+            <StackLayout Orientation="Vertical">
+              <Label Text="{Binding SubProjectNo}"/>
+              <Label Text="{Binding DeliveryStreet}"/>
+              <Label Text="{Binding DlvZipCode}"/>
+              <Label Text="{Binding InstallStatusName}"/>
+              <Label Text="{Binding ProgressStatusName}"/>
+              <Label Text="{Binding SurveyDisplayDateTime}"/>
+              <Label Text="{Binding SurveyedStatus}"/>
+              <Label Text="{Binding SurveyorName}"/>
+              <Label Text="{Binding SurveyInputStatus}"/>
+              <Label Text="{Binding Flags}"/>
             </StackLayout>
           </ViewCell>
         </DataTemplate>

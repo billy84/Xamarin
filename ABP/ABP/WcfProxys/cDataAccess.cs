@@ -1746,5 +1746,527 @@ namespace ABP.WcfProxys
             }
 
         }
+        public List<cSurveyInputResult> SearchSurveyInput(
+            string v_sProjectNo, 
+            string v_sStreet, 
+            string v_sPostcode, 
+            int v_iInstallStatus, 
+            int v_iProgressStatus, 
+            DateTime? v_dSurveyDate, 
+            string v_sDateCompare, 
+            string v_sSurveyedStatus, 
+            string v_sSurveyor, 
+            string v_sSurveyedOnSite, 
+            bool v_bSyncOnly, 
+            bool v_bShowAllStatuses, 
+            bool v_bShowAllProgressStatuses, 
+            string v_sSubProjectNoFilter, 
+            int v_iInstallStatus_AwaitingSurvey, 
+            int v_iInstallStatus_Cancel, 
+            bool v_bBooked = false, 
+            string v_sInstallStatus_Filter = cSettings.p_sInstallStatusFilter_EqualTo, 
+            string v_sOrderComplete_Filter = cSettings.p_sAnyStatus, 
+            HSFilters v_iHSIncomplete = HSFilters.Any)
+        {
+
+            try
+            {
+
+                //Creating our WHERE clause.
+                StringBuilder sbWhere = new StringBuilder();
+
+
+                //Add project number if specified.
+                if (v_sProjectNo != null)
+                {
+                    if (v_sProjectNo.Length > 0)
+                    {
+                        sbWhere.Append("PT.ProjectNo='" + v_sProjectNo.Replace("'", "''") + "'");
+
+                    }
+                }
+                else if (v_sSubProjectNoFilter != null) //v1.0.1
+                {
+
+                    if (v_sSubProjectNoFilter.Length > 0)
+                    {
+                        sbWhere.Append(" LOWER(PT.SubProjectNo) " + this.FormatSQLCritieria(v_sSubProjectNoFilter.ToLower()));
+                    }
+
+                }
+
+                //Add street if specified.
+                if (v_sStreet.Length > 0)
+                {
+
+                    //If criteria already specified add an AND
+                    if (sbWhere.Length > 0)
+                    {
+                        sbWhere.Append(" AND ");
+                    }
+
+                    sbWhere.Append(" LOWER(PT.DeliveryStreet) " + this.FormatSQLCritieria(v_sStreet.ToLower()));
+
+                }
+
+                //Add postcode if specified.
+                if (v_sPostcode.Length > 0)
+                {
+
+                    //If criteria already specified add an AND
+                    if (sbWhere.Length > 0)
+                    {
+                        sbWhere.Append(" AND ");
+                    }
+
+                    sbWhere.Append(" LOWER(PT.DlvZipCode) " + this.FormatSQLCritieria(v_sPostcode.ToLower()));
+
+                }
+
+                //v1.0.12 - Progress status.
+                if (v_iProgressStatus > -1)
+                {
+
+                    //If criteria already specified add an AND
+                    if (sbWhere.Length > 0)
+                    {
+                        sbWhere.Append(" AND ");
+                    }
+
+                    sbWhere.Append(" PT.Mxm1002ProgressStatus = " + v_iProgressStatus.ToString());
+
+                }
+
+                //Add install status if specified.
+                if (v_iInstallStatus > -1)
+                {
+
+                    //If criteria already specified add an AND
+                    if (sbWhere.Length > 0)
+                    {
+                        sbWhere.Append(" AND ");
+                    }
+
+                    if (v_iInstallStatus != cSettings.p_iInstallStatus_Installing)
+                    {
+
+                        if (v_sInstallStatus_Filter == cSettings.p_sInstallStatusFilter_EqualTo)
+                        {
+                            sbWhere.Append(" PT.Mxm1002InstallStatus = " + v_iInstallStatus.ToString());
+                        }
+                        else
+                        {
+                            sbWhere.Append(" PT.Mxm1002InstallStatus <> " + v_iInstallStatus.ToString());
+                        }
+
+
+                    }
+                    else
+                    {
+
+                        string[] sStatuses = this.GetSettingValue("Installation_Installing_InstallStatuses").Split(',');
+                        if (sStatuses != null)
+                        {
+
+                            if (v_sInstallStatus_Filter == cSettings.p_sInstallStatusFilter_EqualTo)
+                            {
+                                sbWhere.Append(" PT.Mxm1002InstallStatus IN (");
+                            }
+                            else
+                            {
+                                sbWhere.Append(" PT.Mxm1002InstallStatus NOT IN (");
+                            }
+                            foreach (string sStatus in sStatuses)
+                            {
+                                sbWhere.Append(sStatus + ",");
+
+                            }
+                            sbWhere.Remove(sbWhere.Length - 1, 1); //Remove the last comma
+                            sbWhere.Append(")");
+
+                        }
+
+                    }
+
+                }
+
+                //Add survey date if specified.
+                if (v_dSurveyDate.HasValue == true)
+                {
+
+                    //If criteria already specified add an AND
+                    if (sbWhere.Length > 0)
+                    {
+                        sbWhere.Append(" AND ");
+                    }
+
+                    //Create start and end date objects. v1.0.4 - Set start time to 00:00:00, not 00:00:01
+                    DateTime dStartDate = new DateTime(v_dSurveyDate.Value.Year, v_dSurveyDate.Value.Month, v_dSurveyDate.Value.Day, 00, 00, 00);
+                    DateTime dEndDate = new DateTime(v_dSurveyDate.Value.Year, v_dSurveyDate.Value.Month, v_dSurveyDate.Value.Day, 23, 59, 59);
+
+
+                    sbWhere.Append(" (");
+
+                    //Add SQL comparison criteria.
+                    if (v_sDateCompare == cSettings.p_sDateCompare_GreaterThan || v_sDateCompare == cSettings.p_sDateCompare_EqualTo)
+                    {
+                        //v1.0.4 - Only use EndDateTime, sbWhere.Append(" PT.StartDateTime >= '" + dStartDate.ToString("yyyy-MM-dd HH:mm:ss") + "'");
+                        sbWhere.Append(" PT.EndDateTime >= '" + dStartDate.ToString("yyyy-MM-dd HH:mm:ss") + "'");
+
+                    }
+                    if (v_sDateCompare == cSettings.p_sDateCompare_LessThan || v_sDateCompare == cSettings.p_sDateCompare_EqualTo)
+                    {
+
+                        if (v_sDateCompare == cSettings.p_sDateCompare_EqualTo)
+                        {
+                            sbWhere.Append(" AND ");
+                        }
+
+                        //v1.0.4 - Only use EndDateTime, sbWhere.Append(" PT.StartDateTime <= '" + dEndDate.ToString("yyyy-MM-dd HH:mm:ss") + "'");
+                        sbWhere.Append(" PT.EndDateTime <= '" + dEndDate.ToString("yyyy-MM-dd HH:mm:ss") + "'");
+
+                    }
+
+
+                    //sbWhere.Append(" AND PT.MXM1002TrfDate ISNULL");
+
+                    sbWhere.Append(" )");
+                }
+
+
+                //Surveyed Status
+                if (v_sSurveyedStatus.Equals(cSettings.p_sSurveyedStatus_NotSurveyed) == true)
+                {
+
+                    //If criteria already specified add an AND
+                    if (sbWhere.Length > 0)
+                    {
+                        sbWhere.Append(" AND ");
+                    }
+
+                    sbWhere.Append(" PT.MXM1002TrfDate ISNULL");
+
+                    sbWhere.Append(" AND (PT.Mxm1002InstallStatus = " + v_iInstallStatus_AwaitingSurvey + " OR PT.Mxm1002InstallStatus = " + v_iInstallStatus_Cancel + ")");
+
+                }
+                else if (v_sSurveyedStatus.Equals(cSettings.p_sSurveyedStatus_SurveyedOnSite) == true)
+                {
+
+                    //If criteria already specified add an AND
+                    if (sbWhere.Length > 0)
+                    {
+                        sbWhere.Append(" AND ");
+                    }
+
+                    sbWhere.Append(" PT.MXM1002TrfDate IS NOT NULL");
+
+                    sbWhere.Append(" AND (PT.Mxm1002InstallStatus = " + v_iInstallStatus_AwaitingSurvey + " OR PT.Mxm1002InstallStatus = " + v_iInstallStatus_Cancel + ")");
+
+
+                }
+                else if (v_sSurveyedStatus.Equals(cSettings.p_sSurveyedStatus_SurveyedTrans) == true)
+                {
+
+                    //If criteria already specified add an AND
+                    if (sbWhere.Length > 0)
+                    {
+                        sbWhere.Append(" AND ");
+                    }
+
+                    //sbWhere.Append(" PT.MXM1002TrfDate IS NOT NULL");
+
+                    sbWhere.Append(" (PT.Mxm1002InstallStatus <> " + v_iInstallStatus_AwaitingSurvey + " AND PT.Mxm1002InstallStatus <> " + v_iInstallStatus_Cancel + ")");
+
+
+                }
+
+
+                //Add surveyor status.
+                if (v_sSurveyor.Length > 0)
+                {
+
+                    //If criteria already specified add an AND
+                    if (sbWhere.Length > 0)
+                    {
+                        sbWhere.Append(" AND ");
+                    }
+
+                    sbWhere.Append(" PT.SurveyorProfile = '" + v_sSurveyor + "'");
+
+                }
+
+                //Add survey input status
+                if (v_sSurveyedOnSite.Equals(cSettings.p_sInputStatus_Successful) == true)
+                {
+
+                    //If criteria already specified add an AND
+                    if (sbWhere.Length > 0)
+                    {
+                        sbWhere.Append(" AND ");
+                    }
+
+                    sbWhere.Append(" PT.MXM1002TrfDate IS NOT NULL");
+
+                }
+                else if (v_sSurveyedOnSite.Equals(cSettings.p_sInputStatus_Pending) == true)
+                {
+
+                    //If criteria already specified add an AND
+                    if (sbWhere.Length > 0)
+                    {
+                        sbWhere.Append(" AND ");
+                    }
+
+                    sbWhere.Append(" PT.MXM1002TrfDate ISNULL AND PT.MxmConfirmedAppointmentIndicator='1'");
+
+
+                }
+                else if (v_sSurveyedOnSite.Equals(cSettings.p_sInputStatus_Failed) == true)
+                {
+
+                    //If criteria already specified add an AND
+                    if (sbWhere.Length > 0)
+                    {
+                        sbWhere.Append(" AND ");
+                    }
+
+                    sbWhere.Append(" (PT.MxmConfirmedAppointmentIndicator ISNULL OR  PT.MxmConfirmedAppointmentIndicator='0')");
+                    sbWhere.Append(" AND (PT.StartDateTime IS NOT NULL AND PT.EndDateTime IS NOT NULL)");
+
+                }
+                else if (v_sSurveyedOnSite.Equals(cSettings.p_sInputStatus_NotPending) == true) //v1.0.1
+                {
+
+                    //If criteria already specified add an AND
+                    if (sbWhere.Length > 0)
+                    {
+                        sbWhere.Append(" AND ");
+                    }
+
+                    sbWhere.Append(" (PT.MXM1002TrfDate IS NOT NULL OR  ");
+                    sbWhere.Append(" ((PT.MxmConfirmedAppointmentIndicator ISNULL OR PT.MxmConfirmedAppointmentIndicator='0')");
+                    sbWhere.Append(" AND (PT.StartDateTime IS NOT NULL AND PT.EndDateTime IS NOT NULL)))");
+
+                }
+
+                //Sync Only changes
+                if (v_bSyncOnly == true)
+                {
+
+                    if (sbWhere.Length > 0)
+                    {
+                        sbWhere.Append(" AND ");
+                    }
+
+                    sbWhere.Append(" UPD.UpdateQty > 0");
+
+                }
+
+
+                //v1.0.1
+                string sSettingValue = string.Empty;
+
+                //v1.0.1 - Show all statuses.
+                if (v_bShowAllStatuses == false)
+                {
+
+                    sSettingValue = this.GetSettingValue("Search_ExcludeProjectStatus");
+                    if (sSettingValue.Length > 0)
+                    {
+
+                        if (sbWhere.Length > 0)
+                        {
+                            sbWhere.Append(" AND ");
+                        }
+
+                        sbWhere.Append(" PT.Status NOT IN (" + sSettingValue + ")");
+
+                    }
+
+                }
+
+                //v1.0.1 - Show all progress statuses.
+                if (v_bShowAllProgressStatuses == false)
+                {
+
+                    sSettingValue = this.GetSettingValue("Search_ExcludeProgressStatuses");
+                    if (sSettingValue.Length > 0)
+                    {
+
+                        if (sbWhere.Length > 0)
+                        {
+                            sbWhere.Append(" AND ");
+                        }
+
+                        sbWhere.Append(" PT.Mxm1002ProgressStatus NOT IN (" + sSettingValue + ")");
+
+                    }
+
+                }
+
+                //v1.0.10 - Booked flag, makes sure the sub project has actually been booked.
+                if (v_bBooked == true)
+                {
+
+                    if (sbWhere.Length > 0)
+                    {
+                        sbWhere.Append(" AND ");
+                    }
+
+                    sbWhere.Append(" (PT.MxmConfirmedAppointmentIndicator='1' OR PT.ConfirmedActionDateTime IS NOT NULL)");
+                    //sbWhere.Append(" (PT.ConfirmedActionDateTime IS NOT NULL)");
+
+                }
+
+
+                //v1.0.11 - Order complete date flag.
+                if (v_sOrderComplete_Filter != cSettings.p_sAnyStatus)
+                {
+
+                    if (sbWhere.Length > 0)
+                    {
+                        sbWhere.Append(" AND ");
+                    }
+
+                    if (v_sOrderComplete_Filter == cSettings.p_sConfirmedStatus_No)
+                    {
+
+                        sbWhere.Append(" (ABPAWOrderCompletedDate = '" +
+                                       cSettings.p_dDefaultDBDate.ToString("yyyy-MM-dd HH:mm:ss") +
+                                       "' OR ABPAWOrderCompletedDate IS NULL) ");
+
+                    }
+                    else if (v_sOrderComplete_Filter == cSettings.p_sConfirmedStatus_Yes)
+                    {
+
+                        sbWhere.Append(" (ABPAWOrderCompletedDate > '" + cSettings.p_dDefaultDBDate.ToString("yyyy-MM-dd HH:mm:ss") + "')");
+
+                    }
+
+                }
+
+                //v1.0.21 - Add health and safety filter is required.
+                if (v_iHSIncomplete == HSFilters.InComplete)
+                {
+                    if (sbWhere.Length > 0)
+                    {
+                        sbWhere.Append(" AND ");
+                    }
+
+                    sbWhere.Append(" (PT.ABPAWHealthSafetyInComplete='1')");
+
+                }
+                else if (v_iHSIncomplete == HSFilters.Complete)
+                {
+                    if (sbWhere.Length > 0)
+                    {
+                        sbWhere.Append(" AND ");
+                    }
+
+                    //v1.0.23 - Check for null as well as 0
+                    sbWhere.Append(" (PT.ABPAWHealthSafetyInComplete = '0' OR PT.ABPAWHealthSafetyInComplete IS NULL)");
+
+                }
+
+                StringBuilder sbSQL = new StringBuilder();
+
+                bool bSurveyorApp = cSettings.IsThisTheSurveyorApp();
+
+                sbSQL.Append("SELECT PT.IDKey");
+                sbSQL.Append(", PT.ProjectNo");
+                sbSQL.Append(", PT.SubProjectNo");
+                sbSQL.Append(", PT.DeliveryStreet");
+                sbSQL.Append(", PT.DlvZipCode");
+                sbSQL.Append(", PT.MXM1002TrfDate");
+                sbSQL.Append(", PT.InstallStatusName");
+                sbSQL.Append(", PT.EndDateTime");
+                sbSQL.Append(", PT.StartDateTime");
+                sbSQL.Append(", PT.SurveyorProfile");
+                sbSQL.Append(", PT.SurveyorName");
+                sbSQL.Append(", PT.ConfirmedActionDateTime"); //v1.0.10.
+                sbSQL.Append(", UPD.UpdateQty");
+                sbSQL.Append(", PT.Mxm1002InstallStatus");
+                sbSQL.Append(", PT.MxmConfirmedAppointmentIndicator");
+                sbSQL.Append(", PT.Status"); //v1.0.13 - Return project status.
+                sbSQL.Append(", PT.StatusName"); //v1.0.1
+                sbSQL.Append(", PT.ProgressStatusName"); //v1.0.1
+                sbSQL.Append(", PT.Mxm1002ProgressStatus"); //v1.0.12
+                sbSQL.Append(", NTS.NotesQty"); //v1.0.1 - Return notes quantity
+                sbSQL.Append(", PT.ProjectName"); //v1.0.19 - Return project name for tool tip
+                sbSQL.Append(", PT.Delivery_EndDateTime"); //v1.0.19 - Return Delivery date for tool tip
+                sbSQL.Append(", PT.ABPAWOrderCompletedDate"); //v1.0.19 - Order complete date
+
+
+                if (bSurveyorApp == false)
+                {
+                    sbSQL.Append(", UT.TotalUnits");
+                    sbSQL.Append(" ,UTI.TotalUnitsInstalled");
+
+                }
+
+                sbSQL.Append(" FROM cProjectTable AS PT");
+
+                sbSQL.Append(" LEFT JOIN (SELECT COUNT(*) AS UpdateQty,SubProjectNo FROM cUpdatesTable GROUP BY SubProjectNo) AS UPD");
+                sbSQL.Append(" ON PT.SubProjectNo = UPD.SubProjectNo");
+
+                //v1.0.1 - Include notes count
+                sbSQL.Append(" LEFT JOIN (SELECT COUNT(*) AS NotesQty,SubProjectNo FROM cProjectNotesTable GROUP BY SubProjectNo) AS NTS");
+                sbSQL.Append(" ON PT.SubProjectNo = NTS.SubProjectNo ");
+
+                //When in installers app mode we need to get the unit info back.
+                if (bSurveyorApp == false)
+                {
+
+                    sbSQL.Append(" LEFT JOIN (SELECT COUNT(*) AS TotalUnits,SubProjectNo FROM cUnitsTable GROUP BY SubProjectNo) AS UT");
+                    sbSQL.Append(" ON PT.SubProjectNo = UT.SubProjectNo");
+
+                    sbSQL.Append(" LEFT JOIN (SELECT COUNT(*) AS TotalUnitsInstalled,SubProjectNo FROM cUnitsTable WHERE InstalledStatus = " + cSettings.p_iUnits_InstalledStatus.ToString() + " GROUP BY SubProjectNo) AS UTI");
+                    sbSQL.Append(" ON PT.SubProjectNo = UTI.SubProjectNo");
+
+                }
+
+                //Only add where clause if some criteria has been set.
+                if (sbWhere.Length > 0)
+                {
+                    sbSQL.Append(" WHERE " + sbWhere.ToString());
+                }
+
+                //Add the Order By.
+                sbSQL.Append(" ORDER BY PT.EndDateTime ASC, PT.MXM1002SequenceNr ASC, PT.ProjectNo ASC");
+
+                List<cSurveyInputResult> cResults = this.m_conSQL.Query<cSurveyInputResult>(sbSQL.ToString());
+
+                return cResults;
+
+            }
+            catch (Exception ex)
+            {
+
+                StringBuilder sbParams = new StringBuilder();
+                sbParams.Append("ProjectNo=" + v_sProjectNo);
+                sbParams.Append(",Street=" + v_sStreet);
+                sbParams.Append(",Postcode=" + v_sPostcode);
+                sbParams.Append(",InstallStatus=" + v_iInstallStatus.ToString());
+                sbParams.Append(",SurveyDate=" + v_dSurveyDate.ToString());
+                sbParams.Append(",DateCompare=" + v_sDateCompare);
+                sbParams.Append(",SurveyedStatus=" + v_sSurveyedStatus);
+                sbParams.Append(",Surveyor=" + v_sSurveyor);
+                sbParams.Append(",SurveyedOnSite=" + v_sSurveyedOnSite);
+                sbParams.Append(",SyncOnly=" + v_bSyncOnly.ToString());
+                sbParams.Append(",ShowAllStatuses=" + v_bShowAllStatuses.ToString());
+                sbParams.Append(",ShowAllProgressStatuses=" + v_bShowAllProgressStatuses.ToString());
+                sbParams.Append(",SubProjectNoFilter=" + v_sSubProjectNoFilter);
+                sbParams.Append(",InstallStatusAwaitingSurvey=" + v_iInstallStatus_AwaitingSurvey.ToString());
+                sbParams.Append(",InstallStatusCancel=" + v_iInstallStatus_Cancel);
+                sbParams.Append(",v_bBooked=" + v_bBooked);
+                sbParams.Append(",v_sInstallStatus_Filter=" + v_sInstallStatus_Filter);
+                sbParams.Append(",v_sOrderComplete_Filter=" + v_sOrderComplete_Filter);
+                sbParams.Append(",v_iHSIncomplete=" + v_iHSIncomplete.ToString());
+
+                throw new Exception(ex.Message + " - PARAMS(" + sbParams.ToString() + ")");
+
+            }
+
+        }
     }
 }
