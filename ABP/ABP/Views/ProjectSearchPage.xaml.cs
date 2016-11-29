@@ -10,6 +10,7 @@ using ABP.Interfaces;
 using ABP.TableModels;
 using ABP.Models;
 using ABP.WcfProxys;
+using FontAwesomeXamarin;
 
 namespace ABP.Views
 {
@@ -22,6 +23,10 @@ namespace ABP.Views
             InitializeComponent();
             Title = "Project Search";
             SearchProjectBtn.Source = ImageSource.FromFile(String.Format("{0}{1}.png", Device.OnPlatform("Icons/", "", "Assets/Icons/"), "find"));
+            var tapSearchBtn = new TapGestureRecognizer();
+            tapSearchBtn.Tapped += TapSearchBtn_Tapped;
+            SearchProjectBtn.GestureRecognizers.Add(tapSearchBtn);
+
             SearchProjectBtn.HeightRequest = 30;
             SearchProjectBtn.WidthRequest = 30;
             //ProjectList.ItemsSource = results;
@@ -30,6 +35,20 @@ namespace ABP.Views
                 cSurveyInputResult selectedItem = e.Item as cSurveyInputResult;
                 Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new InputResultPage(selectedItem)));
             };
+        }
+        private void TapSearchBtn_Tapped(object sender, EventArgs e)
+        {
+            if (txtDeliveryStreet.Text == null || txtDeliveryStreet.Text.Trim() == string.Empty)
+            {
+                DisplayAlert("Error", "Please Enter Street", "OK");
+                return;
+            }
+            if (txtPostcode.Text == null || txtPostcode.Text.Trim() == string.Empty)
+            {
+                DisplayAlert("Error", "Please Enter PostCode", "OK");
+                return;
+            }
+            DisplaySearchResults();
         }
         private void DisplaySearchResults()
         {
@@ -158,6 +177,17 @@ namespace ABP.Views
                     {
                         cResult.BackgroundColour = cSettings.p_sSurvey_ListView_Normal_Background;
                     }
+                }
+                
+                if (cResults.Count() == 0)
+                {
+                    cSurveyInputResult cResult = new cSurveyInputResult();
+                    cResult.SubProjectNo = "123";
+                    cResult.DeliveryStreet = "Street";
+                    cResult.DlvZipCode = "1N012";
+                    cResult.SurveyDisplayDateTime = "12:35PM";
+                    cResult.SurveyedStatus = "Success";
+                    cResults.Add(cResult);
                 }
                 lvResults.ItemsSource = cResults;
             }

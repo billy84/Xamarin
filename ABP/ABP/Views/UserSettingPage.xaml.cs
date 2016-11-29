@@ -18,11 +18,13 @@ namespace ABP.Views
             {
                 if (pDatabaseType.SelectedIndex == 1)
                 {
-                    
+                    var navigationPage = Application.Current.MainPage as NavigationPage;
+                    navigationPage.BarBackgroundColor = Color.Pink;
                 }
                 else
                 {
-
+                    var navigationPage = Application.Current.MainPage as NavigationPage;
+                    navigationPage.BarBackgroundColor = Color.Black;
                 }
             };
             //scDatabaseType.

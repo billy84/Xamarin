@@ -228,7 +228,7 @@ namespace ABP.Views
 
         private void CSync_SubProjectStatusUpdate(object sender, cSyncEventParamProjectStatus e)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         private void SyncAll_Clicked(object sender, EventArgs args)

@@ -20,7 +20,7 @@ namespace ABP.Views
         }
         private void Success_Clicked(object sender, EventArgs args)
         {
-            Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new SurveySuccessPage()));
+            Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new SurveySuccessPage(txtProjectInfo.Text)));
         }
     }
 }
