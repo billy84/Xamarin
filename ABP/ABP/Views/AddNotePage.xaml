@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ABP.Views.AddNotePage">
+  <Grid Padding="10">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="20*"/>
+      <RowDefinition Height="10*"/>
+      <RowDefinition Height="80*"/>
+    </Grid.RowDefinitions>
+    <Editor Grid.Row="0"
+            VerticalOptions="FillAndExpand"/>
+    <Button Grid.Row="1"
+            Text="Add Note"/>
+    <ListView Grid.Row="2"
+              VerticalOptions="FillAndExpand"
+              BackgroundColor="Gray"/>
+  </Grid>
+</ContentPage>

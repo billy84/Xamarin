@@ -17,7 +17,10 @@ namespace ABP.WcfProxys
         public static bool m_bCheckingSetings = false;
         public static bool m_bCheckingSurveyFailedReasons = false;
         public static bool p_bIsSyncingInProgress = false;
-        
+        public static cProjectTable p_cSurveyInputScreenData = null;
+        public static cProjectTable p_cSurveyInputCopiedSelections = null;
+        public static cProjectNotesTable p_cSurveyInputCopiedLastNote = null;
+
         public struct ShouldICheckForSurveyReasonResult
         {
 
@@ -466,6 +469,29 @@ namespace ABP.WcfProxys
                 //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
                 return string.Empty;
 
+            }
+        }
+        public static string ReturnComboSelectedTagValue(Picker v_cmbCombo)
+        {
+
+            string sRtnValue = string.Empty;
+            try
+            {
+
+                int selectedIndex = v_cmbCombo.SelectedIndex;
+                if (selectedIndex != -1)
+                {
+                    sRtnValue = selectedIndex.ToString();
+
+                }
+
+                return sRtnValue;
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+                return string.Empty;
             }
         }
     }
