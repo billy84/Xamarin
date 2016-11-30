@@ -111,6 +111,9 @@
     <Compile Include="Views\ProjectSyncPage.xaml.cs">
       <DependentUpon>ProjectSyncPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SurveyFailedPage.xaml.cs">
+      <DependentUpon>SurveyFailedPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SurveySuccessPage.xaml.cs">
       <DependentUpon>SurveySuccessPage.xaml</DependentUpon>
     </Compile>
@@ -273,6 +276,14 @@
       <HintPath>..\..\packages\FontAwesome.Xamarin.4.0.3.0\lib\FontAwesome.Xamarin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Plugin.Media, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugin.Media.2.6.1\lib\portable-net45+wp80+win8+wpa81\Plugin.Media.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Plugin.Media.Abstractions, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugin.Media.2.6.1\lib\portable-net45+wp80+win8+wpa81\Plugin.Media.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Splat, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Splat.1.6.2\lib\Portable-net45+win+wpa81+wp80\Splat.dll</HintPath>
       <Private>True</Private>
@@ -386,6 +397,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\AddNotePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\SurveyFailedPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

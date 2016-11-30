@@ -14,8 +14,9 @@
         <ColumnDefinition Width="20*"/>
       </Grid.ColumnDefinitions>
       <Entry x:Name="txtDeliveryStreet"
-                     Placeholder="Street Name"
-                     VerticalOptions="Start"/>
+             Placeholder="Street Name"
+             VerticalOptions="Center"
+             TextColor="White"/>
       <BoxView Grid.Column="1"/>
     </Grid>
     <Grid Grid.Row="1">
@@ -24,8 +25,9 @@
         <ColumnDefinition Width="20*"/>
       </Grid.ColumnDefinitions>
       <Entry x:Name="txtPostcode"
-                     Placeholder="Post Code"
-                     VerticalOptions="Start"/>
+             Placeholder="Post Code"
+             VerticalOptions="Center"
+             TextColor="White"/>
       <Image x:Name="SearchProjectBtn"
              Grid.Column="1"
              BackgroundColor="Transparent"

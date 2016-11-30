@@ -21,7 +21,9 @@
     <Button Grid.Row="2"
             Text="Survey Successful"
             Clicked="Success_Clicked"/>
-    <Button Grid.Row="3" Text="Survey Failed"/>
+    <Button Grid.Row="3" 
+            Text="Survey Failed"
+            Clicked="Failed_Clicked"/>
     <BoxView Grid.Row="4"/>
   </Grid>
 </ContentPage>

@@ -12,15 +12,21 @@ namespace ABP.Views
 {
     public partial class InputResultPage : ContentPage
     {
+        private cSurveyInputResult currentItem = new cSurveyInputResult();
         public InputResultPage(cSurveyInputResult item)
         {
             InitializeComponent();
+            this.currentItem = item;
             this.Title = "Input Result";
             txtProjectInfo.Text = item.DeliveryStreet + item.DlvZipCode;
         }
         private void Success_Clicked(object sender, EventArgs args)
         {
             Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new SurveySuccessPage(txtProjectInfo.Text)));
+        }
+        private void Failed_Clicked(object sender, EventArgs args)
+        {
+            Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new SurveyFailedPage(this.currentItem)));
         }
     }
 }

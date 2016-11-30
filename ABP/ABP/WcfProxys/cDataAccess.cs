@@ -2268,5 +2268,24 @@ namespace ABP.WcfProxys
             }
 
         }
+        public List<cFailedSurveyReasonsTable> FetchAllSurveyFailedReasons()
+        {
+
+            try
+            {
+
+                var oResults = (from oCols in this.m_conSQL.Table<cFailedSurveyReasonsTable>()
+                                select oCols);
+
+                return oResults.ToList<cFailedSurveyReasonsTable>();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+
+        }
     }
 }

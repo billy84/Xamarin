@@ -12,9 +12,31 @@
         <ColumnDefinition Width="50*"/>
         <ColumnDefinition Width="50*"/>
       </Grid.ColumnDefinitions>
-      <Button Grid.Column="0" Text="Camera"/>
-      <Button Grid.Column="1" Text="Browse"/>
+      <Button Grid.Column="0" 
+              Text="Camera"
+              Clicked="CameraBtn_Clicked"/>
+      <Button Grid.Column="1" 
+              Text="Browse"
+              Clicked="BrowseBtn_Clicked"/>
     </Grid>
-    <ListView Grid.Row="1"/>
+    <ListView Grid.Row="1"
+              x:Name="lvPhotos">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+            <StackLayout Orientation="Vertical">
+              <Image Source="{Binding ImageSource}"
+                     VerticalOptions="FillAndExpand"
+                     HorizontalOptions="FillAndExpand"/>
+              <Label Text="Enter Comment:"/>
+              <Editor Text="{Binding NoteText}"
+                      HeightRequest="100"/>
+              <Button Text="Delete"
+                      BackgroundColor="Red"/>
+            </StackLayout>
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
   </Grid>
 </ContentPage>
