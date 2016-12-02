@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Anglian.Views.DateSearchResultPage">
+  <ListView x:Name="ResultList"
+            Grid.Row="0"
+            VerticalOptions="StartAndExpand"
+            BackgroundColor="Gray">
+    <ListView.ItemTemplate>
+      <DataTemplate>
+        <ViewCell>
+          <StackLayout Orientation="Vertical">
+            <Label Text="{Binding DeliveryStreet}"/>
+            <Label Text="{Binding DlvZipCode}"/>
+            <Label Text="{Binding ProgressStatusName}"/>
+            <Label Text="{Binding Confirmed}"/>
+          </StackLayout>
+        </ViewCell>
+      </DataTemplate>
+    </ListView.ItemTemplate>
+  </ListView>
+</ContentPage>

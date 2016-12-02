@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Anglian.Views.ProcessSurveysPage">
+  <ContentPage Title="Today">
+    <ListView x:Name="gvWorkForTodayAM"
+              BackgroundColor="Gray"
+              HorizontalOptions="Center"
+              VerticalOptions="CenterAndExpand">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+            <StackLayout Orientation="Vertical">
+              <Label Text="{Binding Header}"/>
+              <Label Text="{Binding TelephoneNo}"/>
+              <Label Text="{Binding SubProjectNo}"/>
+              <Label Text="{Binding Address}"/>
+              <Label Text="{Binding Name}"/>
+              <Label Text="{Binding WorkType}"/>
+              <Label Text="{Binding Progress}"/>
+            </StackLayout>
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+  </ContentPage>
+  <ContentPage Title="Tomorrow">
+    <ListView x:Name="gvWorkForTodayPM"
+              BackgroundColor="Gray"
+              HorizontalOptions="Center"
+              VerticalOptions="CenterAndExpand">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+            <StackLayout Orientation="Vertical">
+              <Label Text="{Binding Header}"/>
+              <Label Text="{Binding TelephoneNo}"/>
+              <Label Text="{Binding SubProjectNo}"/>
+              <Label Text="{Binding Address}"/>
+              <Label Text="{Binding Name}"/>
+              <Label Text="{Binding WorkType}"/>
+              <Label Text="{Binding Progress}"/>
+            </StackLayout>
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+  </ContentPage>
+</TabbedPage>

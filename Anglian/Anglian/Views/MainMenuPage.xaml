@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Anglian.Views.MainMenuPage">
+  <Grid Padding="10">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="20*"/>
+      <RowDefinition Height="20*"/>
+      <RowDefinition Height="20*"/>
+      <RowDefinition Height="20*"/>
+      <RowDefinition Height="20*"/>
+    </Grid.RowDefinitions>
+    <BoxView Grid.Row="0"/>
+    <Button Grid.Row="1"
+            Text="Set Survey Dates"
+            Clicked="GotoDateSearchFilterView"/>
+    <Button Grid.Row="2"
+            Text="Process Surveys"
+            Clicked="GotoProcessSurveysPage"/>
+    <BoxView Grid.Row="3"/>
+    <BoxView Grid.Row="4"/>
+  </Grid>
+</ContentPage>
