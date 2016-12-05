@@ -32,33 +32,39 @@ namespace Anglian.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            this.PopulateDropDown();
+            cmbProjectNo.Items.Clear();
+            cmbInstallStatus.Items.Clear();
+            cmbProgressStatus.Items.Clear();
+            cmbSurveyedStatus.Items.Clear();
+            cmbDateCompare.Items.Clear();
+            cmbConfirmed.Items.Clear();
+            PopulateDropDown();
         }
 
         private void PopulateDropDown()
         {
             cmbProjectNo.Items.Add(Settings.p_sAnyStatus);
-            List<ProjectNo> lsProjectNos = Main.p_cDataAccess.GetProjectNos();
-            foreach (ProjectNo lsProjectNo in lsProjectNos)
+            List<cProjectNo> lsProjectNos = Main.p_cDataAccess.GetProjectNos();
+            foreach (cProjectNo lsProjectNo in lsProjectNos)
             {
-                this.cmbProjectNo.Items.Add(lsProjectNo.PRojectNo);
+                cmbProjectNo.Items.Add(lsProjectNo.ProjectNo);
             }
             lsProjectNos = null;
-            this.cmbProjectNo.SelectedIndex = 0;
+            cmbProjectNo.SelectedIndex = 0;
             string cmbItem = Settings.p_sAnyStatus;
-            this.cmbInstallStatus.Items.Add(cmbItem);
+            cmbInstallStatus.Items.Add(cmbItem);
             List<cBaseEnumsTable> oInstalls = Main.p_cDataAccess.GetEnumsForField("MXM1002INSTALLSTATUS");
             foreach (cBaseEnumsTable oInstall in oInstalls)
             {
-                this.cmbInstallStatus.Items.Add(oInstall.EnumName);
+                cmbInstallStatus.Items.Add(oInstall.EnumName);
             }
-            this.cmbInstallStatus.SelectedIndex = 0;
+            cmbInstallStatus.SelectedIndex = 0;
 
-            this.cmbProgressStatus.Items.Add(Settings.p_sAnyStatus);
+            cmbProgressStatus.Items.Add(Settings.p_sAnyStatus);
             List<cBaseEnumsTable> oProgresses = Main.p_cDataAccess.GetEnumsForField("Mxm1002ProgressStatus");
             foreach (cBaseEnumsTable oProgress in oProgresses)
             {
-                this.cmbProgressStatus.Items.Add(oProgress.EnumName);
+                cmbProgressStatus.Items.Add(oProgress.EnumName);
             }
 
             cmbProgressStatus.SelectedIndex = 0;
@@ -77,9 +83,9 @@ namespace Anglian.Views
             List<cBaseEnumsTable> oConfirms = Main.p_cDataAccess.GetEnumsForField("MxmConfirmedAppointmentIndicator");
             foreach (cBaseEnumsTable oConfirm in oConfirms)
             {
-                this.cmbConfirmed.Items.Add(oConfirm.EnumName);
+                cmbConfirmed.Items.Add(oConfirm.EnumName);
             }
-            this.cmbConfirmed.SelectedIndex = 0;
+            cmbConfirmed.SelectedIndex = 0;
             //this.cmbTimePicker.
         }
         private void SearchFilterBtn_Tapped()

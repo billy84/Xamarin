@@ -746,5 +746,238 @@ namespace Anglian.Engine
             }
 
         }
+        /// <summary>
+        /// Update screen after syncing is complete.
+        /// </summary>
+        public static async void UpdateScreenAfterSyncing()
+        {
+
+            try
+            {
+
+                //Retrieve settings.
+                cAppSettingsTable cSettings = Main.p_cDataAccess.ReturnSettings();
+
+                //Update last date time.
+                cSettings.LastSyncDateTime = DateTime.Now;
+
+                //Save settings
+                await Main.p_cDataAccess.SaveSettings(cSettings);
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+            }
+
+        }
+
+        /// <summary>
+        /// Start syncing
+        /// </summary>
+        public async static Task StartSyncing(bool v_bUploadChangesOnly)
+        {
+
+            Syncing cSync = null;
+            bool bProcessedOK = false;
+            try
+            {
+
+                Main.p_bIsSyncingInProgress = true;
+
+                bool bConnected = await Main.p_cSettings.IsAXSystemAvailable(true);
+                if (bConnected == true)
+                {
+
+                    cSync = new Syncing();
+                    //cSync.SubProjectStatusUpdate += cSync_SubProjectStatusUpdate;
+                    //cSync.UpdateMessage += cSync_UpdateMessage;
+                    //cSync.DisplayMessage += cSync_DisplayMessage;
+                    //cSync.ProjectSyncError += cSync_ProjectSyncError;
+
+                    bProcessedOK = await cSync.UploadChanges(false);
+                    if (bProcessedOK == true)
+                    {
+
+                        bProcessedOK = await cSync.UploadPhotos();
+
+                        //If uploading changes only, then leave here.
+                        if (v_bUploadChangesOnly == true)
+                        {
+                            return;
+                        }
+
+                        bProcessedOK = await cSync.CheckForDataChanges(false);
+
+                        if (bProcessedOK == true)
+                        {
+
+
+
+                        }
+
+                    }
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+            }
+            finally
+            {
+                Main.p_bIsSyncingInProgress = false;
+            }
+
+        }
+
+        public static string ReturnLastSyncString(DateTime? v_dSyncDate)
+        {
+
+            try
+            {
+
+                StringBuilder sDisplayText = new StringBuilder();
+
+                if (v_dSyncDate.HasValue == false)
+                {
+                    sDisplayText.Append("Data has never been synced.");
+
+                }
+                else
+                {
+                    sDisplayText.Append("Data last synced on " + v_dSyncDate.Value.ToString("dd/MM/yyyy") + " @ " + v_dSyncDate.Value.ToString("HH:mm"));
+
+
+
+                }
+
+                int iUploads = Main.p_cDataAccess.GetNumberOfUploadsPending();
+                int iNotes = Main.p_cDataAccess.GetNumberOfNotesPending(); //v1.0.1
+                int iFiles = Main.p_cDataAccess.GetNumberOfFilesPending();
+
+                //sDisplayText.Append(Environment.NewLine);
+                sDisplayText.Append(" - (" + (iUploads + iFiles + iNotes).ToString() + ") changes waiting for upload.");
+
+                return sDisplayText.ToString();
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+                return string.Empty;
+
+            }
+
+        }
+        public static string ReturnComboSelectedTagValue(Picker v_cmbCombo)
+        {
+
+            string sRtnValue = string.Empty;
+            try
+            {
+
+                int selectedIndex = v_cmbCombo.SelectedIndex;
+                if (selectedIndex != -1)
+                {
+                    sRtnValue = selectedIndex.ToString();
+
+                }
+
+                return sRtnValue;
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+                return string.Empty;
+            }
+        }
+
+        public static string ReturnDisplayTime(DateTime v_dDate)
+        {
+
+            try
+            {
+
+                string sTime = String.Empty;
+
+                string sNowTime = v_dDate.ToString("HH:mm");
+                string sAMTime = DependencyService.Get<IMain>().GetAppResourceValue("AM_TIME");
+                string sPMTime = DependencyService.Get<IMain>().GetAppResourceValue("PM_TIME");
+
+                if (sNowTime == sAMTime)
+                {
+                    sTime = Settings.p_sTime_AM;
+
+                }
+                else if (sNowTime == sPMTime)
+                {
+                    sTime = Settings.p_sTime_PM;
+
+                }
+                else
+                {
+                    sTime = sNowTime;
+
+                }
+
+                return sTime;
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+                return string.Empty;
+
+            }
+        }
+
+        public static string ReturnDisplayDate(DateTime v_dtDate)
+        {
+
+            try
+            {
+                return ReturnDisplayDate(v_dtDate, string.Empty);
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+                return string.Empty;
+
+            }
+
+        }
+        public static string ReturnDisplayDate(DateTime v_dtDate, string v_sDateCompare)
+        {
+
+            try
+            {
+
+                string sSymbol = String.Empty;
+                if (v_sDateCompare == Settings.p_sDateCompare_GreaterThan)
+                {
+                    sSymbol = "> ";
+                }
+
+                if (v_sDateCompare == Settings.p_sDateCompare_LessThan)
+                {
+                    sSymbol = "< ";
+                }
+
+                string sDayName = sSymbol + v_dtDate.DayOfWeek.ToString().Substring(0, 3);
+                return sDayName + " " + v_dtDate.ToString("dd/MM/yyyy");
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+                return string.Empty;
+
+            }
+
+        }
     }
 }

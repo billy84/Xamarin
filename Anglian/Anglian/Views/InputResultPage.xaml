@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Anglian.Views.InputResultPage">
+  <Grid Padding="10">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="20*"/>
+      <RowDefinition Height="10*"/>
+      <RowDefinition Height="20*"/>
+      <RowDefinition Height="20*"/>
+      <RowDefinition Height="30*"/>
+    </Grid.RowDefinitions>
+    <Label Grid.Row="0"
+           x:Name="txtProjectInfo"
+           HorizontalTextAlignment="Center"
+           VerticalTextAlignment="Center"/>
+    <Label Grid.Row="1"
+           Text="Please select one  of the options below"
+           HorizontalTextAlignment="Center"
+           VerticalTextAlignment="Center"/>
+    <Button Grid.Row="2"
+            Text="Survey Successful"
+            Clicked="Success_Clicked"/>
+    <Button Grid.Row="3"
+            Text="Survey Failed"
+            Clicked="Failed_Clicked"/>
+    <BoxView Grid.Row="4"/>
+  </Grid>
+</ContentPage>

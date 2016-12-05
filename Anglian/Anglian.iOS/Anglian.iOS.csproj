@@ -10,7 +10,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Anglian.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>Anglian.iOS</AssemblyName>
+    <AssemblyName>AnglianiOS</AssemblyName>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>

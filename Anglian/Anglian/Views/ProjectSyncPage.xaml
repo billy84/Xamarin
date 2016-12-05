@@ -2,5 +2,38 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Anglian.Views.ProjectSyncPage">
-  <Label Text="{Binding MainText}" VerticalOptions="Center" HorizontalOptions="Center" />
+  <Grid Padding="10">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="30*" />
+      <RowDefinition Height="30*" />
+      <RowDefinition Height="40*" />
+    </Grid.RowDefinitions>
+    <Label Grid.Row="0"
+           x:Name="tbLastSyncDateTime"
+           VerticalOptions="CenterAndExpand"
+           HorizontalOptions="Center"/>
+    <Grid Grid.Row="1">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="40*"/>
+        <RowDefinition Height="60*"/>
+      </Grid.RowDefinitions>
+      <Button Grid.Row="0"
+                  Text="Send Changes"
+                  Clicked="SendChanges_Clicked"/>
+      <BoxView Grid.Row="1"/>
+    </Grid>
+    <Grid Grid.Row="2">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="40*"/>
+        <RowDefinition Height="60*"/>
+      </Grid.RowDefinitions>
+      <Button Grid.Row="0"
+                  Text="Sync All"
+                  Clicked="SyncAll_Clicked"/>
+      <Label Grid.Row="1"
+             x:Name="tbSyncStatus"
+             VerticalOptions="CenterAndExpand"
+             HorizontalOptions="Center"/>
+    </Grid>
+  </Grid>
 </ContentPage>

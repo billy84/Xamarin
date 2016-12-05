@@ -14,7 +14,12 @@ namespace Anglian.Service
         bool IsThisTheSurveyorApp();
         Task DisplayMessage(string v_sMessage, string v_sTitle);
         bool AreWeOnline();
+        Task<bool> DeleteSubProjectImageFolder(string v_sSubProjectNo);
+        Task<object> ReturnStorageFileForSubProject(string v_sSubProjectNo, string v_sFileName);
+        Task<object> ReturnSubProjectImagesFolder(string v_sSubProjectNo);
+        Task<bool> SaveFileLocally(object v_sfFolder, byte[] v_bFileData, string v_sFileName);
+        Task<bool> SaveFileLocally(string v_sSubProjectNo, byte[] v_bFileData, string v_sFileName);
+        Task<byte[]> ConvertFileToByteArray(object file);
 
-        //Task<bool> SaveFileLocally(StorageFolder v_sfFolder, byte[] v_bFileData, string v_sFileName);
     }
 }

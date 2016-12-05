@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Anglian.Views.SurveySuccessPage">
+  <ContentPage Title="Customer"
+               x:Name="CustomerPage">
+    <StackLayout BackgroundColor="Gray"
+                 HorizontalOptions="FillAndExpand"
+                 VerticalOptions="FillAndExpand"
+                 Padding="10">
+      <ScrollView>
+        <StackLayout VerticalOptions="FillAndExpand"
+                   HorizontalOptions="FillAndExpand">
+          <Label Text="Resident Name:"/>
+          <Entry x:Name="txtResidentName"/>
+          <Label Text="Replacement Type:"/>
+          <Entry x:Name="txtReplacementType"/>
+          <Label Text="Resident Tel No:"/>
+          <Entry x:Name="txtResidentTelNo"/>
+          <Label Text="Resident Mobile No:"/>
+          <Entry x:Name="txtResidentMobileNo"/>
+          <Label Text="Alt Contact Tel No:"/>
+          <Entry x:Name="txtAltContactTelNo"/>
+          <Label Text="Alt Contact Name:"/>
+          <Entry x:Name="txtAltContactName"/>
+          <Label Text="Alt Contact Mob No:"/>
+          <Entry x:Name="txtAltContactMobNo"/>
+          <Label Text="Special Resident Note:"/>
+          <Entry x:Name="txtSpecialResidentNote"/>
+        </StackLayout>
+      </ScrollView>
+    </StackLayout>
+  </ContentPage>
+  <ContentPage Title="Health + Safety"
+               x:Name="HealthPage">
+    <StackLayout BackgroundColor="Gray"
+                 HorizontalOptions="FillAndExpand"
+                 VerticalOptions="FillAndExpand"
+                 Padding="10">
+      <ScrollView>
+        <StackLayout VerticalOptions="FillAndExpand"
+                   HorizontalOptions="FillAndExpand">
+          <Picker x:Name="cmbPropertyType"
+                  Title="Property Type:"
+                  VerticalOptions="Start"/>
+          <Picker x:Name="cmbInstallationType"
+                  Title="Installation Type:"
+                  VerticalOptions="Start"/>
+          <Picker x:Name="cmbAccessEquipment"
+                  Title="Access Equipment:"
+                  VerticalOptions="Start"/>
+          <Picker x:Name="cmbServicesToMove"
+                  Title="Services to move:"
+                  VerticalOptions="Start"/>
+          <Picker x:Name="cmbWindowboard"
+                  Title="Windowboard:"
+                  VerticalOptions="Start"/>
+          <Picker x:Name="cmbDisabledAdaptionsRqd"
+                  Title="Dsbld Adaps Rqd:"
+                  VerticalOptions="Start"/>
+          <Picker x:Name="cmbWorkAccessRestrictions"
+                  Title="Wrk Access Restrictions:"
+                  VerticalOptions="Start"/>
+          <Picker x:Name="cmbFloorLevel"
+                  Title="Floor Level:"
+                  VerticalOptions="Start"/>
+          <Picker x:Name="cmbAsbestosPresumed"
+                  Title="Asbestos Presumed:"
+                  VerticalOptions="Start"/>
+          <Picker x:Name="cmbDoorChoiceFormRcvd"
+                  Title="Door Choice Frm Recvd:"
+                  VerticalOptions="Start"/>
+          <Picker x:Name="cmbPermanentGasVent"
+                  Title="Permanent Gas Vent:"
+                  VerticalOptions="Start"/>
+          <Picker x:Name="cmbStructuralFaults"
+                  Title="Structural Faults:"
+                  VerticalOptions="Start"/>
+          <Picker x:Name="cmbInternalDamage"
+                  Title="Internal Damage:"
+                  VerticalOptions="Start"/>
+          <Picker x:Name="cmbPublicProtection"
+                  Title="Public Protection:"
+                  VerticalOptions="Start"/>
+        </StackLayout>
+      </ScrollView>
+    </StackLayout>
+  </ContentPage>
+</TabbedPage>

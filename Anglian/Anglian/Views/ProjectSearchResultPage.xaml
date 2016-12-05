@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Anglian.Views.ProjectSearchResultPage">
+  <ListView x:Name="lvResults"
+            BackgroundColor="Gray">
+    <ListView.ItemTemplate>
+      <DataTemplate>
+        <ViewCell>
+          <StackLayout Orientation="Vertical">
+            <Label Text="{Binding SubProjectNo}"/>
+            <Label Text="{Binding DeliveryStreet}"/>
+            <Label Text="{Binding DlvZipCode}"/>
+            <Label Text="{Binding InstallStatusName}"/>
+            <Label Text="{Binding ProgressStatusName}"/>
+            <Label Text="{Binding SurveyDisplayDateTime}"/>
+            <Label Text="{Binding SurveyedStatus}"/>
+            <Label Text="{Binding SurveyorName}"/>
+            <Label Text="{Binding SurveyInputStatus}"/>
+            <Label Text="{Binding Flags}"/>
+          </StackLayout>
+        </ViewCell>
+      </DataTemplate>
+    </ListView.ItemTemplate>
+  </ListView>
+</ContentPage>

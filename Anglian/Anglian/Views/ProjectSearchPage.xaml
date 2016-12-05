@@ -2,5 +2,92 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Anglian.Views.ProjectSearchPage">
-  <Label Text="{Binding MainText}" VerticalOptions="Center" HorizontalOptions="Center" />
+  <StackLayout VerticalOptions="FillAndExpand"
+               HorizontalOptions="FillAndExpand"
+               Padding="10">
+    <ScrollView>
+      <StackLayout VerticalOptions="FillAndExpand"
+                   HorizontalOptions="FillAndExpand">
+        <Picker x:Name="cmbProjectNo"
+        Title="Select Project No"
+        VerticalOptions="Start">
+        </Picker>
+        <Entry x:Name="txtSubProjectNoFilter"
+               Placeholder="Sub Project No"
+               VerticalOptions="Start"/>
+        <Entry x:Name="txtDeliveryStreet"
+               Placeholder="Delivery Street"
+               VerticalOptions="Start"/>
+        <Entry x:Name="txtPostcode"
+               Placeholder="Post Code"
+               VerticalOptions="Start"/>
+        <Picker x:Name="cmbInstallStatus"
+        Title="Install Status"
+        VerticalOptions="Start">
+        </Picker>
+        <Picker x:Name="cmbProgressStatus"
+        Title="Progress Status"
+        VerticalOptions="Start">
+        </Picker>
+        <Picker x:Name="cmbSurveyedStatus"
+        Title="Surveyed Status"
+        VerticalOptions="Start">
+        </Picker>
+        <DatePicker x:Name="dtPicker"
+            Format="D"
+            VerticalOptions="CenterAndExpand"/>
+        <Picker x:Name="cmbSurveyor"
+        Title="Surveyors"
+        VerticalOptions="Start">
+        </Picker>
+        <Picker x:Name="cmbSurveyInputStatus"
+        Title="Survey Status"
+        VerticalOptions="Start">
+        </Picker>
+        <Picker x:Name="cmbDateCompare"
+        Title="Data comparison"
+        VerticalOptions="Start">
+        </Picker>
+        <Picker x:Name="cmbProjectNoFilter"
+        Title="Project no filter"
+        VerticalOptions="Start">
+        </Picker>
+        <StackLayout Orientation="Horizontal">
+          <Label Text="Use Survey Plan Date"
+                 VerticalOptions="CenterAndExpand"
+                 HorizontalOptions="StartAndExpand"/>
+          <Switch x:Name="chkUseSurveyPlanDate"
+                  HorizontalOptions="End"
+                  VerticalOptions="CenterAndExpand"/>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+          <Label Text="Sync Changes Only"
+                 VerticalOptions="CenterAndExpand"
+                 HorizontalOptions="StartAndExpand"/>
+          <Switch x:Name="chkSyncChangesOnly"
+                  HorizontalOptions="End"
+                  VerticalOptions="CenterAndExpand"/>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+          <Label Text="Show All Status"
+                 VerticalOptions="CenterAndExpand"
+                 HorizontalOptions="StartAndExpand"/>
+          <Switch x:Name="chkShowAllStatuses"
+                  HorizontalOptions="End"
+                  VerticalOptions="CenterAndExpand"/>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+          <Label Text="Show All Progess Status"
+                 VerticalOptions="CenterAndExpand"
+                 HorizontalOptions="StartAndExpand"/>
+          <Switch x:Name="chkShowAllProgessStatus"
+                  HorizontalOptions="End"
+                  VerticalOptions="CenterAndExpand"/>
+        </StackLayout>
+        <Button x:Name="btnSearch"
+                Text="Search Project"
+                Clicked="btnSearch_Clicked"/>
+      </StackLayout>
+    </ScrollView>
+  </StackLayout>
 </ContentPage>

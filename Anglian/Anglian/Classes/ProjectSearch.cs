@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace Anglian.Classes
 {
-    class ProjectSearch : NotifyPropertyChangedBase
+    public class ProjectSearch : NotifyPropertyChangedBase
     {
         public string ProjectNo { get; set; }
         public string ProjectName { get; set; }

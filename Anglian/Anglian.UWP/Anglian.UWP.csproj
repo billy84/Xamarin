@@ -207,6 +207,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Icons\camera.png" />
+    <Content Include="Assets\Icons\check.png" />
     <Content Include="Assets\Icons\configuration.png" />
     <Content Include="Assets\Icons\copy.png" />
     <Content Include="Assets\Icons\down.png" />
@@ -214,6 +215,7 @@
     <Content Include="Assets\Icons\find.png" />
     <Content Include="Assets\Icons\refresh.png" />
     <Content Include="Assets\Icons\save.png" />
+    <Content Include="Assets\Icons\uncheck.png" />
     <Content Include="Assets\Icons\upload.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />

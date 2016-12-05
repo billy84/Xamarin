@@ -39,24 +39,28 @@
              BackgroundColor="Transparent"
              VerticalOptions="CenterAndExpand"/>
     </Grid>
-    <ListView x:Name="lvProjects"
-              Grid.Row="2"
-              BackgroundColor="Gray"
-              CachingStrategy="RetainElement">
-      <ListView.ItemTemplate>
-        <DataTemplate>
-          <ViewCell>
-            <StackLayout Orientation="Vertical">
-              <StackLayout Orientation="Horizontal">
-                <Label Text="{Binding ProjectNo}"/>
-                <Label Text=" - "/>
-                <Label Text="{Binding Status}"/>
+    <StackLayout Grid.Row="2"
+                 VerticalOptions="FillAndExpand"
+                 HorizontalOptions="FillAndExpand">
+      <ProgressBar x:Name="Progress"/>
+      <ListView x:Name="lvProjects"
+                BackgroundColor="Gray"
+                CachingStrategy="RetainElement">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ViewCell>
+              <StackLayout Orientation="Vertical">
+                <StackLayout Orientation="Horizontal">
+                  <Label Text="{Binding ProjectNo}"/>
+                  <Label Text=" - "/>
+                  <Label Text="{Binding Status}"/>
+                </StackLayout>
+                <Label Text="{Binding ProjectName}"/>
               </StackLayout>
-              <Label Text="{Binding ProjectName}"/>
-            </StackLayout>
-          </ViewCell>
-        </DataTemplate>
-      </ListView.ItemTemplate>
-    </ListView>
+            </ViewCell>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+    </StackLayout>
   </Grid>
 </ContentPage>

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Anglian.Classes
 {
-    public class ProjectNo
+    public class cProjectNo
     {
-        public string PRojectNo { get; set; }
+        public string ProjectNo { get; set; }
         /// <summary>
         /// 
         /// </summary>

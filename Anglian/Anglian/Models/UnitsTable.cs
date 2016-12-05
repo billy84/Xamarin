@@ -7,7 +7,7 @@ using SQLite;
 
 namespace Anglian.Models
 {
-    class cUnitsTable
+    public class cUnitsTable
     {
         /// <summary>
         /// IDKey field

@@ -376,6 +376,7 @@ namespace Anglian.Engine
             }
 
         }
+
         /// <summary>
         /// Return purpose type
         /// </summary>
@@ -504,6 +505,31 @@ namespace Anglian.Engine
 
             }
 
+
+        }
+        /// <summary>
+        /// Return a string object from a string that could be null.
+        /// </summary>
+        /// <param name="v_sString"></param>
+        /// <returns></returns>
+        public static string ReturnString(String v_sString)
+        {
+
+            try
+            {
+                if (string.IsNullOrEmpty(v_sString) == true)
+                {
+                    return String.Empty;
+                }
+
+                return v_sString.Trim();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + " - String(" + v_sString + ")");
+
+            }
 
         }
 

@@ -36,6 +36,7 @@ namespace Anglian.Views
             cmbProjectType.SelectedIndexChanged += CmbProjectType_SelectedIndexChanged;
             tapSearchBtn.Tapped += TapSearchBtn_Tapped;
             SearchProjectBtn.GestureRecognizers.Add(tapSearchBtn);
+            //lvProjects.ItemsSource = new string[0];
             lvProjects.ItemTapped += LvProjects_ItemTapped;
         }
         private async void LvProjects_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -122,14 +123,13 @@ namespace Anglian.Views
         {
             try
             {
-                txtProjectNo.Text = txtProjectNo.Text.Trim().ToUpper();
-                if (txtProjectNo.Text.Length == 0)
+                if (txtProjectNo.Text == null || txtProjectNo.Text.Length == 0)
                 {
                     await DisplayAlert("Project Number Required.", "You need to provide a project number before you can validate.", "Retry");
                     txtProjectNo.Focus();
                     return;
                 }
-                bool bAlreadyDownloaded = await IsProjectAlreadyOnDevice(txtProjectNo.Text);
+                bool bAlreadyDownloaded = await IsProjectAlreadyOnDevice(txtProjectNo.Text.Trim().ToUpper());
                 if (bAlreadyDownloaded == true)
                 {
                     return;
@@ -140,7 +140,7 @@ namespace Anglian.Views
                 }
                 else
                 {
-
+                    await btnValidateProject();
                 }
 
 
@@ -166,30 +166,41 @@ namespace Anglian.Views
                 {
 
                     //await this.EnableSearchScreenControls(false);
-                    UserDialogs.Instance.ShowLoading("Searching Projects...", MaskType.Black);
-
-
+                    //UserDialogs.Instance.ShowLoading("Searching Projects...", MaskType.Black);
+                    SetProgress(.0);
+                    //lvProjects.ItemsSource = m_ocProjSearch;
                     bool bConnected = await Main.p_cSettings.IsAXSystemAvailable(true);
+                    SetProgress(.1);
                     if (bConnected == true)
                     {
 
                         cAX = new WcfExt116();
 
                         //v1.0.19 - Add wild cards to search text
-                        string sSearchText = Settings.AddWildCardsToSearchString(txtProjectNo.Text);
-
+                        string sSearchText = Settings.AddWildCardsToSearchString(txtProjectNo.Text.Trim().ToUpper());
+                        SetProgress(.2);
                         ObservableCollection<SearchResult> ocResult = await cAX.SearchForProject(sSearchText);
                         SearchResult srResult;
-
+                        SetProgress(.3);
                         List<cBaseEnumsTable> cEnums = Main.p_cDataAccess.GetEnumsForField("Status");
                         cBaseEnumsTable cEnum = null;
-
                         //Clear out existing results.
-                        this.m_ocProjSearch.Clear();
-
+                        try
+                        {
+                            m_ocProjSearch.Clear();
+                        }
+                        catch (Exception ex)
+                        {
+                            lvProjects.ItemsSource = null;
+                        }
+                        int count = ocResult.Count;
+                        int index = 0;
+                        //lvProjects.ItemsSource = "";
+                        lvProjects.ItemsSource = m_ocProjSearch;
                         foreach (SearchResult sResult in ocResult)
                         {
-
+                            double percent = .3 + .7 / count * index;
+                            SetProgress(percent);
                             //Find matching enum.
                             cEnum = cEnums.Find(mc => mc.EnumValue.Equals(Convert.ToInt32(sResult.Status)));
 
@@ -206,12 +217,12 @@ namespace Anglian.Views
                                 srResult.Status = "N\\A";
                             }
 
-
-                            this.m_ocProjSearch.Add(srResult);
+                            index++;
+                            m_ocProjSearch.Add(srResult);
 
                         }
 
-                        lvProjects.ItemsSource = m_ocProjSearch;
+                        //lvProjects.ItemsSource = m_ocProjSearch;
 
                     }
 
@@ -219,12 +230,13 @@ namespace Anglian.Views
                 catch (Exception ex)
                 {
 
-
+                    throw new Exception(ex.Message);
                 }
 
                 if (cAX != null)
                 {
                     await DependencyService.Get<IWcfExt116>().CloseAXConnection();
+                    SetProgress(.9);
                 }
 
                 //await this.EnableSearchScreenControls(true);
@@ -232,14 +244,150 @@ namespace Anglian.Views
             }
             catch (Exception ex)
             {
+                throw new Exception(ex.Message);
                 //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
 
             }
             finally
             {
-                UserDialogs.Instance.HideLoading();
+                SetProgress(1.0);
+                //UserDialogs.Instance.HideLoading();
             }
 
+        }
+        private async void SetProgress(double percent)
+        {
+            await Progress.ProgressTo(percent, 250, Easing.Linear);
+        }
+
+        private async Task btnValidateProject()
+        {
+
+            WcfExt116 cAX = null;
+
+            try
+            {
+                SetProgress(.0);
+                //lvProjects.ItemsSource = m_ocProjSearch;
+                //this.pbDownload.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                //this.tbDownloadStatus.Text = String.Empty;
+
+                //this.m_bIgnoreReset = true;
+                this.txtProjectNo.Text = this.txtProjectNo.Text.Trim().ToUpper();
+
+                if (this.txtProjectNo.Text.Length == 0)
+                {
+                    await DisplayAlert("Project no required.", "You need to provide a project number before you can validate.", "OK");
+                    this.txtProjectNo.Focus();
+                    return;
+
+                }
+
+
+                //Check project is not already downloaded.
+                bool bAlreadyDownloaded = await this.IsProjectAlreadyOnDevice(this.txtProjectNo.Text);
+                SetProgress(.1);
+                if (bAlreadyDownloaded == true) { return; }
+
+
+                bool bConnectedOK = await Main.p_cSettings.IsAXSystemAvailable(true);
+                if (bConnectedOK == true)
+                {
+
+                    SetProgress(.2);
+                    await Main.CheckForUpdates();
+                    SetProgress(.4);
+                    cAX = new WcfExt116();
+                    ProjectValidationResult cResult = await cAX.ValidateProjectNo(this.txtProjectNo.Text);
+                    if (cResult != null)
+                    {
+                        if (cResult.bSuccessfull == true)
+                        {
+                            SetProgress(.6);
+                            if (cResult.bProjectFound == true)
+                            {
+
+                                //Mark project as valid.
+                                //this.m_bProjectValid = true;
+
+                                //Fetch status name from base enum table.
+                                string sStatus = Main.p_cDataAccess.GetEnumValueName("ProjTable", "Status", Convert.ToInt32(cResult.ValidationResult.Status));
+                                SearchResult srResult = new SearchResult();
+                                SetProgress(.8);
+                                srResult.ProjectName = cResult.ValidationResult.ProjectName;
+                                srResult.ProjectNo = cResult.ValidationResult.ProjectNo;
+                                srResult.Status = sStatus;
+                                try
+                                {
+                                    m_ocProjSearch.Clear();
+                                }
+                                catch (Exception ex)
+                                {
+                                    lvProjects.ItemsSource = null;
+                                }
+                                //m_ocProjSearch.Clear();
+                                m_ocProjSearch.Add(srResult);
+                                lvProjects.ItemsSource = m_ocProjSearch;
+                                SetProgress(.9);
+
+                                //Display project details.
+                                //this.DisplayProjectDetails(cResult.ValidationResult.ProjectName, sStatus);
+
+                                //Display download section.
+                                //this.UpdateValidationStatus(ValidationStatus.Valid);
+                                //this.gdDownload.Visibility = Windows.UI.Xaml.Visibility.Visible;
+
+                            }
+                            else
+                            {
+
+                                SearchResult srResult = new SearchResult();
+                                SetProgress(.8);
+                                srResult.ProjectName = "N/A";
+                                srResult.ProjectNo = "N/A";
+                                srResult.Status = "N/A";
+                                try
+                                {
+                                    m_ocProjSearch.Clear();
+                                }
+                                catch (Exception ex)
+                                {
+                                    lvProjects.ItemsSource = null;
+                                }
+                                m_ocProjSearch.Add(srResult);
+                                lvProjects.ItemsSource = m_ocProjSearch;
+                                SetProgress(.9);
+                                //Mark project as invalid.
+                                //this.m_bProjectValid = false;
+
+                                //this.UpdateValidationStatus(ValidationStatus.Invalid);
+                                //this.gdDownload.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+
+                            }
+
+                        }
+                        else
+                        {
+
+                            //Mark project as invalid.
+                            //this.m_bProjectValid = false;
+
+                            //this.UpdateValidationStatus(ValidationStatus.Error);
+                            //this.gdDownload.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+
+                        }
+
+                    }
+
+                }
+                SetProgress(1.0);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+            }
         }
     }
 }

@@ -2,5 +2,29 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Anglian.Views.ProjectDownloadStatusPage">
-  <Label Text="{Binding MainText}" VerticalOptions="Center" HorizontalOptions="Center" />
+  <Grid Padding="10">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="5*"/>
+      <RowDefinition Height="5*"/>
+      <RowDefinition Height="10*"/>
+      <RowDefinition Height="80*"/>
+    </Grid.RowDefinitions>
+    <Label Grid.Row="0"
+           x:Name="txtProjectNo"/>
+    <Label Grid.Row="1"
+           x:Name="txtProjectName"/>
+    <Button x:Name="btnDownload"
+            Grid.Row="2"
+            Text="Start Download"
+            Clicked="Clicked_Download"/>
+    <StackLayout Grid.Row="3"
+                 VerticalOptions="FillAndExpand"
+                 HorizontalOptions="FillAndExpand">
+      <Label x:Name="txtSubProjectNo" />
+      <ProgressBar x:Name="totalProgress"/>
+      <BoxView HeightRequest="30"/>
+      <Label x:Name="txtSubTask" />
+      <ProgressBar x:Name="SubProgress"/>
+    </StackLayout>
+  </Grid>
 </ContentPage>

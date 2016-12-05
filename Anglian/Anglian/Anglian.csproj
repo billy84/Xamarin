@@ -38,23 +38,37 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\AXDataUploadDataChange.cs" />
     <Compile Include="Classes\BaseEnumField.cs" />
     <Compile Include="Classes\BaseEnumResult.cs" />
     <Compile Include="Classes\BaseEnumValue.cs" />
     <Compile Include="Classes\DashboardWork.cs" />
+    <Compile Include="Classes\DownloadDataChange.cs" />
+    <Compile Include="Classes\DownloadDataChangesResult.cs" />
     <Compile Include="Classes\FetchSurveyFailedReasonsResult.cs" />
+    <Compile Include="Classes\FileChangesResult.cs" />
     <Compile Include="Classes\InstallerDashboardResult.cs" />
     <Compile Include="Classes\LogonResult.cs" />
+    <Compile Include="Classes\NoteDetails.cs" />
     <Compile Include="Classes\ProjectNo.cs" />
     <Compile Include="Classes\ProjectSearch.cs" />
     <Compile Include="Classes\ProjectSearchResult.cs" />
+    <Compile Include="Classes\ProjectValidationResult.cs" />
+    <Compile Include="Classes\RealtimeNoteKeyValues.cs" />
     <Compile Include="Classes\SearchCriteria.cs" />
     <Compile Include="Classes\SearchResult.cs" />
     <Compile Include="Classes\Session.cs" />
     <Compile Include="Classes\SettingDetails.cs" />
     <Compile Include="Classes\SettingsCheckResult.cs" />
     <Compile Include="Classes\Status.cs" />
+    <Compile Include="Classes\SubProjectData.cs" />
+    <Compile Include="Classes\SubProjectDataResult.cs" />
+    <Compile Include="Classes\SubProjectFile.cs" />
+    <Compile Include="Classes\SubProjectFileDetail.cs" />
+    <Compile Include="Classes\SubProjectFileDownloadResult.cs" />
+    <Compile Include="Classes\SubProjectFilesResult.cs" />
     <Compile Include="Classes\SubProjectResult.cs" />
+    <Compile Include="Classes\SubProjectsListResult.cs" />
     <Compile Include="Classes\SubProjectSync.cs" />
     <Compile Include="Classes\SubProjectSyncUpdateValues.cs" />
     <Compile Include="Classes\SurveyDatesResult.cs" />
@@ -63,10 +77,15 @@
     <Compile Include="Classes\Surveyor.cs" />
     <Compile Include="Classes\SystemsAvailableResult.cs" />
     <Compile Include="Classes\Total.cs" />
+    <Compile Include="Classes\UnitDetails.cs" />
     <Compile Include="Classes\Units.cs" />
+    <Compile Include="Classes\UploadChangesResult.cs" />
+    <Compile Include="Classes\UploadFileChange.cs" />
+    <Compile Include="Classes\UploadUnitsResult.cs" />
     <Compile Include="Engine\DataAccess.cs" />
     <Compile Include="Engine\Main.cs" />
     <Compile Include="Engine\Settings.cs" />
+    <Compile Include="Engine\Syncing.cs" />
     <Compile Include="Engine\WcfExt116.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -89,17 +108,26 @@
     <Compile Include="Service\IMain.cs" />
     <Compile Include="Service\ISettings.cs" />
     <Compile Include="Service\IWcfExt116.cs" />
+    <Compile Include="Views\AddNotePage.xaml.cs">
+      <DependentUpon>AddNotePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DateSearchFilterPage.xaml.cs">
       <DependentUpon>DateSearchFilterPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DateSearchResultPage.xaml.cs">
       <DependentUpon>DateSearchResultPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\InputResultPage.xaml.cs">
+      <DependentUpon>InputResultPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainMenuPage.xaml.cs">
       <DependentUpon>MainMenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PhotoScreenPage.xaml.cs">
+      <DependentUpon>PhotoScreenPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ProcessSurveysPage.xaml.cs">
       <DependentUpon>ProcessSurveysPage.xaml</DependentUpon>
@@ -113,8 +141,20 @@
     <Compile Include="Views\ProjectSearchPage.xaml.cs">
       <DependentUpon>ProjectSearchPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ProjectSearchResultPage.xaml.cs">
+      <DependentUpon>ProjectSearchResultPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ProjectSyncPage.xaml.cs">
       <DependentUpon>ProjectSyncPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SurveyFailedPage.xaml.cs">
+      <DependentUpon>SurveyFailedPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SurveySuccessPage.xaml.cs">
+      <DependentUpon>SurveySuccessPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SyncAllPage.xaml.cs">
+      <DependentUpon>SyncAllPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserSettingPage.xaml.cs">
       <DependentUpon>UserSettingPage.xaml</DependentUpon>
@@ -137,6 +177,14 @@
     </Reference>
     <Reference Include="Acr.UserDialogs.Interface, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Acr.UserDialogs.6.3.2\lib\portable-win+net45+wp8+win8+wpa81\Acr.UserDialogs.Interface.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Plugin.Media, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugin.Media.2.6.1\lib\portable-net45+wp80+win8+wpa81\Plugin.Media.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Plugin.Media.Abstractions, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugin.Media.2.6.1\lib\portable-net45+wp80+win8+wpa81\Plugin.Media.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Splat, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -232,6 +280,48 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\ProjectDownloadStatusPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\SyncAllPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\InputResultPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\ProjectSearchResultPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\SurveySuccessPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\SurveyFailedPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\PhotoScreenPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\AddNotePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
