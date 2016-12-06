@@ -10,6 +10,8 @@
     <Picker x:Name="cmbFailedSurvey"
             Title="Select reason for failure"
             VerticalOptions="Start"/>
+    <Label Text="Update Survey Date"/>
+    <DatePicker x:Name="btnUpdateSurveyAttemptDate"/>
     <Label Text="Enter Comment:"/>
     <Editor x:Name="txtFailedComment"
             BackgroundColor="Gray"/>

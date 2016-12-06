@@ -138,6 +138,90 @@ namespace Anglian.Engine
 
         }
         /// <summary>
+        /// Update project table.
+        /// </summary>
+        /// <param name="v_cProject"></param>
+        /// <returns></returns>
+        public bool UpdateProjectTable(cProjectTable v_cProject)
+        {
+
+            try
+            {
+
+                this.m_conSQL.Update(v_cProject);
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+
+
+        }
+        /// <summary>
+        /// Add update to update table.
+        /// </summary>
+        /// <param name="v_sSubProjectNo"></param>
+        /// <param name="v_sField"></param>
+        /// <param name="v_sValue"></param>
+        /// <returns></returns>
+        public bool AddToUpdateTable(String v_sSubProjectNo, String v_sField, String v_sValue)
+        {
+
+            try
+            {
+
+
+                cUpdatesTable cUpdate = null; // new cUpdatesTable();
+                int iCount = 0;
+
+
+                var oResults = (from oCols in this.m_conSQL.Table<cUpdatesTable>()
+                                where (oCols.SubProjectNo.Equals(v_sSubProjectNo) && oCols.FieldName.Equals(v_sField))
+                                select oCols);
+
+                if (oResults.Count() > 0)
+                {
+                    cUpdate = oResults.Single<cUpdatesTable>();
+                }
+
+
+                if (cUpdate == null)
+                {
+                    cUpdate = new cUpdatesTable();
+                    cUpdate.SubProjectNo = v_sSubProjectNo;
+                    cUpdate.FieldName = v_sField;
+                    cUpdate.FieldValue = v_sValue;
+
+                    iCount = this.m_conSQL.Insert(cUpdate);
+                }
+                else
+                {
+
+                    cUpdate.FieldValue = v_sValue;
+
+                    iCount = this.m_conSQL.Update(cUpdate);
+                }
+
+                if (iCount > 0)
+                {
+                    return true;
+                }
+
+                return false;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message + " - PARAMS(SubProjectNo=" + v_sSubProjectNo + ",Field=" + v_sField + ",Value=" + v_sValue + ")");
+
+            }
+
+        }
+        /// <summary>
         /// Get enumerator details for field.
         /// </summary>
         /// <param name="v_sFieldName"></param>

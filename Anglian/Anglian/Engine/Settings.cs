@@ -586,5 +586,32 @@ namespace Anglian.Engine
 
             }
         }
+        public static cProjectNotesTable ReturnNoteObject(string v_sSubProjectNo, string v_sNoteText, DateTime v_dNoteDate, string v_sNoteType)
+        {
+
+            cProjectNotesTable cNote = new cProjectNotesTable();
+            try
+            {
+
+
+                cNote.AXRecID = -1;
+                cNote.IDKey = -1;
+                cNote.InputDateTime = v_dNoteDate;
+                cNote.NoteText = v_sNoteText;
+                cNote.NoteType = v_sNoteType;
+                cNote.SubProjectNo = v_sSubProjectNo;
+                cNote.UserName = Session.CurrentUserName;
+                cNote.UserProfile = Session.CurrentUserName;
+
+                return cNote;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+
+        }
     }
 }
