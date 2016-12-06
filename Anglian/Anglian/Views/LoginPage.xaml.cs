@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Anglian.Classes;
 using Anglian.Service;
 using Xamarin.Forms;
+using Acr.UserDialogs;
 
 namespace Anglian.Views
 {
@@ -31,6 +32,8 @@ namespace Anglian.Views
                 Password.Focus();
                 return;
             }
+            //PROT-7014
+            UserDialogs.Instance.ShowLoading("Signing In...", MaskType.Black);
             btnLogin.IsEnabled = false;
             LogonResult result = await DependencyService.Get<ILogon>().LogonAsync(
                 UserName.Text.Trim(),
@@ -40,14 +43,15 @@ namespace Anglian.Views
             if (result.InvalidDetails == true)
             {
                 await DisplayAlert("Warning", "Invalid Username and Password.", "OK");
+                UserDialogs.Instance.HideLoading();
                 UserName.Text = "";
                 Password.Text = "";
                 UserName.Focus();
-
             }
             else
             {
                 Session.Token = result.Token;
+                UserDialogs.Instance.HideLoading();
                 Session.CurrentUserName = UserName.Text.Trim();
                 Session.LoggedTime = DateTime.Now;
                 Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new MainMenuPage()));
