@@ -15,10 +15,26 @@ namespace Anglian.Views
             InitializeComponent();
             this.Title = "Main Menu Options";
             //this.ToolbarItems.Add(new ToolbarItem() { Icon = "down.png", Command = new Command(() => DisplayAlert("asf", "asdf", "aa")) });
-            this.ToolbarItems.Add(new ToolbarItem() { Text = "Download", Icon = String.Format("{0}{1}.png", Device.OnPlatform("Icons/", "", "Assets/Icons/"), "down") });
-            this.ToolbarItems.Add(new ToolbarItem() { Text = "Sync", Icon = String.Format("{0}{1}.png", Device.OnPlatform("Icons/", "", "Assets/Icons/"), "refresh") });
-            this.ToolbarItems.Add(new ToolbarItem() { Text = "Settings", Icon = String.Format("{0}{1}.png", Device.OnPlatform("Icons/", "", "Assets/Icons/"), "configuration") });
+            this.ToolbarItems.Add(new ToolbarItem() { Text = "Download", Icon = String.Format("{0}{1}.png", Device.OnPlatform("Icons/", "", "Assets/Icons/"), "down"), Command = new Command(() => DownBtn_Tapped())});
+            this.ToolbarItems.Add(new ToolbarItem() { Text = "Sync", Icon = String.Format("{0}{1}.png", Device.OnPlatform("Icons/", "", "Assets/Icons/"), "refresh"), Command = new Command(() => SyncBtn_Tapped())});
+            this.ToolbarItems.Add(new ToolbarItem() { Text = "Settings", Icon = String.Format("{0}{1}.png", Device.OnPlatform("Icons/", "", "Assets/Icons/"), "configuration"), Command = new Command(() => SettingBtn_Tapped())});
         }
+
+        private void DownBtn_Tapped()
+        {
+            Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new ProjectDownloadsSearchPage()));
+        }
+
+        private void SyncBtn_Tapped()
+        {
+            Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new ProjectSyncPage()));
+        }
+
+        private void SettingBtn_Tapped()
+        {
+            Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new UserSettingPage()));
+        }
+
         private void GotoDateSearchFilterView(object sender, EventArgs args)
         {
             Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new DateSearchFilterPage()));
