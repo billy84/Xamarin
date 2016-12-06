@@ -20,7 +20,7 @@ namespace Anglian.Views
         }
         private void Success_Clicked(object sender, EventArgs args)
         {
-            Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new SurveySuccessPage(txtProjectInfo.Text)));
+            Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new SurveySuccessPage(this.currentItem)));
         }
         private void Failed_Clicked(object sender, EventArgs args)
         {

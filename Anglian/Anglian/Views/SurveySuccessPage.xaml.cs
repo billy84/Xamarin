@@ -13,10 +13,12 @@ namespace Anglian.Views
     public partial class SurveySuccessPage : TabbedPage
     {
         private cProjectTable m_cProjectData = null;
-        public SurveySuccessPage(string ProjectInfo)
+        private SurveyInputResult m_surveyInputResult = null;
+        public SurveySuccessPage(SurveyInputResult ProjectInfo)
         {
             InitializeComponent();
-            Title = ProjectInfo;
+            m_surveyInputResult = ProjectInfo;
+            Title = ProjectInfo.ProjectNo + " - " + ProjectInfo.ProjectName;
             AddToolBarForCustomerPage();
             this.CurrentPageChanged += SurveySuccessPage_CurrentPageChanged;
         }
@@ -87,12 +89,12 @@ namespace Anglian.Views
         private void CameraBtn_Tapped()
         {
             // navigation camera
-            Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new PhotoScreenPage(Title)));
+            Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new PhotoScreenPage(m_surveyInputResult)));
         }
         private void UploadBtn_Tapped()
         {
             // add note
-            Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new AddNotePage(Title)));
+            Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new AddNotePage(m_surveyInputResult)));
         }
         private async void SaveBtn_Tapped()
         {
