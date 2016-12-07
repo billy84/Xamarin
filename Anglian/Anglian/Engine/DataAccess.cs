@@ -1638,7 +1638,7 @@ namespace Anglian.Engine
                     //v1.0.16 - Only check if running surveyor app mode.
                     if (DependencyService.Get<ISettings>().IsThisTheSurveyorApp() == true)
                     {
-                        sbWhere.Append(" AND PT.MXM1002TrfDate ISNULL");
+                        //sbWhere.Append(" AND PT.MXM1002TrfDate ISNULL");
                     }
 
 

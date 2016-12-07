@@ -8,11 +8,14 @@ using Anglian.Classes;
 using Anglian.Service;
 using Anglian.Engine;
 using Xamarin.Forms;
+using System.Collections.ObjectModel;
 
 namespace Anglian.Views
 {
     public partial class DateSearchFilterPage : ContentPage
     {
+        private ObservableCollection<CmbItem> m_InstallStatus = new ObservableCollection<CmbItem>();
+        private ObservableCollection<CmbItem> m_ProgressStatus = new ObservableCollection<CmbItem>();
         public DateSearchFilterPage()
         {
             InitializeComponent();
@@ -21,7 +24,6 @@ namespace Anglian.Views
             {
                 Text = "Search",
                 Icon = String.Format("{0}{1}.png", Device.OnPlatform("Icons/", "", "Assets/Icons/"), "find"),
-                Command = new Command(() => SearchFilterBtn_Tapped())
             });
             this.ToolbarItems.Add(new ToolbarItem()
             {
@@ -43,89 +45,147 @@ namespace Anglian.Views
 
         private void PopulateDropDown()
         {
-            cmbProjectNo.Items.Add(Settings.p_sAnyStatus);
+            // ** Project numbers drop down.
+            this.cmbProjectNo.Items.Add(Settings.p_sAnyStatus);
+
             List<cProjectNo> lsProjectNos = Main.p_cDataAccess.GetProjectNos();
             foreach (cProjectNo lsProjectNo in lsProjectNos)
             {
-                cmbProjectNo.Items.Add(lsProjectNo.ProjectNo);
+
+                if (lsProjectNo.ProjectNo.Length > 0)
+                {
+                    this.cmbProjectNo.Items.Add(lsProjectNo.ProjectNo);
+
+                }
             }
             lsProjectNos = null;
-            cmbProjectNo.SelectedIndex = 0;
-            string cmbItem = Settings.p_sAnyStatus;
-            cmbInstallStatus.Items.Add(cmbItem);
+            cmbProjectNo.SelectedIndex = 0; //Make Any Status Selection Visible
+
+            // ** Install status drop down.
+
+            m_InstallStatus.Add(new CmbItem { Content = Settings.p_sAnyStatus, Tag = "-1" });
+            this.cmbInstallStatus.Items.Add(Settings.p_sAnyStatus);
+
             List<cBaseEnumsTable> oInstalls = Main.p_cDataAccess.GetEnumsForField("MXM1002INSTALLSTATUS");
             foreach (cBaseEnumsTable oInstall in oInstalls)
             {
-                cmbInstallStatus.Items.Add(oInstall.EnumName);
+                m_InstallStatus.Add(new CmbItem { Content = oInstall.EnumName, Tag = oInstall.EnumValue });
+                this.cmbInstallStatus.Items.Add(oInstall.EnumName);
             }
-            cmbInstallStatus.SelectedIndex = 0;
+            this.cmbInstallStatus.SelectedIndex = 0; //Make Any the default selection
 
-            cmbProgressStatus.Items.Add(Settings.p_sAnyStatus);
+            //v1.0.14 - Progress status drop down.
+            m_ProgressStatus.Add(new CmbItem { Content = Settings.p_sAnyStatus, Tag = "-1" });
+            this.cmbProgressStatus.Items.Add(Settings.p_sAnyStatus);
+
             List<cBaseEnumsTable> oProgresses = Main.p_cDataAccess.GetEnumsForField("Mxm1002ProgressStatus");
             foreach (cBaseEnumsTable oProgress in oProgresses)
             {
-                cmbProgressStatus.Items.Add(oProgress.EnumName);
+                m_ProgressStatus.Add(new CmbItem { Content = oProgress.EnumName, Tag = oProgress.EnumValue });
+                this.cmbProgressStatus.Items.Add(oProgress.EnumName);
             }
 
-            cmbProgressStatus.SelectedIndex = 0;
-            cmbSurveyedStatus.Items.Add(Settings.p_sAnyStatus);
-            cmbSurveyedStatus.Items.Add(Settings.p_sSurveyedStatus_NotSurveyed);
-            cmbSurveyedStatus.Items.Add(Settings.p_sSurveyedStatus_SurveyedOnSite);
-            cmbSurveyedStatus.Items.Add(Settings.p_sSurveyedStatus_SurveyedTrans);
-            cmbSurveyedStatus.SelectedIndex = 1;
+            this.cmbProgressStatus.SelectedIndex = 0; //Make Any the default selection
 
-            cmbConfirmed.Items.Add(Settings.p_sAnyStatus);
-            cmbDateCompare.Items.Add(Settings.p_sDateCompare_EqualTo);
-            cmbDateCompare.Items.Add(Settings.p_sDateCompare_GreaterThan);
-            cmbDateCompare.Items.Add(Settings.p_sDateCompare_LessThan);
-            cmbDateCompare.SelectedIndex = 0;
+            // ** Surveyed Status Drop Down
+            this.cmbSurveyedStatus.Items.Add(Settings.p_sAnyStatus); //v1.0.1 - Include "Any" status.
+            this.cmbSurveyedStatus.Items.Add(Settings.p_sSurveyedStatus_NotSurveyed);
+            this.cmbSurveyedStatus.Items.Add(Settings.p_sSurveyedStatus_SurveyedOnSite);
+            this.cmbSurveyedStatus.Items.Add(Settings.p_sSurveyedStatus_SurveyedTrans);
+            this.cmbSurveyedStatus.SelectedIndex = 1; //Default on Not Surveyed
+
+            this.cmbConfirmed.Items.Add(Settings.p_sAnyStatus);
+
+            //Data comparison drop down.
+            this.cmbDateCompare.Items.Add(Settings.p_sDateCompare_EqualTo);
+            this.cmbDateCompare.Items.Add(Settings.p_sDateCompare_GreaterThan);
+            this.cmbDateCompare.Items.Add(Settings.p_sDateCompare_LessThan);
+            this.cmbDateCompare.SelectedIndex = 0;
 
             List<cBaseEnumsTable> oConfirms = Main.p_cDataAccess.GetEnumsForField("MxmConfirmedAppointmentIndicator");
             foreach (cBaseEnumsTable oConfirm in oConfirms)
             {
-                cmbConfirmed.Items.Add(oConfirm.EnumName);
+                this.cmbConfirmed.Items.Add(oConfirm.EnumName);
             }
-            cmbConfirmed.SelectedIndex = 0;
+            this.cmbConfirmed.SelectedIndex = 0;
             //this.cmbTimePicker.
         }
-        private void SearchFilterBtn_Tapped()
+
+        private void btnSearch_Clicked(object sender, EventArgs e)
         {
-            string sProjectNo = String.Empty;
-            string sSubProjectNo = String.Empty;
-            if (cmbProjectNo.SelectedIndex == -1)
+            DisplaySearchResults();
+        }
+
+        /// <summary>
+        /// Display search results
+        /// </summary>
+        private void DisplaySearchResults()
+        {
+
+            try
             {
-                sProjectNo = Settings.p_sAnyStatus;
-            }
-            string sValue = (String)cmbProjectNo.Items[cmbProjectNo.SelectedIndex];
-            if (sValue != Settings.p_sAnyStatus)
-            {
-                sProjectNo = sValue;
-            }
-            sSubProjectNo = txtSubProjectNoFilter.Text;
-            Int32 iInstallStatus = -1;
-            iInstallStatus = cmbInstallStatus.SelectedIndex;
-            Int32 iProgressStatus = -1;
-            iProgressStatus = cmbProgressStatus.SelectedIndex;
+                //Extract Project Number.
+                string sProjectNo = string.Empty;
+                string sSubProjectNo = string.Empty; //v1.0.1
 
-            DateTime? dSurveyDate = null;
-            dSurveyDate = cmbTimePicker.Date;
+                if (cmbProjectNo.SelectedIndex == -1)
+                {
+                    sProjectNo = Settings.p_sAnyStatus;
+                }
 
-            string sSurveyed = cmbSurveyedStatus.Items[cmbSurveyedStatus.SelectedIndex];
-            Int32 iConfirmed = -1;
-            iConfirmed = cmbConfirmed.SelectedIndex;
-            string sDateComparison = cmbDateCompare.Items[cmbDateCompare.SelectedIndex];
+                string sValue = (String)cmbProjectNo.Items[cmbProjectNo.SelectedIndex];
+                if (sValue != Settings.p_sAnyStatus)
+                {
+                    //v1.0.1 - Sub Project number filter.
+                    sProjectNo = sValue;
+                }
+                sSubProjectNo = txtSubProjectNoFilter.Text;
+                
+                //Install status
+                Int32 iInstallStatus = -1;
+                List<CmbItem> cbiItems = m_InstallStatus.Where(item => item.Content == cmbInstallStatus.Items[cmbInstallStatus.SelectedIndex]).ToList();
+                string sTagValue = cbiItems[0].Tag.ToString();
+                if (int.TryParse(sTagValue, out iInstallStatus) == true)
+                {
 
-            int iInstall_Awaiting = Convert.ToInt32(DependencyService.Get<IMain>().GetAppResourceValue("InstallStatus_AwaitingSurvey"));
-            int iInstall_Cancel = Convert.ToInt32(DependencyService.Get<IMain>().GetAppResourceValue("InstallStatus_SurveyCancelled"));
+                }
 
-            string vDeliveryStreet = string.Empty;
-            if (txtDeliveryStreet.Text != null)
-                vDeliveryStreet = txtDeliveryStreet.Text;
-            string vPostCode = string.Empty;
-            if (txtPostCode.Text != null)
-                vPostCode = txtPostCode.Text;
+                //v1.0.14 Progress status
+                Int32 iProgressStatus = -1;
+                cbiItems = m_ProgressStatus.Where(item => item.Content == cmbProgressStatus.Items[cmbProgressStatus.SelectedIndex]).ToList();
+                sTagValue = cbiItems[0].Tag.ToString();
+                if (int.TryParse(sTagValue, out iProgressStatus) == true)
+                {
 
-            List<SurveyDatesResult> cResults = Main.p_cDataAccess.SearchSurveyDates(
+                }
+
+                //Surveyed Date.
+                DateTime? dSurveyDate = null;
+                dSurveyDate = this.cmbTimePicker.Date;
+
+                //Surveyed
+                string sSurveyed = this.cmbSurveyedStatus.Items[cmbSurveyedStatus.SelectedIndex];
+
+                //Confirmed
+                Int32 iConfirmed = -1;
+                iConfirmed = this.cmbConfirmed.SelectedIndex;
+
+                //Date comparison
+                string sDateComparison = this.cmbDateCompare.Items[cmbDateCompare.SelectedIndex];
+
+
+                int iInstall_Awaiting = Convert.ToInt32(DependencyService.Get<IMain>().GetAppResourceValue("InstallStatus_AwaitingSurvey"));
+                int iInstall_Cancel = Convert.ToInt32(DependencyService.Get<IMain>().GetAppResourceValue("InstallStatus_SurveyCancelled"));
+
+                string vDeliveryStreet = string.Empty;
+                if (this.txtDeliveryStreet.Text != null)
+                    vDeliveryStreet = this.txtDeliveryStreet.Text;
+                string vPostCode = string.Empty;
+                if (this.txtPostCode.Text != null)
+                    vPostCode = this.txtPostCode.Text;
+
+                //Process Search
+                List<SurveyDatesResult> cResults = Main.p_cDataAccess.SearchSurveyDates(
                 sProjectNo,
                 vDeliveryStreet,
                 vPostCode,
@@ -143,9 +203,109 @@ namespace Anglian.Views
                 iInstall_Cancel
                 );
 
+                int iUpdates = 0;
+                foreach (SurveyDatesResult cResult in cResults)
+                {
 
-            Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new DateSearchResultPage(cResults)));
-            //await this.Navigation.PushAsync(new DateSearchResultView(items));
+                    //cResult.ScreenWidth = this.lvResults.ActualWidth;
+                    //cResult.StreetWidth = this.txtDeliveryStreet.ActualWidth;
+                    //cResult.InstallWidth = this.cmbInstallStatus.ActualWidth - 10;
+                    //cResult.ProgressWidth = this.cmbProgressStatus.ActualWidth - 10;
+                    //cResult.PostcodeWidth = this.txtPostcode.ActualWidth;
+
+                    if (cResult.NotesQty != null)
+                    {
+
+                        if (int.TryParse(cResult.NotesQty, out iUpdates) == true)
+                        {
+
+                            if (iUpdates > 0)
+                            {
+                                cResult.Flags += "*";
+
+                            }
+
+                        }
+                    }
+
+                    iUpdates = 0;
+                    if (cResult.UpdateQty != null)
+                    {
+                        if (int.TryParse(cResult.UpdateQty, out iUpdates) == true)
+                        {
+
+                            if (iUpdates > 0)
+                            {
+                                cResult.Flags += "x";
+
+                            }
+
+                        }
+
+                    }
+
+                    //Display relevant confirmed status.
+                    cResult.Confirmed = Settings.p_sConfirmedStatus_No;
+                    if (cResult.MxmConfirmedAppointmentIndicator.HasValue == true)
+                    {
+                        if (cResult.MxmConfirmedAppointmentIndicator.Value == (int)Settings.YesNoBaseEnum.Yes)
+                        {
+                            cResult.Confirmed = Settings.p_sConfirmedStatus_Yes;
+                        }
+
+                    }
+
+                    //Display appropriate surveyed status.
+                    cResult.SurveyedStatus = Settings.p_sSurveyedStatus_NotSurveyed;
+                    if (cResult.MXM1002TrfDate.HasValue == true)
+                    {
+
+                        if (cResult.Mxm1002InstallStatus == iInstall_Awaiting || cResult.Mxm1002InstallStatus == iInstall_Cancel)
+                        {
+                            cResult.SurveyedStatus = Settings.p_sSurveyedStatus_SurveyedOnSite;
+
+                        }
+
+                    }
+
+                    if (cResult.Mxm1002InstallStatus != iInstall_Awaiting && cResult.Mxm1002InstallStatus != iInstall_Cancel)
+                    {
+                        cResult.SurveyedStatus = Settings.p_sSurveyedStatus_SurveyedTrans;
+
+                    }
+
+
+                    //Remove unwanted new lines.
+                    cResult.DeliveryStreet = Main.RemoveNewLinesFromString(cResult.DeliveryStreet);
+
+                    //v1.0.1 - Update tool tip text
+                    cResult.ToolTipText = "Status: " + cResult.StatusName + Environment.NewLine + "Progress Status: " + cResult.ProgressStatusName;
+
+
+                    //v1.0.1 - Display formatted survey date - time
+                    if (cResult.EndDateTime.HasValue == true)
+                    {
+                        cResult.SurveyDisplayDateTime = Main.ReturnDisplayDate(cResult.EndDateTime.Value) + " " + Main.ReturnDisplayTime(cResult.EndDateTime.Value);
+                    }
+
+
+                    //v1.0.15 - Set background color if project status is "On Hold"
+                    if (cResult.Status == Settings.p_iProjectStatus_OnHold)
+                    {
+                        cResult.BackgroundColour = Settings.p_sSurvey_ListView_OnHold_Background;
+                    }
+                    else
+                    {
+                        cResult.BackgroundColour = Settings.p_sSurvey_ListView_Normal_Background;
+                    }
+                }
+                Device.BeginInvokeOnMainThread(() => Navigation.PushAsync(new DateSearchResultPage(cResults)));
+                //await this.Navigation.PushAsync(new DateSearchResultView(items));
+            }
+            catch (Exception ex)
+            {
+                //Main.ReportError(ex, Main.GetCallerMethodName(), string.Empty);
+            }
         }
     }
 }

@@ -10,49 +10,39 @@
                    HorizontalOptions="FillAndExpand">
         <Picker x:Name="cmbProjectNo"
                 Title="Select Project No"
-                VerticalOptions="Start"
-                >
+                VerticalOptions="Start">
         </Picker>
         <Entry x:Name="txtSubProjectNoFilter"
                Placeholder="Sub-Project No"
-               VerticalOptions="Start"
-               />
+               VerticalOptions="Start"/>
         <Entry x:Name="txtDeliveryStreet"
                      Placeholder="Delivery Street"
-                     VerticalOptions="Start"
-                     />
+                     VerticalOptions="Start"/>
         <Entry x:Name="txtPostCode"
                      Placeholder="Postcode"
-                     VerticalOptions="Start"
-                     />
+                     VerticalOptions="Start"/>
         <Picker x:Name="cmbInstallStatus"
                 Title="Install Status"
-                VerticalOptions="Start"
-                >
+                VerticalOptions="Start">
         </Picker>
         <Picker x:Name="cmbProgressStatus"
                 Title="Progress Status"
-                VerticalOptions="Start"
-                >
+                VerticalOptions="Start">
+        </Picker>
+        <Picker x:Name="cmbSurveyedStatus"
+                Title="Surveyed Status"
+                VerticalOptions="Start">
         </Picker>
         <DatePicker x:Name="cmbTimePicker"
                     Format="D"
-                    VerticalOptions="CenterAndExpand"
-                      />
+                    VerticalOptions="CenterAndExpand"/>
         <Picker x:Name="cmbDateCompare"
                 Title="Date Compare"
-                VerticalOptions="Start"
-                  >
-        </Picker>
-          <Picker x:Name="cmbSurveyedStatus"
-                Title="Surveyed Status"
-                VerticalOptions="Start"
-                  >
+                VerticalOptions="Start">
         </Picker>
         <Picker x:Name="cmbConfirmed"
                 Title="Confirmed"
-                VerticalOptions="Start"
-                  >
+                VerticalOptions="Start">
         </Picker>
         <StackLayout Orientation="Horizontal">
           <Label Text="Show all status"
@@ -70,6 +60,9 @@
                   HorizontalOptions="End"
                   VerticalOptions="CenterAndExpand"/>
         </StackLayout>
+        <Button x:Name="btnSearch"
+               Text="Search Project"
+               Clicked="btnSearch_Clicked"/>
       </StackLayout>
     </ScrollView>
   </StackLayout>
