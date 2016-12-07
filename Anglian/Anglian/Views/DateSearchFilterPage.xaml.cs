@@ -24,13 +24,21 @@ namespace Anglian.Views
             {
                 Text = "Search",
                 Icon = String.Format("{0}{1}.png", Device.OnPlatform("Icons/", "", "Assets/Icons/"), "find"),
+                Command = new Command(() => SearchFilterBtn_Tapped())
             });
             this.ToolbarItems.Add(new ToolbarItem()
             {
                 Text = "Reset",
-                Icon = String.Format("{0}{1}.png", Device.OnPlatform("Icons/", "", "Assets/Icons/"), "erase")
+                Icon = String.Format("{0}{1}.png", Device.OnPlatform("Icons/", "", "Assets/Icons/"), "erase"),
+                Command = new Command(() => ResetFilterBtn_Tapped())
             });
         }
+
+        private void ResetFilterBtn_Tapped()
+        {
+            OnAppearing();
+        }
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -111,7 +119,7 @@ namespace Anglian.Views
             //this.cmbTimePicker.
         }
 
-        private void btnSearch_Clicked(object sender, EventArgs e)
+        private void SearchFilterBtn_Tapped()
         {
             DisplaySearchResults();
         }

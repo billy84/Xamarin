@@ -60,9 +60,6 @@
                   HorizontalOptions="End"
                   VerticalOptions="CenterAndExpand"/>
         </StackLayout>
-        <Button x:Name="btnSearch"
-               Text="Search Project"
-               Clicked="btnSearch_Clicked"/>
       </StackLayout>
     </ScrollView>
   </StackLayout>
