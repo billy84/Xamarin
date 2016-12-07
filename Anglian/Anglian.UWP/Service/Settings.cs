@@ -13,7 +13,7 @@ using Windows.Networking.Connectivity;
 using System.IO;
 using Windows.UI.Popups;
 using Windows.System;
-
+using Anglian.Classes;
 [assembly: Dependency(typeof(Settings))]
 namespace Anglian.UWP.Service
 {
@@ -490,6 +490,35 @@ namespace Anglian.UWP.Service
             }
 
         }
+        public bool SetSessionToLocalSetting(string v_sUsername, string v_sToken, DateTime v_dLoginDate)
+        {
+            try
+            {
+                var settings = ApplicationData.Current.LocalSettings;
+                settings.Values["UserName"] = v_sUsername;
+                settings.Values["Token"] = v_sToken;
+                settings.Values["Date"] = v_dLoginDate.ToString();
+                return true;
 
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public string GetSessionFromLocalSetting(string key)
+        {
+            try
+            {
+                var settings = ApplicationData.Current.LocalSettings;
+                return settings.Values[key].ToString();
+
+            }
+            catch (Exception ex)
+            {
+                return string.Empty;
+            }
+        }
     }
 }

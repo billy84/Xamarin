@@ -47,6 +47,10 @@ namespace Anglian.Views
             }
             else
             {
+                DependencyService.Get<ISettings>().SetSessionToLocalSetting(
+                    UserName.Text.Trim(), 
+                    result.Token,
+                    DateTime.Now);
                 Session.Token = result.Token;
                 Session.CurrentUserName = UserName.Text.Trim();
                 Session.LoggedTime = DateTime.Now;

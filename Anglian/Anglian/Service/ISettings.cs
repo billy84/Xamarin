@@ -20,6 +20,8 @@ namespace Anglian.Service
         Task<bool> SaveFileLocally(object v_sfFolder, byte[] v_bFileData, string v_sFileName);
         Task<bool> SaveFileLocally(string v_sSubProjectNo, byte[] v_bFileData, string v_sFileName);
         Task<byte[]> ConvertFileToByteArray(object file);
+        string GetSessionFromLocalSetting(string key);
+        bool SetSessionToLocalSetting(string v_sUsername, string v_sToken, DateTime v_dLoginDate);
 
     }
 }

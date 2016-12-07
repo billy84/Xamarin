@@ -5,6 +5,8 @@ using System.Text;
 
 using Xamarin.Forms;
 using Anglian.Views;
+using Anglian.Service;
+using Anglian.Classes;
 namespace Anglian
 {
     public partial class App : Application
@@ -12,7 +14,28 @@ namespace Anglian
         public App()
         {
             InitializeComponent();
-            MainPage = new NavigationPage(new LoginPage());
+            string sLatestLoginDate = DependencyService.Get<ISettings>().GetSessionFromLocalSetting("Date");
+            DateTime dtLatestDate;
+            if (sLatestLoginDate == string.Empty)
+            {
+                dtLatestDate = DateTime.Now;
+            }
+            else
+            {
+                if (!DateTime.TryParse(sLatestLoginDate, out dtLatestDate))
+                {
+                    // handle parse failure
+                }
+            }
+            if ((DateTime.Now - dtLatestDate).TotalDays <= 3)
+            {
+                Session.CurrentUserName = DependencyService.Get<ISettings>().GetSessionFromLocalSetting("UserName");
+                Session.Token = DependencyService.Get<ISettings>().GetSessionFromLocalSetting("Token");
+                //Session.LoggedTime = DependencyService.Get<ISettings>().GetSessionFromLocalSetting("Date");
+                MainPage = new NavigationPage(new MainMenuPage());
+            }
+            else
+                MainPage = new NavigationPage(new LoginPage());
             //MainPage = new Anglian.MainPage();
         }
 

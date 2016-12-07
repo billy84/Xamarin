@@ -17,7 +17,11 @@
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>Windows_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>Anglian.UWP_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <PackageCertificateThumbprint>30E9731C86C2E992CC2D579D25CA156956C6A60E</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -90,6 +94,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <None Include="Anglian.UWP_TemporaryKey.pfx" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -210,12 +215,16 @@
     <Content Include="Assets\Icons\check.png" />
     <Content Include="Assets\Icons\configuration.png" />
     <Content Include="Assets\Icons\copy.png" />
+    <Content Include="Assets\Icons\date.png" />
     <Content Include="Assets\Icons\down.png" />
     <Content Include="Assets\Icons\erase.png" />
     <Content Include="Assets\Icons\find.png" />
+    <Content Include="Assets\Icons\note.png" />
+    <Content Include="Assets\Icons\paste.png" />
     <Content Include="Assets\Icons\refresh.png" />
     <Content Include="Assets\Icons\save.png" />
     <Content Include="Assets\Icons\uncheck.png" />
+    <Content Include="Assets\Icons\undo.png" />
     <Content Include="Assets\Icons\upload.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />

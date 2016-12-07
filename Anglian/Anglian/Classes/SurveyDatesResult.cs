@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Anglian.Classes
 {
-    public class SurveyDatesResult
+    public class SurveyDatesResult : NotifyPropertyChangedBase
     {
         /// <summary>
         /// 
@@ -182,6 +182,17 @@ namespace Anglian.Classes
         /// <summary>
         /// v1.0.21 - IsEnabled
         /// </summary>
-        public bool IsEnabled { get; set; }
+        /// 
+        private bool _IsEnabled;
+        public bool IsEnabled
+        {
+            get { return _IsEnabled; }
+            set
+            {
+                _IsEnabled = value;
+                RaisePropertyChanged("IsEnabled");
+            }
+        }
+        //public bool IsEnabled { get; set; }
     }
 }

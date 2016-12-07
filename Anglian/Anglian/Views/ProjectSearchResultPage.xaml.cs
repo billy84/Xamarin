@@ -16,16 +16,6 @@ namespace Anglian.Views
         {
             InitializeComponent();
             Title = "Survey Search Result";
-            if (cResults.Count() == 0)
-            {
-                SurveyInputResult cResult = new SurveyInputResult();
-                cResult.SubProjectNo = "XXXXXXXX";
-                cResult.DeliveryStreet = "XXX XXXX XXXXXX";
-                cResult.DlvZipCode = "00000";
-                cResult.SurveyDisplayDateTime = "00:00AM";
-                cResult.SurveyedStatus = "N/A";
-                cResults.Add(cResult);
-            }
             lvResults.ItemsSource = cResults;
             lvResults.ItemTapped += LvResults_ItemTapped;
         }

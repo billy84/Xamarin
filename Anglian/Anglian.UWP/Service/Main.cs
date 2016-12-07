@@ -82,14 +82,11 @@ namespace Anglian.UWP.Service
             try
             {
                 return m_rlResources.GetString(v_sResourceName);
-
             }
             catch (Exception ex)
             {
                 return ex.Message;
-
             }
-
         }
         public async Task<bool> CopyFile(string v_sFromFile, string v_sToFile)
         {
