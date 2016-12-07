@@ -3,17 +3,27 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Anglian.Views.DateSearchResultPage">
   <ListView x:Name="ResultList"
-            Grid.Row="0"
+            Grid.Row="2"
             VerticalOptions="StartAndExpand"
             BackgroundColor="Gray">
     <ListView.ItemTemplate>
       <DataTemplate>
         <ViewCell>
-          <StackLayout Orientation="Vertical">
-            <Label Text="{Binding DeliveryStreet}"/>
-            <Label Text="{Binding DlvZipCode}"/>
-            <Label Text="{Binding ProgressStatusName}"/>
-            <Label Text="{Binding Confirmed}"/>
+          <StackLayout Orientation="Horizontal"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand">
+            <StackLayout Orientation="Vertical"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand">
+              <Label Text="{Binding DeliveryStreet}"/>
+              <Label Text="{Binding DlvZipCode}"/>
+              <Label Text="{Binding ProgressStatusName}"/>
+              <Label Text="{Binding Confirmed}"/>
+            </StackLayout>
+            <Switch x:Name="CheckBtn"
+                     IsToggled="{Binding IsEnabled}"
+                     HorizontalOptions="End"
+                     VerticalOptions="CenterAndExpand"/>
           </StackLayout>
         </ViewCell>
       </DataTemplate>

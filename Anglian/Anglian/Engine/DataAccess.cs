@@ -1465,7 +1465,7 @@ namespace Anglian.Engine
         /// <param name="v_sSurveyed"></param>
         /// <param name="v_sConfirmed"></param>
         /// <returns></returns>
-        public List<SurveyDatesResult> SearchSurveyDates(string v_sProjectNo, string v_sStreet, string v_sPostcode, int v_iInstallStatus, int v_iProgressStatus, DateTime? v_dSurveyDate, string v_sDateCompare, string v_sSurveyedStatus, int v_iConfirmed, bool v_bSyncOnly, bool v_bShowAllStatuses, bool v_bShowAllProgressStatuses, string v_sSubProjectNoFilter, int v_iInstallStatus_AwaitingSurvey, int v_iInstallStatus_Cancel, string v_sInstallStatus_Filter = Settings.p_sInstallStatusFilter_EqualTo)
+        public ObservableCollection<SurveyDatesResult> SearchSurveyDates(string v_sProjectNo, string v_sStreet, string v_sPostcode, int v_iInstallStatus, int v_iProgressStatus, DateTime? v_dSurveyDate, string v_sDateCompare, string v_sSurveyedStatus, int v_iConfirmed, bool v_bSyncOnly, bool v_bShowAllStatuses, bool v_bShowAllProgressStatuses, string v_sSubProjectNoFilter, int v_iInstallStatus_AwaitingSurvey, int v_iInstallStatus_Cancel, string v_sInstallStatus_Filter = Settings.p_sInstallStatusFilter_EqualTo)
         {
 
 
@@ -1828,7 +1828,7 @@ namespace Anglian.Engine
                 //Add the Order By.
                 sbSQL.Append(" ORDER BY PT.EndDateTime ASC, PT.MXM1002SequenceNr ASC, PT.ProjectNo ASC");
 
-                List<SurveyDatesResult> cResults = m_conSQL.Query<SurveyDatesResult>(sbSQL.ToString());
+                ObservableCollection<SurveyDatesResult> cResults = new ObservableCollection<SurveyDatesResult>(m_conSQL.Query<SurveyDatesResult>(sbSQL.ToString()));
 
                 return cResults;
 

@@ -178,5 +178,10 @@ namespace Anglian.Classes
         /// v1.0.21 - Work Type
         /// </summary>
         public string MxmProjDescription { get; set; }
+
+        /// <summary>
+        /// v1.0.21 - IsEnabled
+        /// </summary>
+        public bool IsEnabled { get; set; }
     }
 }

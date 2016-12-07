@@ -193,7 +193,7 @@ namespace Anglian.Views
                     vPostCode = this.txtPostCode.Text;
 
                 //Process Search
-                List<SurveyDatesResult> cResults = Main.p_cDataAccess.SearchSurveyDates(
+                ObservableCollection<SurveyDatesResult> cResults = Main.p_cDataAccess.SearchSurveyDates(
                 sProjectNo,
                 vDeliveryStreet,
                 vPostCode,
