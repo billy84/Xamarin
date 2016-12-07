@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Anglian.Models;
+using Anglian.Classes;
 using Xamarin.Forms;
 using Plugin.Media;
 
@@ -19,10 +20,10 @@ namespace Anglian.Views
     public partial class PhotoScreenPage : ContentPage
     {
         ObservableCollection<PhotoItem> items = new ObservableCollection<PhotoItem>();
-        public PhotoScreenPage(string ProjectInfo)
+        public PhotoScreenPage(SurveyInputResult ProjectInfo)
         {
             InitializeComponent();
-            this.Title = ProjectInfo;
+            this.Title = ProjectInfo.ProjectNo + " - " + ProjectInfo.ProjectName;
         }
         private async void CameraBtn_Clicked(object sender, EventArgs args)
         {

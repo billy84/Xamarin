@@ -141,7 +141,7 @@ namespace Anglian.Engine
                 //string sMachineName = DependencyService.Get<ISettings>().GetMachineName();
                 //string sUserFullName = await DependencyService.Get<ISettings>().GetUserDisplayName();
                 string sUserName = Session.CurrentUserName;
-                string sMachineName = Session.CurrentUserName;
+                string sMachineName = Settings.GetMachineName();
                 string sUserFullName = Session.CurrentUserName;
 
                 //Create new instance of 
@@ -981,7 +981,7 @@ namespace Anglian.Engine
 
 
                 string sUserName = Session.CurrentUserName;
-                string sMachineName = Session.CurrentUserName; //DependencyService.Get<ISettings>().GetMachineName();
+                string sMachineName = Settings.GetMachineName(); //DependencyService.Get<ISettings>().GetMachineName();
 
                 //Update screen.
                 this.UpdateMessage("Checking connection.");

@@ -27,6 +27,7 @@
           <Entry x:Name="txtAltContactMobNo"/>
           <Label Text="Special Resident Note:"/>
           <Entry x:Name="txtSpecialResidentNote"/>
+          <DatePicker x:Name="btnSurveyedDate"/>
         </StackLayout>
       </ScrollView>
     </StackLayout>

@@ -871,6 +871,36 @@ namespace Anglian.Engine
             }
 
         }
+
+        /// <summary>
+        /// Return selected items text value from combo box
+        /// </summary>
+        /// <param name="v_cmbCombo"></param>
+        /// <returns></returns>
+        public static string ReturnComboSelectedItemText(Picker v_cmbCombo)
+        {
+
+            string sRtnValue = string.Empty;
+            try
+            {
+
+                string cmbItem = v_cmbCombo.Items[v_cmbCombo.SelectedIndex];
+                if (cmbItem != null)
+                {
+                    sRtnValue = cmbItem;
+
+                }
+
+                return sRtnValue;
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+                return string.Empty;
+            }
+        }
+
         public static string ReturnComboSelectedTagValue(Picker v_cmbCombo)
         {
 

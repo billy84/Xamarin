@@ -7,6 +7,8 @@ using Anglian.Models;
 using Anglian.Classes;
 using Xamarin.Forms;
 using Anglian.Service;
+using Plugin.DeviceInfo;
+using Plugin.DeviceInfo.Abstractions;
 
 namespace Anglian.Engine
 {
@@ -340,6 +342,11 @@ namespace Anglian.Engine
             public cProjectTable cProjectData;
 
         }
+        public static string GetMachineName()
+        {
+            return CrossDeviceInfo.Current.Model;
+            
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -612,6 +619,47 @@ namespace Anglian.Engine
 
             }
 
+        }
+
+        /// <summary>
+        /// Add update to updates list and return. 
+        /// Used for logging changes, saves a lot of extra repetitive coding.
+        /// </summary>
+        /// <param name="v_cUpdate"></param>
+        /// <param name="v_sSubProjectNo"></param>
+        /// <param name="v_sFieldName"></param>
+        /// <param name="v_sFieldValue"></param>
+        /// <returns></returns>
+        public static List<cUpdatesTable> AddToUpdatesList(List<cUpdatesTable> v_cUpdates, string v_sSubProjectNo, string v_sFieldName, string v_sFieldValue)
+        {
+
+            try
+            {
+
+                //If not set then create new.
+                if (v_cUpdates == null)
+                {
+                    v_cUpdates = new List<cUpdatesTable>();
+                }
+
+                //Create single entry.
+                cUpdatesTable cUpdate = new cUpdatesTable();
+                cUpdate.SubProjectNo = v_sSubProjectNo;
+                cUpdate.FieldName = v_sFieldName;
+                cUpdate.FieldValue = v_sFieldValue;
+
+                //Add to collection
+                v_cUpdates.Add(cUpdate);
+
+                //Return
+                return v_cUpdates;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + " - PARAMS(SubProjectNo=" + v_sSubProjectNo + ",FieldName=" + v_sFieldName + ",FieldValue=" + v_sFieldValue + ")");
+
+            }
         }
     }
 }

@@ -1003,6 +1003,39 @@ namespace Anglian.Engine
             }
 
         }
+
+        /// <summary>
+        /// Add updates to update table.
+        /// </summary>
+        /// <param name="v_lUpdates"></param>
+        /// <returns></returns>
+        public bool AddUpdatesToUpdateTable(List<cUpdatesTable> v_lUpdates)
+        {
+
+            try
+            {
+
+                bool bOK = false;
+                foreach (cUpdatesTable cUpdate in v_lUpdates)
+                {
+                    bOK = this.AddToUpdateTable(cUpdate.SubProjectNo, cUpdate.FieldName, cUpdate.FieldValue);
+
+                    if (bOK == false)
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+        }
+
         public List<cFailedSurveyReasonsTable> FetchAllSurveyFailedReasons()
         {
 
