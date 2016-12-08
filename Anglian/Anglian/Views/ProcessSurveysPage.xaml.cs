@@ -100,7 +100,7 @@ namespace Anglian.Views
 
                 int iInstall_Awaiting = Convert.ToInt32(DependencyService.Get<IMain>().GetAppResourceValue("InstallStatus_AwaitingSurvey"));
                 string sUsername = await DependencyService.Get<ISettings>().GetUserName();
-                if (sUsername == string.Empty)
+                if (sUsername == string.Empty || sUsername == " ")
                     sUsername = Session.CurrentUserName;
 
                 List<cProjectTable> lWorksDB = Main.p_cDataAccess.GetUpComingWork_Surveyor(sUsername, iInstall_Awaiting);

@@ -32,6 +32,31 @@ namespace Anglian.Views
                 Icon = String.Format("{0}{1}.png", Device.OnPlatform("Icons/", "", "Assets/Icons/"), "erase"),
                 Command = new Command(() => ResetFilterBtn_Tapped())
             });
+            txtSubProjectNoFilter.IsEnabled = false;
+            cmbProjectNoFilter.SelectedIndexChanged += CmbProjectNoFilter_SelectedIndexChanged;
+        }
+
+        private void CmbProjectNoFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                string sFilter = cmbProjectNoFilter.Items[cmbProjectNoFilter.SelectedIndex];
+                if (sFilter.Equals(Settings.p_sProjectNoFilter_ProjectNo) == true)
+                {
+                    txtSubProjectNoFilter.IsEnabled = false;
+                    cmbProjectNo.IsEnabled = true;
+                }
+                else if (sFilter.Equals(Settings.p_sProjectNoFilter_SubProjectNo) == true)
+                {
+                    txtSubProjectNoFilter.IsEnabled = true;
+                    cmbProjectNo.IsEnabled = false;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            //throw new NotImplementedException();
         }
 
         private void ResetFilterBtn_Tapped()
@@ -55,6 +80,9 @@ namespace Anglian.Views
         {
             // ** Project numbers drop down.
             this.cmbProjectNo.Items.Add(Settings.p_sAnyStatus);
+            this.cmbProjectNoFilter.Items.Add(Settings.p_sProjectNoFilter_ProjectNo);
+            this.cmbProjectNoFilter.Items.Add(Settings.p_sProjectNoFilter_SubProjectNo);
+            this.cmbProjectNoFilter.SelectedIndex = 0;
 
             List<cProjectNo> lsProjectNos = Main.p_cDataAccess.GetProjectNos();
             foreach (cProjectNo lsProjectNo in lsProjectNos)
@@ -135,20 +163,20 @@ namespace Anglian.Views
                 //Extract Project Number.
                 string sProjectNo = string.Empty;
                 string sSubProjectNo = string.Empty; //v1.0.1
-
-                if (cmbProjectNo.SelectedIndex == -1)
+                if (cmbProjectNoFilter.Items[cmbProjectNoFilter.SelectedIndex].Equals(Settings.p_sProjectNoFilter_ProjectNo) == true)
                 {
-                    sProjectNo = Settings.p_sAnyStatus;
+                    string sValue = cmbProjectNo.Items[cmbProjectNo.SelectedIndex];
+                    if (sValue != Settings.p_sAnyStatus)
+                    {
+                        sProjectNo = sValue;
+
+                    }
+                }
+                else if (cmbProjectNoFilter.Items[cmbProjectNoFilter.SelectedIndex].Equals(Settings.p_sProjectNoFilter_SubProjectNo) == true)
+                {
+                    sSubProjectNo = txtSubProjectNoFilter.Text;
                 }
 
-                string sValue = (String)cmbProjectNo.Items[cmbProjectNo.SelectedIndex];
-                if (sValue != Settings.p_sAnyStatus)
-                {
-                    //v1.0.1 - Sub Project number filter.
-                    sProjectNo = sValue;
-                }
-                sSubProjectNo = txtSubProjectNoFilter.Text;
-                
                 //Install status
                 Int32 iInstallStatus = -1;
                 List<CmbItem> cbiItems = m_InstallStatus.Where(item => item.Content == cmbInstallStatus.Items[cmbInstallStatus.SelectedIndex]).ToList();
@@ -169,7 +197,10 @@ namespace Anglian.Views
 
                 //Surveyed Date.
                 DateTime? dSurveyDate = null;
-                dSurveyDate = this.cmbTimePicker.Date;
+                if (chkUseSurveyPlanDate.IsToggled == true)
+                {
+                    dSurveyDate = this.dtPicker.Date;
+                }
 
                 //Surveyed
                 string sSurveyed = this.cmbSurveyedStatus.Items[cmbSurveyedStatus.SelectedIndex];

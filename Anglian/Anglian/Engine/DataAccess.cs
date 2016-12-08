@@ -413,6 +413,96 @@ namespace Anglian.Engine
             }
 
         }
+
+        /// <summary>
+        /// Apply survey dates to projects.
+        /// </summary>
+        /// <param name="v_sProjectNos"></param>
+        /// <param name="v_dSurveyDate"></param>
+        /// <returns></returns>
+        public bool ApplySurveyDatesToSubProjects(List<string> v_lsSubProjectNos, DateTime v_dSurveyDate)
+        {
+
+            try
+            {
+
+                //Project table variable for updating.
+                cProjectTable cProj = null;
+                List<cUpdatesTable> cUpdates = new List<cUpdatesTable>();
+                Settings.SurveyDatesApply cApply;
+
+
+                string sSurveyorProfile = Session.CurrentUserName;
+                string sSurveyorName = Session.CurrentUserName;// await Settings.GetUserDisplayName();
+                string sMachineName = Settings.GetMachineName();
+
+                //Loop through each project nu
+                foreach (String sSubProjNo in v_lsSubProjectNos)
+                {
+
+                    //Clear out any existing updates.
+                    cUpdates.Clear();
+
+                    //Fetch project class
+                    cProj = this.GetSubProjectProjectData(sSubProjNo);
+
+                    cApply = Settings.ApplySurveyDates(cProj, cUpdates, v_dSurveyDate, sSubProjNo, sSurveyorName, sSurveyorProfile, sMachineName);
+
+                    //Update database
+                    this.m_conSQL.Update(cApply.cProjectData);
+
+                    //Apply all updates to table.
+                    this.AddUpdatesToUpdateTable(cApply.cUpdates);
+
+                }
+
+
+                //Clean up.
+                cProj = null;
+
+                //If we get here then all OK.
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + " - SurveyDate=" + v_dSurveyDate.ToString());
+
+            }
+
+
+        }
+        /// <summary>
+        /// v1.0.1 - Save sub project data
+        /// </summary>
+        /// <param name="v_cSubProject"></param>
+        /// <returns></returns>
+        public bool UpdateSubProjectData(cProjectTable v_cSubProject)
+        {
+
+            try
+            {
+
+
+                if (v_cSubProject.IDKey < 1)
+                {
+                    this.m_conSQL.Insert(v_cSubProject);
+                }
+                else
+                {
+                    this.m_conSQL.Update(v_cSubProject);
+                }
+
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+
+        }
         /// <summary>
         /// v1.0.1 - Get sub project notes data.
         /// </summary>

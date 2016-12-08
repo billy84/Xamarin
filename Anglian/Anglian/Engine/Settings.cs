@@ -661,5 +661,94 @@ namespace Anglian.Engine
 
             }
         }
+        /// <summary>
+        /// Apply survey dates to passed to passed objects.
+        /// </summary>
+        /// <param name="v_cProjectData"></param>
+        /// <param name="v_cUpdates"></param>
+        /// <returns></returns>
+        public static Settings.SurveyDatesApply ApplySurveyDates(cProjectTable v_cProjectData, List<cUpdatesTable> v_cUpdates, DateTime v_dSurveyDate, string v_sSubProjectNo, string v_sSurveyorName, string v_sSurveyorProfile, string v_sMachineName)
+        {
+
+            Settings.SurveyDatesApply cReturn = new Settings.SurveyDatesApply();
+            try
+            {
+
+                cReturn.cProjectData = v_cProjectData;
+                cReturn.cUpdates = v_cUpdates;
+
+                //AX sets the time one hour forward, so we take one hour off the date we save in the updates table for uploading to AX
+                DateTime dAXAdjDateTime = v_dSurveyDate; //.AddHours(-1); v1.0.9 JM removed the add 1 hour from the AX date
+
+                //Update class
+                cReturn.cProjectData.MxmConfirmedAppointmentIndicator = (int)Settings.YesNoBaseEnum.Yes;
+                cReturn.cUpdates = Settings.AddToUpdatesList(cReturn.cUpdates, v_sSubProjectNo, "MxmConfirmedAppointmentIndicator", ((int)Settings.YesNoBaseEnum.Yes).ToString());
+
+                cReturn.cProjectData.EndDateTime = v_dSurveyDate;
+                cReturn.cUpdates = Settings.AddToUpdatesList(cReturn.cUpdates, v_sSubProjectNo, "StartDateTime", dAXAdjDateTime.ToString());
+
+                cReturn.cProjectData.StartDateTime = v_dSurveyDate;
+                cReturn.cUpdates = Settings.AddToUpdatesList(cReturn.cUpdates, v_sSubProjectNo, "EndDateTime", dAXAdjDateTime.ToString());
+
+                cReturn.cProjectData.SurveyorName = v_sSurveyorName;
+                cReturn.cUpdates = Settings.AddToUpdatesList(cReturn.cUpdates, v_sSubProjectNo, "MxmSurveyorName", v_sSurveyorName);
+
+                cReturn.cProjectData.SurveyorProfile = v_sSurveyorProfile;
+                cReturn.cUpdates = Settings.AddToUpdatesList(cReturn.cUpdates, v_sSubProjectNo, "MxmSurveyorProfile", v_sSurveyorProfile);
+
+                cReturn.cProjectData.SurveyorPCTag = v_sMachineName;
+                cReturn.cUpdates = Settings.AddToUpdatesList(cReturn.cUpdates, v_sSubProjectNo, "MxmSurveyorPCTag", v_sMachineName);
+
+                if (DependencyService.Get<ISettings>().IsThisTheSurveyorApp() == true)
+                {
+
+
+                    cReturn.cProjectData.MxmSurveyletterRequired = (int)Settings.YesNoBaseEnum.Yes;
+                    cReturn.cUpdates = Settings.AddToUpdatesList(cReturn.cUpdates, v_sSubProjectNo, "MxmSurveyletterRequired", ((int)Settings.YesNoBaseEnum.Yes).ToString());
+
+                    cReturn.cProjectData.MxmSMSSent = (int)Settings.YesNoBaseEnum.No;
+                    cReturn.cUpdates = Settings.AddToUpdatesList(cReturn.cUpdates, v_sSubProjectNo, "MxmSMSSent", ((int)Settings.YesNoBaseEnum.No).ToString());
+
+                    cReturn.cProjectData.MxmNextDaySMS = (int)Settings.YesNoBaseEnum.No;
+                    cReturn.cUpdates = Settings.AddToUpdatesList(cReturn.cUpdates, v_sSubProjectNo, "MxmNextDaySMS", ((int)Settings.YesNoBaseEnum.No).ToString());
+
+                }
+                else
+                {
+
+                    cReturn.cProjectData.MxmSurveyletterRequired = (int)Settings.YesNoBaseEnum.Yes;
+                    cReturn.cUpdates = Settings.AddToUpdatesList(cReturn.cUpdates, v_sSubProjectNo, "ABPAXInstallletterRequired", ((int)Settings.YesNoBaseEnum.Yes).ToString());
+
+                    cReturn.cProjectData.MxmSMSSent = (int)Settings.YesNoBaseEnum.No;
+                    cReturn.cUpdates = Settings.AddToUpdatesList(cReturn.cUpdates, v_sSubProjectNo, "ABPAXInstallSMSSent", ((int)Settings.YesNoBaseEnum.No).ToString());
+
+                    cReturn.cProjectData.MxmNextDaySMS = (int)Settings.YesNoBaseEnum.No;
+                    cReturn.cUpdates = Settings.AddToUpdatesList(cReturn.cUpdates, v_sSubProjectNo, "ABPAXInstallNextDaySMS", ((int)Settings.YesNoBaseEnum.No).ToString());
+
+                    //v1.0.10 - Set the confirmed action date.
+                    cReturn.cProjectData.ConfirmedActionDateTime = DateTime.Now;
+
+                }
+
+                //Return populated object.
+                return cReturn;
+
+            }
+            catch (Exception ex)
+            {
+
+                StringBuilder sbParams = new StringBuilder();
+
+                sbParams.Append("SurveyDate=" + v_dSurveyDate.ToString());
+                sbParams.Append(",SubProjectNo=" + v_sSubProjectNo);
+                sbParams.Append(",SurveyorName=" + v_sSurveyorName);
+                sbParams.Append(",SurveyorProfile=" + v_sSurveyorProfile);
+                sbParams.Append(",MachineName=" + v_sMachineName);
+
+                throw new Exception(ex.Message + " - PARAMS(" + sbParams.ToString() + ")");
+
+            }
+
+        }
     }
 }

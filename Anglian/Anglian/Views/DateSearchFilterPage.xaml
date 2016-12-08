@@ -8,6 +8,7 @@
     <ScrollView>
       <StackLayout VerticalOptions="FillAndExpand"
                    HorizontalOptions="FillAndExpand">
+        <Picker x:Name="cmbProjectNoFilter"/>
         <Picker x:Name="cmbProjectNo"
                 Title="Select Project No"
                 VerticalOptions="Start">
@@ -33,7 +34,15 @@
                 Title="Surveyed Status"
                 VerticalOptions="Start">
         </Picker>
-        <DatePicker x:Name="cmbTimePicker"
+        <StackLayout Orientation="Horizontal">
+          <Label Text="Use Survey Plan Date"
+                 VerticalOptions="CenterAndExpand"
+                  HorizontalOptions="StartAndExpand"/>
+          <Switch x:Name="chkUseSurveyPlanDate"
+                  HorizontalOptions="End"
+                  VerticalOptions="CenterAndExpand"/>
+        </StackLayout>
+        <DatePicker x:Name="dtPicker"
                     Format="D"
                     VerticalOptions="CenterAndExpand"/>
         <Picker x:Name="cmbDateCompare"

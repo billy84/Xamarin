@@ -23,9 +23,303 @@ namespace Anglian.Views
             m_surveyInputResult = ProjectInfo;
             Title = ProjectInfo.ProjectNo + " - " + ProjectInfo.ProjectName;
             AddToolBarForCustomerPage();
-            this.m_cProjectNotes = Main.p_cDataAccess.GetSubProjectNotesData(ProjectInfo.SubProjectNo);
-            this.CurrentPageChanged += SurveySuccessPage_CurrentPageChanged;
+            m_cProjectData = Main.p_cDataAccess.GetSubProjectProjectData(ProjectInfo.SubProjectNo);
+            m_cProjectNotes = Main.p_cDataAccess.GetSubProjectNotesData(ProjectInfo.SubProjectNo);
+            CurrentPageChanged += SurveySuccessPage_CurrentPageChanged;
+            PopulateDropDowns();
+            DisplayProjectDetails(m_cProjectData);
         }
+        /// <summary>
+        /// Update special note.
+        /// </summary>
+        /// <param name="v_sNoteText"></param>
+        private void UpdateSpecialNotes(cProjectTable v_sProjectData)
+        {
+
+            try
+            {
+
+                if (String.IsNullOrEmpty(v_sProjectData.SpecialResidentNote) == true)
+                {
+                    this.txtSpecialResidentNote.Text = String.Empty;
+                    //this.txtSpecialNoteFlyout.Text = String.Empty;
+                }
+                else
+                {
+                    this.txtSpecialResidentNote.Text = v_sProjectData.SpecialResidentNote;
+                    //this.txtSpecialNoteFlyout.Text = v_sProjectData.SpecialResidentNote;
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+
+            }
+
+        }
+        /// <summary>
+        /// Populate drop downs.
+        /// </summary>
+        private void PopulateDropDowns()
+        {
+
+            try
+            {
+
+                this.UpdateDropDown(this.cmbPropertyType, "MxmPropertyType");
+                this.UpdateDropDown(this.cmbFloorLevel, "ABPAXFloorLevel");
+                this.UpdateDropDown(this.cmbInstallationType, "ABPAXInstallationType");
+                this.UpdateDropDown(this.cmbAsbestosPresumed, "ABPAXAsbestosPresumed");
+                this.UpdateDropDown(this.cmbAccessEquipment, "ABPAXAccessEquipment");
+                this.UpdateDropDown(this.cmbPermanentGasVent, "ABPAXPermanentGasVent");
+                this.UpdateDropDown(this.cmbWindowboard, "ABPAXWindowBoard");
+                this.UpdateDropDown(this.cmbStructuralFaults, "ABPAXStructuralFaults");
+                this.UpdateDropDown(this.cmbServicesToMove, "ABPAXServicesToMove");
+                this.UpdateDropDown(this.cmbDoorChoiceFormRcvd, "MxmDoorChoiceFormReceived");
+                this.UpdateDropDown(this.cmbDisabledAdaptionsRqd, "MxmDisabledAdaptionsRequired");
+
+                this.UpdateDropDown(this.cmbInternalDamage, "ABPAXInternDamage");
+                this.UpdateDropDown(this.cmbWorkAccessRestrictions, "ABPAXWrkAccRestrictions");
+                this.UpdateDropDown(this.cmbPublicProtection, "ABPAXPublicProtect");
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+
+            }
+        }
+
+        /// <summary>
+        /// Update drop down list.
+        /// </summary>
+        /// <param name="v_sControlName"></param>
+        /// <param name="v_sFieldName"></param>
+        private void UpdateDropDown(Picker v_sControlName, string v_sFieldName)
+        {
+
+            try
+            {
+
+                //Try and locate the combo box on screen.
+                Picker cmbCombo = v_sControlName;
+                if (cmbCombo != null)
+                {
+
+
+                    //Add please choose to the list.
+                    //ComboBoxItem cmbItem = new ComboBoxItem();
+                    //cmbItem.Content = Settings.p_sPleaseChoose;
+                    //cmbItem.Tag = -1;
+
+                    cmbCombo.Items.Add(Settings.p_sPleaseChoose);
+
+                    //Fetch enumerators and populate.
+                    List<cBaseEnumsTable> oEnums = Main.p_cDataAccess.GetEnumsForField(v_sFieldName);
+                    foreach (cBaseEnumsTable cEnum in oEnums)
+                    {
+                        if (cEnum.EnumName.Length > 0)
+                        {
+
+                            //cmbItem = new ComboBoxItem();
+                            //cmbItem.Content = cEnum.EnumName;
+                            //cmbItem.Tag = cEnum.EnumValue;
+
+                            cmbCombo.Items.Add(cEnum.EnumName);
+                        }
+
+                    }
+
+                    //Select first item in list.
+                    cmbCombo.SelectedIndex = 0;
+                    //cmbCombo.Tag = 0; //v1.0.2 - Set combo tag to initial selected index.
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+
+            }
+
+
+        }
+        /// <summary>
+        /// Display project details on screen.
+        /// </summary>
+        private void DisplayProjectDetails(cProjectTable v_cProjectData)
+        {
+
+            try
+            {
+                Title = this.m_cProjectData.SubProjectNo + Main.ReturnAddress(this.m_cProjectData);
+                //Sub project details.
+                //this.tbSubProjectID.Text = this.m_cProjectData.SubProjectNo;
+                //this.tbAddress.Text = cMain.ReturnAddress(this.m_cProjectData);
+
+                //Resident details
+                this.txtResidentName.Text = Settings.ReturnString(v_cProjectData.ResidentName);
+                this.txtResidentTelNo.Text = Settings.ReturnString(v_cProjectData.ResidentTelNo);
+                this.txtReplacementType.Text = Settings.ReturnString(v_cProjectData.MxmProjDescription);
+                this.txtResidentMobileNo.Text = Settings.ReturnString(v_cProjectData.ResidentMobileNo);
+                this.txtAltContactTelNo.Text = Settings.ReturnString(v_cProjectData.AlternativeContactTelNo);
+                this.txtAltContactName.Text = Settings.ReturnString(v_cProjectData.AlternativeContactName);
+                this.txtAltContactMobNo.Text = Settings.ReturnString(v_cProjectData.AlternativeContactMobileNo);
+                this.UpdateSpecialNotes(v_cProjectData);
+
+                //Drop down details
+                this.SelectDropDown(this.cmbPropertyType, v_cProjectData.PropertyType, this.m_cProjectData.PropertyType);
+                this.SelectDropDown(this.cmbFloorLevel, v_cProjectData.ABPAXFloorLevel, this.m_cProjectData.ABPAXFloorLevel);
+                this.SelectDropDown(this.cmbInstallationType, v_cProjectData.ABPAXInstallationType, this.m_cProjectData.ABPAXInstallationType);
+                this.SelectDropDown(this.cmbAsbestosPresumed, v_cProjectData.ABPAXAsbestosPresumed, this.m_cProjectData.ABPAXAsbestosPresumed);
+                this.SelectDropDown(this.cmbAccessEquipment, v_cProjectData.ABPAXAccessEquipment, this.m_cProjectData.ABPAXAccessEquipment);
+                this.SelectDropDown(this.cmbPermanentGasVent, v_cProjectData.ABPAXPermanentGasVent, this.m_cProjectData.ABPAXPermanentGasVent);
+                this.SelectDropDown(this.cmbWindowboard, v_cProjectData.ABPAXWindowBoard, this.m_cProjectData.ABPAXWindowBoard);
+                this.SelectDropDown(this.cmbStructuralFaults, v_cProjectData.ABPAXStructuralFaults, this.m_cProjectData.ABPAXStructuralFaults);
+                this.SelectDropDown(this.cmbServicesToMove, v_cProjectData.ABPAXServicesToMove, this.m_cProjectData.ABPAXServicesToMove);
+                this.SelectDropDown(this.cmbDisabledAdaptionsRqd, v_cProjectData.DisabledAdaptionsRequired, this.m_cProjectData.DisabledAdaptionsRequired);
+                this.SelectDropDown(this.cmbDoorChoiceFormRcvd, v_cProjectData.MxmDoorChoiceFormReceived, this.m_cProjectData.MxmDoorChoiceFormReceived);
+
+                this.SelectDropDown(this.cmbInternalDamage, v_cProjectData.ABPAXInternalDamage, this.m_cProjectData.ABPAXInternalDamage);
+                this.SelectDropDown(this.cmbWorkAccessRestrictions, v_cProjectData.ABPAXWorkAccessRestrictions, this.m_cProjectData.ABPAXWorkAccessRestrictions);
+                this.SelectDropDown(this.cmbPublicProtection, v_cProjectData.ABPAXPublicProtection, this.m_cProjectData.ABPAXPublicProtection);
+
+
+
+                //Display correct survey input date.
+                if (v_cProjectData.MXM1002TrfDate.HasValue == true)
+                {
+                    this.DisplaySurveyDateOnSurveyButton(v_cProjectData.MXM1002TrfDate);
+                }
+                else
+                {
+                    this.DisplaySurveyDateOnSurveyButton(v_cProjectData.EndDateTime);
+                }
+
+                //v1.0.21 - If incomplete, do not allow
+                if (v_cProjectData.ABPAWHealthSafetyInComplete.HasValue == true)
+                {
+                    if (v_cProjectData.ABPAWHealthSafetyInComplete.Value == (int)Settings.YesNoBaseEnum.Yes)
+                    {
+
+                        //this.btnResidentSignature.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                        this.btnSurveyedDate.IsEnabled = false;
+
+
+                    }
+
+                    //Update page title.
+                    //this.Title = "Surveyed Input Detail";
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+
+            }
+
+        }
+        /// <summary>
+        /// Update drop down with value.
+        /// </summary>
+        /// <param name="v_sControlID"></param>
+        /// <param name="v_sValue"></param>
+        private void SelectDropDown(Picker v_sControlName, int? v_iValue, int? v_iMainValue)
+        {
+
+            try
+            {
+
+                //If null we go no further.
+                if (v_iValue.HasValue == false)
+                {
+                    return;
+                }
+
+                //Try and locate the combo box on screen.
+                Picker cmbCombo = v_sControlName;
+                if (cmbCombo != null)
+                {
+
+
+                    int iIndex = 0;
+
+                    //Loop through combo box items and find one matching passed values.
+                    foreach (string cbItem in cmbCombo.Items)
+                    {
+
+                        //v1.0.2 - This is the original value, not a restore value.
+                        if (cmbCombo.SelectedIndex == v_iMainValue)
+                        {
+
+                            //v1.0.2 - Update initial index
+                            cmbCombo.SelectedIndex = (int)v_iMainValue;
+                            //cmbCombo.Tag = iIndex;
+
+                        }
+
+
+                        //If match then select index.
+                        if (cmbCombo.SelectedIndex == v_iValue)
+                        {
+
+                            cmbCombo.SelectedIndex = iIndex;
+
+                        }
+
+                        //Count through items.
+                        iIndex++;
+
+                    }
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+
+            }
+        }
+        /// <summary>
+        /// Display survey date on survey date button.
+        /// </summary>
+        /// <param name="v_dSurveyDate"></param>
+        private void DisplaySurveyDateOnSurveyButton(DateTime? v_dSurveyDate)
+        {
+
+            try
+            {
+
+                if (v_dSurveyDate.HasValue == true)
+                {
+                    this.btnSurveyedDate.Date = (DateTime)v_dSurveyDate;
+                    //this.btnSurveyedDate.Content = "Surveyed date: " + cMain.ReturnDisplayDate(v_dSurveyDate.Value);
+                }
+                else
+                {
+                    this.btnSurveyedDate.Date = DateTime.Now;
+                    //this.btnSurveyedDate.Content = "Surveyed date: N\\A";
+                }
+
+                //this.btnSurveyedDate.Date = (DateTime)v_dSurveyDate;
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+
+            }
+        }
+
         private void AddToolBarForCustomerPage()
         {
             this.ToolbarItems.Add(new ToolbarItem()
@@ -38,7 +332,7 @@ namespace Anglian.Views
             {
                 Text = "Note",
                 Icon = String.Format("{0}{1}.png", Device.OnPlatform("Icons/", "", "Assets/Icons/"), "note"),
-                Command = new Command(() => CopyBtn_Tapped())
+                Command = new Command(() => NoteBtn_Tapped())
             });
             this.ToolbarItems.Add(new ToolbarItem()
             {

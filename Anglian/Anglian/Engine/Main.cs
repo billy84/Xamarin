@@ -900,6 +900,96 @@ namespace Anglian.Engine
                 return string.Empty;
             }
         }
+        /// <summary>
+        /// v1.0.2 - Checks too see if sub project status is such that it will not show on front screen.
+        /// </summary>
+        /// <param name="v_iSubProjectProgressStatus"></param>
+        /// <param name="v_iSubProjectInstallStatus"></param>
+        /// <returns></returns>
+        public static bool WillSubProjectDisplayOnFrontScreen(int v_iSubProjectInstallStatus)
+        {
+
+
+            try
+            {
+
+                int iInstall_Awaiting = Convert.ToInt32(DependencyService.Get<IMain>().GetAppResourceValue("InstallStatus_AwaitingSurvey"));
+
+
+                if (v_iSubProjectInstallStatus != iInstall_Awaiting)
+                {
+
+                    return false;
+
+                }
+                else
+                {
+                    return true;
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+                return false;
+            }
+
+
+        }
+        /// <summary>
+        /// v1.0.2 - Return message warning that passed sub projects will not be displayed on front screen d
+        /// </summary>
+        /// <param name="v_lstJobs"></param>
+        /// <returns></returns>
+        public static string ReturnSubProjectWillNotDisplayOnFrontScreenMessage(List<string> v_lstJobs)
+        {
+
+            StringBuilder sbMsg = new StringBuilder();
+            try
+            {
+
+                int iInstall_Awaiting = Convert.ToInt32(DependencyService.Get<IMain>().GetAppResourceValue("InstallStatus_AwaitingSurvey"));
+                string sInstallStatusName = Main.p_cDataAccess.GetEnumValueName("ProjTable", "Mxm1002InstallStatus", iInstall_Awaiting);
+
+                if (v_lstJobs.Count == 1)
+                {
+                    sbMsg.Append("Warning, due to the status of this job " + v_lstJobs[0] + " it will not display on the front screen.");
+                    sbMsg.Append(Environment.NewLine);
+
+                }
+                else
+                {
+
+                    sbMsg.Append("Warning, due to the status of the following jobs they will not be displayed on the front screen:");
+                    sbMsg.Append(Environment.NewLine);
+                    foreach (string sJob in v_lstJobs)
+                    {
+                        sbMsg.Append(sJob);
+                        sbMsg.Append(Environment.NewLine);
+
+                    }
+
+                }
+
+                sbMsg.Append(Environment.NewLine);
+                sbMsg.Append("The status needed to display on the front screen are:");
+                sbMsg.Append(Environment.NewLine);
+                sbMsg.Append("Install status: " + sInstallStatusName);
+                sbMsg.Append(Environment.NewLine);
+
+
+                return sbMsg.ToString();
+
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+                return null;
+            }
+
+        }
 
         public static string ReturnComboSelectedTagValue(Picker v_cmbCombo)
         {
