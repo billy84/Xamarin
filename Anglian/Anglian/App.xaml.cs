@@ -18,6 +18,7 @@ namespace Anglian
             DateTime dtLatestDate;
             if (sLatestLoginDate == string.Empty)
             {
+                MainPage = new NavigationPage(new LoginPage());
                 dtLatestDate = DateTime.Now;
             }
             else
@@ -26,16 +27,16 @@ namespace Anglian
                 {
                     // handle parse failure
                 }
+                if ((DateTime.Now - dtLatestDate).TotalDays <= 3)
+                {
+                    Session.CurrentUserName = DependencyService.Get<ISettings>().GetSessionFromLocalSetting("UserName");
+                    Session.Token = DependencyService.Get<ISettings>().GetSessionFromLocalSetting("Token");
+                    //Session.LoggedTime = DependencyService.Get<ISettings>().GetSessionFromLocalSetting("Date");
+                    MainPage = new NavigationPage(new MainMenuPage());
+                }
+                else
+                    MainPage = new NavigationPage(new LoginPage());
             }
-            if ((DateTime.Now - dtLatestDate).TotalDays <= 3)
-            {
-                Session.CurrentUserName = DependencyService.Get<ISettings>().GetSessionFromLocalSetting("UserName");
-                Session.Token = DependencyService.Get<ISettings>().GetSessionFromLocalSetting("Token");
-                //Session.LoggedTime = DependencyService.Get<ISettings>().GetSessionFromLocalSetting("Date");
-                MainPage = new NavigationPage(new MainMenuPage());
-            }
-            else
-                MainPage = new NavigationPage(new LoginPage());
             //MainPage = new Anglian.MainPage();
         }
 
