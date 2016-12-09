@@ -146,7 +146,7 @@ namespace Anglian.Views
         private void UpdateSyncPage()
         {
             string sSyncMsg = String.Empty;
-            cAppSettingsTable cSettings = Main.p_cDataAccess.ReturnSettings();
+            AppSettingsTable cSettings = Main.p_cDataAccess.ReturnSettings();
             sSyncMsg = Main.ReturnLastSyncString(cSettings.LastSyncDateTime);
             if (Application.Current.MainPage.Navigation.NavigationStack.Count > 0)
             {

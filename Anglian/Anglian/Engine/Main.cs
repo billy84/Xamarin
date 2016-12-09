@@ -300,10 +300,10 @@ namespace Anglian.Engine
             try
             {
 
-                cAppSettingsTable cSetting = Main.p_cDataAccess.ReturnSettings();
+                AppSettingsTable cSetting = Main.p_cDataAccess.ReturnSettings();
                 if (cSetting == null)
                 {
-                    cSetting = new cAppSettingsTable();
+                    cSetting = new AppSettingsTable();
                     bChangesMade = true;
                 }
 
@@ -383,7 +383,7 @@ namespace Anglian.Engine
 
                 int iDaysBetweenChecks = Convert.ToInt32(DependencyService.Get<IMain>().GetAppResourceValue("CheckBaseEnumDaysBetweenChecks").ToString());
 
-                cAppSettingsTable cSettings = Main.p_cDataAccess.ReturnSettings();
+                AppSettingsTable cSettings = Main.p_cDataAccess.ReturnSettings();
                 if (cSettings != null)
                 {
 
@@ -432,7 +432,7 @@ namespace Anglian.Engine
 
                 int iDaysBetweenChecks = Convert.ToInt32(DependencyService.Get<IMain>().GetAppResourceValue("CheckSettingsDaysBetweenChecks").ToString());
 
-                cAppSettingsTable cSettings = Main.p_cDataAccess.ReturnSettings();
+                AppSettingsTable cSettings = Main.p_cDataAccess.ReturnSettings();
                 if (cSettings != null)
                 {
 
@@ -555,7 +555,7 @@ namespace Anglian.Engine
                         if (fsrResult.bSuccessfull == true)
                         {
 
-                            cAppSettingsTable cSettings = Main.p_cDataAccess.ReturnSettings();
+                            AppSettingsTable cSettings = Main.p_cDataAccess.ReturnSettings();
 
                             if (fsrResult.sfrReasons.Count > 0)
                             {
@@ -616,7 +616,7 @@ namespace Anglian.Engine
 
                 int iDaysBetweenChecks = Convert.ToInt32(DependencyService.Get<IMain>().GetAppResourceValue("CheckFailedReasonsDaysBetweenChecks").ToString());
 
-                cAppSettingsTable cSettings = Main.p_cDataAccess.ReturnSettings();
+                AppSettingsTable cSettings = Main.p_cDataAccess.ReturnSettings();
                 if (cSettings != null)
                 {
 
@@ -756,7 +756,7 @@ namespace Anglian.Engine
             {
 
                 //Retrieve settings.
-                cAppSettingsTable cSettings = Main.p_cDataAccess.ReturnSettings();
+                AppSettingsTable cSettings = Main.p_cDataAccess.ReturnSettings();
 
                 //Update last date time.
                 cSettings.LastSyncDateTime = DateTime.Now;

@@ -125,7 +125,7 @@ namespace Anglian.Engine
                 //v1.0.11 - Check settings database exists.
                 if (this.m_conSQL_Settings.TableMappings.Count() == 0)
                 {
-                    this.m_conSQL_Settings.CreateTable<cAppSettingsTable>();
+                    this.m_conSQL_Settings.CreateTable<AppSettingsTable>();
 
                 }
 
@@ -2111,12 +2111,12 @@ namespace Anglian.Engine
         /// Return application settings
         /// </summary>
         /// <returns></returns>
-        public cAppSettingsTable ReturnSettings()
+        public AppSettingsTable ReturnSettings()
         {
-            cAppSettingsTable rtnTable = null;
+            AppSettingsTable rtnTable = null;
             try
             {
-                var oResults = from oCols in m_conSQL_Settings.Table<cAppSettingsTable>() select oCols;
+                var oResults = from oCols in m_conSQL_Settings.Table<AppSettingsTable>() select oCols;
                 foreach (var oResult in oResults)
                 {
                     rtnTable = oResult;
@@ -2142,7 +2142,7 @@ namespace Anglian.Engine
 
                 int iDaysBetweenChecks = Convert.ToInt32(DependencyService.Get<IMain>().GetAppResourceValue("CheckBaseEnumDaysBetweenChecks").ToString());
 
-                cAppSettingsTable cSettings = Main.p_cDataAccess.ReturnSettings();
+                AppSettingsTable cSettings = Main.p_cDataAccess.ReturnSettings();
                 if (cSettings != null)
                 {
 
@@ -2291,7 +2291,7 @@ namespace Anglian.Engine
                 }
 
 
-                cAppSettingsTable cSetting = this.ReturnSettings();
+                AppSettingsTable cSetting = this.ReturnSettings();
                 cSetting.LastBaseEnumCheckDateTime = DateTime.Now;
                 await SaveSettings(cSetting);
 
@@ -2466,7 +2466,7 @@ namespace Anglian.Engine
         /// </summary>
         /// <param name="v_cSettings"></param>
         /// <returns></returns>
-        public async Task<bool> SaveSettings(cAppSettingsTable v_cSettings)
+        public async Task<bool> SaveSettings(AppSettingsTable v_cSettings)
         {
 
             try
@@ -2526,7 +2526,7 @@ namespace Anglian.Engine
                 }
 
 
-                cAppSettingsTable cSetting = ReturnSettings();
+                AppSettingsTable cSetting = ReturnSettings();
                 cSetting.LastSettingsCheckDateTime = DateTime.Now;
                 await this.SaveSettings(cSetting);
 

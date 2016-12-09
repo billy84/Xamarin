@@ -18,7 +18,7 @@ namespace Anglian.Views
         {
             InitializeComponent();
             Title = "Project Sync";
-            cAppSettingsTable cSettings = Main.p_cDataAccess.ReturnSettings();
+            AppSettingsTable cSettings = Main.p_cDataAccess.ReturnSettings();
             tbLastSyncDateTime.Text = Main.ReturnLastSyncString(cSettings.LastSyncDateTime);
         }
         private void SendChanges_Clicked(object sender, EventArgs args)
@@ -48,7 +48,7 @@ namespace Anglian.Views
         private void UpdateSyncPage()
         {
             string sSyncMsg = String.Empty;
-            cAppSettingsTable cSettings = Main.p_cDataAccess.ReturnSettings();
+            AppSettingsTable cSettings = Main.p_cDataAccess.ReturnSettings();
             sSyncMsg = Main.ReturnLastSyncString(cSettings.LastSyncDateTime);
             if (Application.Current.MainPage.Navigation.NavigationStack.Count > 0)
             {

@@ -7,7 +7,7 @@ using SQLite;
 
 namespace Anglian.Models
 {
-    public class cAppSettingsTable
+    public class AppSettingsTable
     {
         /// <summary>
         /// IDKey field
