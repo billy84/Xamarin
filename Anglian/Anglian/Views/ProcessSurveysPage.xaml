@@ -3,47 +3,55 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Anglian.Views.ProcessSurveysPage">
   <ContentPage Title="Today">
-    <ListView x:Name="gvWorkForTodayAM"
-              BackgroundColor="Gray"
-              HorizontalOptions="Center"
-              VerticalOptions="CenterAndExpand">
-      <ListView.ItemTemplate>
-        <DataTemplate>
-          <ViewCell>
-            <StackLayout Orientation="Vertical">
-              <Label Text="{Binding Header}"/>
-              <Label Text="{Binding TelephoneNo}"/>
-              <Label Text="{Binding SubProjectNo}"/>
-              <Label Text="{Binding Address}"/>
-              <Label Text="{Binding Name}"/>
-              <Label Text="{Binding WorkType}"/>
-              <Label Text="{Binding Progress}"/>
-            </StackLayout>
-          </ViewCell>
-        </DataTemplate>
-      </ListView.ItemTemplate>
-    </ListView>
+    <StackLayout VerticalOptions="FillAndExpand"
+                 HorizontalOptions="FillAndExpand">
+      <ProgressBar x:Name="ProgressToday"/>
+      <ListView x:Name="gvWorkForTodayAM"
+                BackgroundColor="Gray"
+                HorizontalOptions="Center"
+                VerticalOptions="CenterAndExpand">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ViewCell>
+              <StackLayout Orientation="Vertical">
+                <Label Text="{Binding Header}"/>
+                <Label Text="{Binding TelephoneNo}"/>
+                <Label Text="{Binding SubProjectNo}"/>
+                <Label Text="{Binding Address}"/>
+                <Label Text="{Binding Name}"/>
+                <Label Text="{Binding WorkType}"/>
+                <Label Text="{Binding Progress}"/>
+              </StackLayout>
+            </ViewCell>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+    </StackLayout>
   </ContentPage>
   <ContentPage Title="Tomorrow">
-    <ListView x:Name="gvWorkForTodayPM"
-              BackgroundColor="Gray"
-              HorizontalOptions="Center"
-              VerticalOptions="CenterAndExpand">
-      <ListView.ItemTemplate>
-        <DataTemplate>
-          <ViewCell>
-            <StackLayout Orientation="Vertical">
-              <Label Text="{Binding Header}"/>
-              <Label Text="{Binding TelephoneNo}"/>
-              <Label Text="{Binding SubProjectNo}"/>
-              <Label Text="{Binding Address}"/>
-              <Label Text="{Binding Name}"/>
-              <Label Text="{Binding WorkType}"/>
-              <Label Text="{Binding Progress}"/>
-            </StackLayout>
-          </ViewCell>
-        </DataTemplate>
-      </ListView.ItemTemplate>
-    </ListView>
+    <StackLayout VerticalOptions="FillAndExpand"
+                 HorizontalOptions="FillAndExpand">
+      <ProgressBar x:Name="ProgressTomorrow"/>
+      <ListView x:Name="gvWorkForTodayPM"
+                BackgroundColor="Gray"
+                HorizontalOptions="Center"
+                VerticalOptions="CenterAndExpand">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ViewCell>
+              <StackLayout Orientation="Vertical">
+                <Label Text="{Binding Header}"/>
+                <Label Text="{Binding TelephoneNo}"/>
+                <Label Text="{Binding SubProjectNo}"/>
+                <Label Text="{Binding Address}"/>
+                <Label Text="{Binding Name}"/>
+                <Label Text="{Binding WorkType}"/>
+                <Label Text="{Binding Progress}"/>
+              </StackLayout>
+            </ViewCell>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+    </StackLayout>
   </ContentPage>
 </TabbedPage>

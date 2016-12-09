@@ -42,6 +42,7 @@ namespace Anglian.Views
                 Icon = String.Format("{0}{1}.png", Device.OnPlatform("Icons/", "", "Assets/Icons/"), "configuration"),
                 Command = new Command(() => SettingBtn_Tapped())
             });
+            SetProgress(.0);
             TabbedPage_loaded();
         }
         private void SettingBtn_Tapped()
@@ -69,7 +70,8 @@ namespace Anglian.Views
             try
             {
                 await Main.CheckAXConnection();
-                DisplayWorkDetails();
+                SetProgress(.2);
+                DisplayWorkDetails();                
                 if (Main.p_cDataAccess.AreWeRunningInLive() == false)
                 {
                     var navigationPage = Application.Current.MainPage as NavigationPage;
@@ -84,7 +86,7 @@ namespace Anglian.Views
             catch (Exception ex)
             {
 
-            }
+            }            
         }
         /// <summary>
         /// Display the work that is upcoming on the tiles.
@@ -109,9 +111,15 @@ namespace Anglian.Views
 
 
                     DashboardWork cWork = null;
+                    SetProgress(.3);
+
+                    int count = lWorksDB.Count;
+                    int index = 0;
 
                     foreach (cProjectTable cWorkDB in lWorksDB)
                     {
+                        double percent = .3 + .7 / count * index;
+                        SetProgress(percent);
 
                         cWork = new DashboardWork();
                         cWork.Header = Main.CreateWorkDisplayTitle(Main.ConvertNullableDateTimeToDateTime(cWorkDB.EndDateTime));
@@ -133,6 +141,7 @@ namespace Anglian.Views
                             lWorksPM.Add(cWork);
                         }
 
+                        index++;
 
                     }
 
@@ -148,7 +157,17 @@ namespace Anglian.Views
                 //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
 
             }
+            finally
+            {
+                SetProgress(1.0);
+            }
 
+        }
+
+        private async void SetProgress(double percent)
+        {
+            await ProgressToday.ProgressTo(percent, 250, Easing.Linear);
+            await ProgressTomorrow.ProgressTo(percent, 250, Easing.Linear);
         }
     }
 }
