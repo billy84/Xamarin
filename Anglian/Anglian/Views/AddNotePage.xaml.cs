@@ -13,12 +13,15 @@ namespace Anglian.Views
     {
         private List<cProjectNotesTable> m_cProjectNotes = null;
         private SurveyInputResult m_cProjectData = null;
+
+        private bool bSaveOK = false;
         public AddNotePage(SurveyInputResult ProjectInfo)
         {
             InitializeComponent();
             m_cProjectData = ProjectInfo;
             Title = ProjectInfo.ProjectNo + " - " + ProjectInfo.ProjectName;
             this.m_cProjectNotes = Main.p_cDataAccess.GetSubProjectNotesData(ProjectInfo.SubProjectNo);
+            this.RefreshNotesList();
         }
         /// <summary>
         /// Add new note.
@@ -46,6 +49,13 @@ namespace Anglian.Views
                     this.txtNewNote.Focus();
 
                     this.RefreshNotesList();
+
+                    //Save Note
+                    bSaveOK = this.SaveProjectNotes();
+                    if (bSaveOK == false)
+                    {
+                        bSaveOK = false;
+                    }
                 }
 
 
@@ -97,5 +107,46 @@ namespace Anglian.Views
 
             }
         }
+
+        private bool SaveProjectNotes()
+        {
+
+            bool bSaveOK = false;
+            try
+            {
+
+                foreach (cProjectNotesTable cNote in this.m_cProjectNotes)
+                {
+
+                    //if (cNote.AXRecID == -1 && cNote.IDKey != 10)
+                    if (cNote.IDKey == -1)
+                    {
+
+                        bSaveOK = Main.p_cDataAccess.SaveSubProjectNote(cNote);
+                        if (bSaveOK == false)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+
+                            cNote.IDKey = 10;
+                        }
+
+                    }
+
+                }
+
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                //Main.ReportError(ex, Main.GetCallerMethodName(), string.Empty);
+                return false;
+
+            }
+        }
+
     }
 }
