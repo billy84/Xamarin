@@ -76,7 +76,8 @@ namespace Anglian.Views
                 cFailedSurveyReasonsTable oReason = this.ReturnReasonObject();
 
                 //Remove blank spaces from comment box.
-                this.txtFailedComment.Text = this.txtFailedComment.Text.Trim();
+                if (this.txtFailedComment.Text != null)
+                    this.txtFailedComment.Text = this.txtFailedComment.Text.Trim();
 
                 string sItem = this.cmbFailedSurvey.Items[cmbFailedSurvey.SelectedIndex];
                 if (sItem.Equals(Settings.p_sPleaseChoose) == true)
