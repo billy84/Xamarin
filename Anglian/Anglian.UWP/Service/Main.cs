@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using System.IO;
 using Windows.Foundation;
 using System.Collections.ObjectModel;
@@ -26,17 +27,7 @@ namespace Anglian.UWP.Service
 {
     class Main : IMain
     {
-        private static BackgroundTaskRegistration m_tsBackgroundTask;
         private static Windows.ApplicationModel.Resources.ResourceLoader m_rlResources = new Windows.ApplicationModel.Resources.ResourceLoader();
-        /// <summary>
-        /// Dispatch timer, for checking connection
-        /// </summary>
-        private static DispatcherTimer m_dpDispatcher = null;
-
-        /// <summary>
-        /// Dispatch timer, for syncing
-        /// </summary>
-        private static DispatcherTimer m_dpDispatcherSync = null;
 
         public static ObservableCollection<DisplayPhoto> p_cProjectPhotos = null;
 
@@ -71,6 +62,104 @@ namespace Anglian.UWP.Service
             public decimal dOriginalHeight;
 
         }
+        public decimal ReturnHeightBitmapImage(object bitmapImage)
+        {
+            return ((BitmapImage)bitmapImage).PixelHeight;
+        }
+        public decimal ReturnWidthBitmapImage(object bitmapImage)
+        {
+            return ((BitmapImage)bitmapImage).PixelWidth;
+        }
+        /// <summary>
+        /// Read in and resize image.
+        /// </summary>
+        /// <param name="v_sFilePath"></param>
+        /// <param name="v_szSize"></param>
+        /// <returns></returns>
+        public async Task<object> ReadAndResizeImageFile(string v_sFilePath, Xamarin.Forms.Size v_szSize)
+        {
+
+            WriteableBitmap wbReturn = new WriteableBitmap((int)v_szSize.Width, (int)v_szSize.Height);
+            try
+            {
+
+                StorageFile sfFile = await StorageFile.GetFileFromPathAsync(v_sFilePath);
+
+                using (IRandomAccessStream fileStream = await sfFile.OpenAsync(Windows.Storage.FileAccessMode.Read))
+                {
+                    BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fileStream);
+
+                    // Scale image to appropriate size
+                    BitmapTransform transform = new BitmapTransform()
+                    {
+                        ScaledWidth = Convert.ToUInt32(wbReturn.PixelWidth),
+                        ScaledHeight = Convert.ToUInt32(wbReturn.PixelHeight)
+                    };
+
+                    PixelDataProvider pixelData = await decoder.GetPixelDataAsync(
+                        BitmapPixelFormat.Bgra8,    // WriteableBitmap uses BGRA format
+                        BitmapAlphaMode.Straight,
+                        transform,
+                        ExifOrientationMode.IgnoreExifOrientation, // This sample ignores Exif orientation
+                        ColorManagementMode.DoNotColorManage);
+
+                    // An array containing the decoded image data, which could be modified before being displayed
+                    byte[] sourcePixels = pixelData.DetachPixelData();
+
+                    // Open a stream to copy the image contents to the WriteableBitmap's pixel buffer
+                    using (Stream stream = wbReturn.PixelBuffer.AsStream())
+                    {
+                        await stream.WriteAsync(sourcePixels, 0, sourcePixels.Length);
+                    }
+                }
+
+                return wbReturn;
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+                return null;
+
+            }
+
+        }
+        /// <summary>
+        /// Convert image file to image object.
+        /// </summary>
+        public async Task<object> ReturnImageFromFile(string v_sImageFilePath)
+        {
+
+            //Return object.
+            BitmapImage imgReturn = null;
+
+            try
+            {
+
+                //Convert string path to storage file.
+                StorageFile sfFile = await StorageFile.GetFileFromPathAsync(v_sImageFilePath);
+
+                // Ensure the stream is disposed once the image is loaded
+                using (IRandomAccessStream fileStream = await sfFile.OpenAsync(Windows.Storage.FileAccessMode.Read))
+                {
+                    // Set the image source to the selected bitmap
+                    BitmapImage bitmapImage = new BitmapImage();
+
+                    await bitmapImage.SetSourceAsync(fileStream);
+                    imgReturn = bitmapImage;
+                }
+
+
+                return imgReturn;
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+                return null;
+
+            }
+
+        }
         /// <summary>
         /// Returns a value from the resources file match passed name.
         /// </summary>
@@ -88,6 +177,55 @@ namespace Anglian.UWP.Service
                 return ex.Message;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="v_sfFrom"></param>
+        /// <param name="v_sfTo"></param>
+        public async Task<bool> CopyAndConvertImage(object v_sfFrom, object v_sfTo, Xamarin.Forms.Size v_szSize)
+        {
+
+            try
+            {
+
+                using (IRandomAccessStream fileStream = await ((StorageFile)v_sfFrom).OpenAsync(Windows.Storage.FileAccessMode.Read))
+                {
+                    BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fileStream);
+
+                    // Scale image to appropriate size
+                    BitmapTransform transform = new BitmapTransform()
+                    {
+                        ScaledWidth = Convert.ToUInt32(v_szSize.Width),
+                        ScaledHeight = Convert.ToUInt32(v_szSize.Height)
+                    };
+
+                    PixelDataProvider pixelData = await decoder.GetPixelDataAsync(
+                        BitmapPixelFormat.Bgra8,    // WriteableBitmap uses BGRA format
+                        BitmapAlphaMode.Straight,
+                        transform,
+                        ExifOrientationMode.IgnoreExifOrientation, // This sample ignores Exif orientation
+                        ColorManagementMode.DoNotColorManage);
+
+
+                    using (var destinationStream = await ((StorageFile)v_sfTo).OpenAsync(FileAccessMode.ReadWrite))
+                    {
+                        BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, destinationStream);
+                        encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight, (uint)v_szSize.Width, (uint)v_szSize.Height, 72, 72, pixelData.DetachPixelData());
+                        await encoder.FlushAsync();
+                    }
+                }
+
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+                return false;
+            }
+
+        }
+
         public async Task<bool> CopyFile(string v_sFromFile, string v_sToFile)
         {
             try

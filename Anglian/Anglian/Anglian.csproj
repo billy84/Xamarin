@@ -43,6 +43,7 @@
     <Compile Include="Classes\BaseEnumResult.cs" />
     <Compile Include="Classes\BaseEnumValue.cs" />
     <Compile Include="Classes\DashboardWork.cs" />
+    <Compile Include="Classes\DisplayPhoto.cs" />
     <Compile Include="Classes\DownloadDataChange.cs" />
     <Compile Include="Classes\DownloadDataChangesResult.cs" />
     <Compile Include="Classes\FetchSurveyFailedReasonsResult.cs" />

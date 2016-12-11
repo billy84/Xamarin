@@ -1093,6 +1093,105 @@ namespace Anglian.Engine
             }
 
         }
+        /// <summary>
+        /// Fetch files list for sub project.
+        /// </summary>
+        /// <param name="v_sSubProjectNo"></param>
+        /// <param name="v_sFileName"></param>
+        /// <returns></returns>
+        public List<cProjectFilesTable> FetchSubProjectFilesList(string v_sSubProjectNo, bool v_bIncludeDeleted)
+        {
+
+            try
+            {
+
+                return this.FetchSubProjectFilesList(v_sSubProjectNo, String.Empty, v_bIncludeDeleted);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + " SubProjectNo(" + v_sSubProjectNo + "), IncludeDeleted(" + v_bIncludeDeleted.ToString() + ")");
+
+            }
+
+        }
+        /// <summary>
+        /// Mark file as deleted.
+        /// </summary>
+        /// <param name="v_iFileIDKey"></param>
+        /// <returns></returns>
+        public bool MarkFileAsDeleted(int v_iFileIDKey)
+        {
+
+
+            try
+            {
+
+                var oResults = (from oCols in this.m_conSQL.Table<cProjectFilesTable>()
+                                where (oCols.IDKey.Equals(v_iFileIDKey))
+                                select oCols);
+
+                cProjectFilesTable cFile = null;
+
+                foreach (var oResult in oResults)
+                {
+                    cFile = oResult;
+
+                    cFile.Deleted = true;
+
+                    this.m_conSQL.Update(cFile);
+
+                    return true;
+
+                }
+
+                return false;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + " FileIDKey(" + v_iFileIDKey.ToString() + ")");
+
+            }
+
+        }
+        /// <summary>
+        /// Fetch files list for sub project.
+        /// </summary>
+        /// <param name="v_sSubProjectNo"></param>
+        /// <param name="v_sFileName"></param>
+        /// <returns></returns>
+        public List<cProjectFilesTable> FetchSubProjectFilesList(string v_sSubProjectNo, string v_sFileName, bool v_bIncludeDeleted)
+        {
+
+
+            StringBuilder sbSQL = new StringBuilder();
+            try
+            {
+
+                sbSQL.Append("SELECT * FROM cProjectFilesTable");
+                sbSQL.Append(" WHERE SubProjectNo = '" + v_sSubProjectNo + "'");
+                if (v_sFileName.Length > 0)
+                {
+                    sbSQL.Append(" AND FileName = '" + v_sFileName.Replace("'", "''") + "'");
+                }
+
+                if (v_bIncludeDeleted == false)
+                {
+                    sbSQL.Append(" AND (Deleted IS NULL OR Deleted <> '1')");
+
+                }
+
+                return this.m_conSQL.Query<cProjectFilesTable>(sbSQL.ToString());
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + " SubProjectNo(" + v_sSubProjectNo + "), FileName(" + v_sFileName + "), IncludeDeleted(" + v_bIncludeDeleted.ToString() + ")");
+
+            }
+
+        }
 
         /// <summary>
         /// Add updates to update table.

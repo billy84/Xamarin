@@ -72,6 +72,17 @@ namespace Anglian.Engine
         /// <summary>
         /// List of project photos, used on the photo page.
         /// </summary>
+        public static ObservableCollection<DisplayPhoto> p_cProjectPhotos = null;
+
+        /// <summary>
+        /// List of deleted project photos, used on the photo page.
+        /// </summary>
+        public static ObservableCollection<DisplayPhoto> p_cDeletedPhotos = null;
+
+        /// <summary>
+        /// Last selected photo.
+        /// </summary>
+        public static DisplayPhoto p_cLastSelectedPhoto = null;
 
 
 
@@ -113,7 +124,166 @@ namespace Anglian.Engine
 
             }
         }
+        /// <summary>
+        /// Structure for return data after applying survey date changes.
+        /// </summary>
+        public struct DisplayImageDetails
+        {
 
+            /// <summary>
+            /// Bitmap
+            /// </summary>
+            public object wbBitmap;//WriteableBitmap
+
+            /// <summary>
+            /// Original width
+            /// </summary>
+            public decimal dOriginalWidth;
+
+            /// <summary>
+            /// Original height
+            /// </summary>
+            public decimal dOriginalHeight;
+
+        }
+
+        /// <summary>
+        /// CHeck image file name is in the correct format.
+        /// </summary>
+        /// <param name="v_sImageFileName"></param>
+        /// <returns></returns>
+        public static bool IsImageFileInCorrectFormat(string v_sImageFileName, string v_sSubProjectNo)
+        {
+
+            try
+            {
+
+                string[] sFileParts = v_sImageFileName.Split('+');
+                if (sFileParts.Length == 3)
+                {
+
+                    if (sFileParts[(int)Main.ImageNameParts.Date].Length == 14)
+                    {
+
+                        if (sFileParts[(int)Main.ImageNameParts.SubProjectNo].Equals(v_sSubProjectNo, StringComparison.CurrentCultureIgnoreCase) == true)
+                        {
+
+                            if (sFileParts[(int)Main.ImageNameParts.FileName].Length > 0)
+                            {
+
+                                return true;
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+                return false;
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+                return false;
+            }
+
+        }
+        /// <summary>
+        /// Return correct image name.
+        /// </summary>
+        /// <param name="v_sImageFileName"></param>
+        /// <param name="v_sSubProjectNo"></param>
+        /// <returns></returns>
+        public static string ReturnCorrectImageNameFormat(string v_sImageFileName, string v_sSubProjectNo)
+        {
+
+            try
+            {
+
+                return DateTime.Now.ToString("yyyyMMddHHmmss") + "+" + v_sSubProjectNo + "+" + v_sImageFileName;
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+                return null;
+
+            }
+        }
+        /// <summary>
+        /// Return aspect ratio
+        /// </summary>
+        /// <param name="v_dWidth"></param>
+        /// <param name="v_dHeight"></param>
+        /// <returns></returns>
+        public static Size ReturnAspectRatio(decimal v_dWidth, decimal v_dHeight, decimal v_dMaxDimension)
+        {
+
+            Size szReturn = new Size();
+            try
+            {
+
+
+                if (v_dWidth < v_dMaxDimension && v_dHeight < v_dMaxDimension)
+                {
+
+                    szReturn.Width = (double)v_dWidth;
+                    szReturn.Height = (double)v_dHeight;
+
+                }
+                else
+                {
+                    double dAspectRatio = (double)v_dWidth / (double)v_dHeight;
+                    if (v_dWidth > v_dHeight)
+                    {
+                        szReturn.Width = (double)v_dMaxDimension;
+                        szReturn.Height = (double)((double)v_dMaxDimension / dAspectRatio);
+
+                    }
+                    else
+                    {
+                        szReturn.Width = (double)((double)v_dMaxDimension * dAspectRatio);
+                        szReturn.Height = (double)v_dMaxDimension;
+
+                    }
+
+                }
+
+                return szReturn;
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+                return szReturn;
+            }
+
+        }
+        /// <summary>
+        /// Return signature file name.
+        /// </summary>
+        /// <param name="v_sSubProjectNo"></param>
+        /// <returns></returns>
+        public static string ReturnSignatureFileName(string v_sSubProjectNo)
+        {
+
+            try
+            {
+
+                return v_sSubProjectNo + "+" + Settings.p_sSignaturePicName;
+
+
+            }
+            catch (Exception ex)
+            {
+                //cMain.ReportError(ex, cMain.GetCallerMethodName(), string.Empty);
+                return null;
+
+            }
+        }
         /// <summary>
         /// Create work display title from survey date.
         /// </summary>

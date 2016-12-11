@@ -23,5 +23,14 @@ namespace Anglian.Service
         string GetSessionFromLocalSetting(string key);
         bool SetSessionToLocalSetting(string v_sUsername, string v_sToken, DateTime v_dLoginDate);
 
+        Task<object> ReturnStorageFile(object v_sfFolder, string v_sFileName);
+        string ReturnFilePath(object sFile);
+        Task<object> GetFileFromPath(string v_sFilePath);
+        string GetFileName(string v_sFilePath);
+        Task<object> CreateFile(object v_sfImageFolder, string v_sFileName);
+        Task<object> GetBasicProperties(object v_sfFile);
+        DateTime GetLocalDateTime(object v_oBaseProperties);
+        Task<bool> Delete(object v_sfFile);
+
     }
 }

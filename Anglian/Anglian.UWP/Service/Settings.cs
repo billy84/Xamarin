@@ -431,22 +431,67 @@ namespace Anglian.UWP.Service
 
             }
         }
+        public string ReturnFilePath(object sFile)
+        {
+            try
+            {
+                return ((StorageFile)sFile).Path;
+            }
+            catch (Exception ex)
+            {
+                return string.Empty;
+            }
+            
+        }
+        public async Task<bool> Delete(object v_sfFile)
+        {
+            try
+            {
+                await ((StorageFile)v_sfFile).DeleteAsync();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+            
+        }
+        public DateTime GetLocalDateTime(object v_oBaseProperties)
+        {
+            return ((Windows.Storage.FileProperties.BasicProperties)v_oBaseProperties).DateModified.LocalDateTime;
+        }
+        public async Task<object> GetBasicProperties(object v_sfFile)
+        {
+            return await ((StorageFile)v_sfFile).GetBasicPropertiesAsync();
+        }
+        public async Task<object> CreateFile(object v_sfImageFolder, string v_sFileName)
+        {
+            return await ((StorageFolder)v_sfImageFolder).CreateFileAsync(v_sFileName);
+        }
+        public string GetFileName(string v_sFilePath)
+        {
+            return Path.GetFileName(v_sFilePath);
+        }
+        public async Task<object> GetFileFromPath(string v_sFilePath)
+        {
+            return await StorageFile.GetFileFromPathAsync(v_sFilePath);
+        }
         /// <summary>
         /// Return storage file.
         /// </summary>
         /// <param name="v_sfFolder"></param>
         /// <param name="v_sFileName"></param>
         /// <returns></returns>
-        public async Task<StorageFile> ReturnStorageFile(StorageFolder v_sfFolder, string v_sFileName)
+        public async Task<object> ReturnStorageFile(object v_sfFolder, string v_sFileName)
         {
             try
             {
 
                 //Check if signature file exists
-                IStorageItem siItem = await v_sfFolder.TryGetItemAsync(v_sFileName);
+                IStorageItem siItem = await ((StorageFolder)v_sfFolder).TryGetItemAsync(v_sFileName);
                 if (siItem != null)
                 {
-                    return await v_sfFolder.GetFileAsync(v_sFileName);
+                    return await ((StorageFolder)v_sfFolder).GetFileAsync(v_sFileName);
 
                 }
 
@@ -477,7 +522,7 @@ namespace Anglian.UWP.Service
                 StorageFolder sfSubProject = (StorageFolder)oSubProject;
                 if (sfSubProject != null)
                 {
-                    sfReturn = await ReturnStorageFile(sfSubProject, v_sFileName);
+                    sfReturn = (StorageFile)await ReturnStorageFile(sfSubProject, v_sFileName);
 
                 }
 
