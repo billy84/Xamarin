@@ -1,6 +1,7 @@
 ﻿{
   "dependencies": {
     "Acr.UserDialogs": "6.3.2",
+    "HockeySDK.UWP": "4.1.5",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
     "sqlite-net-pcl": "1.1.2",
     "Xam.Plugin.DeviceInfo": "2.0.2",
