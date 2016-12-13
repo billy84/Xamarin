@@ -68,6 +68,7 @@ namespace Anglian.Views
         {
             base.OnAppearing();
             cmbProjectNo.Items.Clear();
+            cmbProjectNoFilter.Items.Clear();
             cmbInstallStatus.Items.Clear();
             cmbProgressStatus.Items.Clear();
             cmbSurveyedStatus.Items.Clear();
