@@ -31,7 +31,7 @@ namespace Anglian.UWP
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
-            Microsoft.HockeyApp.HockeyClient.Current.Configure("f4d00a4c4b5f4f8da63ad8090ffdae42");
+            //Microsoft.HockeyApp.HockeyClient.Current.Configure("f4d00a4c4b5f4f8da63ad8090ffdae42");
         }
 
         /// <summary>
