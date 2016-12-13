@@ -12,21 +12,53 @@
         <StackLayout VerticalOptions="FillAndExpand"
                    HorizontalOptions="FillAndExpand">
           <Label Text="Resident Name:"/>
-          <Entry x:Name="txtResidentName"/>
+          <Entry x:Name="txtResidentName"
+             Grid.Column="0"
+             TextColor="White"
+             VerticalOptions="CenterAndExpand">
+          </Entry>
           <Label Text="Replacement Type:"/>
-          <Entry x:Name="txtReplacementType"/>
+          <Entry x:Name="txtReplacementType"
+             Grid.Column="0"
+             TextColor="White"
+             VerticalOptions="CenterAndExpand">
+          </Entry>
           <Label Text="Resident Tel No:"/>
-          <Entry x:Name="txtResidentTelNo"/>
+          <Entry x:Name="txtResidentTelNo"
+             Grid.Column="0"
+             TextColor="White"
+             VerticalOptions="CenterAndExpand">
+          </Entry>
           <Label Text="Resident Mobile No:"/>
-          <Entry x:Name="txtResidentMobileNo"/>
+          <Entry x:Name="txtResidentMobileNo"
+             Grid.Column="0"
+             TextColor="White"
+             VerticalOptions="CenterAndExpand">
+          </Entry>
           <Label Text="Alt Contact Tel No:"/>
-          <Entry x:Name="txtAltContactTelNo"/>
+          <Entry x:Name="txtAltContactTelNo"
+             Grid.Column="0"
+             TextColor="White"
+             VerticalOptions="CenterAndExpand">
+          </Entry>
           <Label Text="Alt Contact Name:"/>
-          <Entry x:Name="txtAltContactName"/>
+          <Entry x:Name="txtAltContactName"
+             Grid.Column="0"
+             TextColor="White"
+             VerticalOptions="CenterAndExpand">
+          </Entry>
           <Label Text="Alt Contact Mob No:"/>
-          <Entry x:Name="txtAltContactMobNo"/>
+          <Entry x:Name="txtAltContactMobNo"
+             Grid.Column="0"
+             TextColor="White"
+             VerticalOptions="CenterAndExpand">
+          </Entry>
           <Label Text="Special Resident Note:"/>
-          <Entry x:Name="txtSpecialResidentNote"/>
+          <Entry x:Name="txtSpecialResidentNote"
+             Grid.Column="0"
+             TextColor="White"
+             VerticalOptions="CenterAndExpand">
+          </Entry>
           <DatePicker x:Name="btnSurveyedDate"/>
         </StackLayout>
       </ScrollView>
