@@ -44,18 +44,18 @@ namespace Anglian.Views
                         sNoteText, DateTime.Now, 
                         Settings.p_sProjectNoteType_General);
                     this.m_cProjectNotes.Add(cNote);
-
-                    this.txtNewNote.Text = String.Empty;
-                    this.txtNewNote.Focus();
-
-                    this.RefreshNotesList();
-
+                    
                     //Save Note
                     bSaveOK = this.SaveProjectNotes();
                     if (bSaveOK == false)
                     {
                         bSaveOK = false;
                     }
+                    
+                    this.txtNewNote.Text = String.Empty;
+                    this.txtNewNote.Focus();
+
+                    this.RefreshNotesList();
                 }
 
 
@@ -96,7 +96,7 @@ namespace Anglian.Views
                 }
 
                 //v1.0.1 - Update notes.
-                this.lvNotes.ItemsSource = null;
+                //this.lvNotes.ItemsSource = null;
                 this.lvNotes.ItemsSource = cNotes;
                 //this.lvNotes.UpdateLayout();
 
