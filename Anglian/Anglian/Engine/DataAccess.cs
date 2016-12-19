@@ -2826,7 +2826,7 @@ namespace Anglian.Engine
             {
 
                 sbSQL.Append("SELECT RunningMode");
-                sbSQL.Append(" FROM cAppSettingsTable");
+                sbSQL.Append(" FROM AppSettingsTable");
 
                 List<Status> oStatuses = m_conSQL_Settings.Query<Status>(sbSQL.ToString());
 
