@@ -151,6 +151,7 @@ namespace Anglian.Engine
         /// CHeck image file name is in the correct format.
         /// </summary>
         /// <param name="v_sImageFileName"></param>
+        /// <param name="v_sSubProjectNo"></param>
         /// <returns></returns>
         public static bool IsImageFileInCorrectFormat(string v_sImageFileName, string v_sSubProjectNo)
         {
